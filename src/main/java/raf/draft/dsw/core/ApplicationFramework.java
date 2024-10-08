@@ -3,14 +3,22 @@ package raf.draft.dsw.core;
 import raf.draft.dsw.gui.swing.MainFrame;
 
 public class ApplicationFramework {
-    //buduca polja za model celog projekta
 
-    public ApplicationFramework(){
+    private static ApplicationFramework instance;
+
+    private ApplicationFramework() {
         initialize();
     }
 
-    public void initialize(){
-        MainFrame mainFrame = new MainFrame();
-        mainFrame.setVisible(true);
+    public static ApplicationFramework getInstance() {
+        if(instance == null) {
+            instance = new ApplicationFramework();
+        }
+        return instance;
+    }
+
+
+    private void initialize() {
+        MainFrame.getInstance();
     }
 }

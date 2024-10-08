@@ -4,13 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    //buduca polja za sve komponente view-a na glavnom prozoru
 
-    public MainFrame(){
+    private static MainFrame instance;
+
+    private MainFrame() {
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -25,5 +26,13 @@ public class MainFrame extends JFrame {
 
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
+        this.setVisible(true);
+    }
+
+    public static MainFrame getInstance() {
+        if(instance == null) {
+            instance = new MainFrame();
+        }
+        return instance;
     }
 }
