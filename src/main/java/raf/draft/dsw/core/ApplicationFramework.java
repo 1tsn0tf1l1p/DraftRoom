@@ -4,17 +4,16 @@ import raf.draft.dsw.gui.swing.MainFrame;
 
 public class ApplicationFramework {
 
-    private static ApplicationFramework instance;
-
     private ApplicationFramework() {
         initialize();
     }
 
+    private static class HelperHolder {
+        private static final ApplicationFramework INSTANCE = new ApplicationFramework();
+    }
+
     public static ApplicationFramework getInstance() {
-        if(instance == null) {
-            instance = new ApplicationFramework();
-        }
-        return instance;
+        return HelperHolder.INSTANCE;
     }
 
 

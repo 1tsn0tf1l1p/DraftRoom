@@ -1,7 +1,7 @@
 package raf.draft.dsw.gui.swing;
-
 import javax.swing.*;
 import java.awt.*;
+
 
 public class MainFrame extends JFrame {
 
@@ -9,6 +9,10 @@ public class MainFrame extends JFrame {
 
     private MainFrame() {
         initialize();
+    }
+
+    private static class HelperHolder{
+        private static final MainFrame INSTANCE = new MainFrame();
     }
 
     private void initialize() {
@@ -30,9 +34,6 @@ public class MainFrame extends JFrame {
     }
 
     public static MainFrame getInstance() {
-        if(instance == null) {
-            instance = new MainFrame();
-        }
-        return instance;
+        return HelperHolder.INSTANCE;
     }
 }
