@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.net.URL;
 
 public class ExitAction extends AbstractRoomAction {
-    public ExitAction(){
+    public ExitAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
         putValue(SMALL_ICON, loadIcon("/images/exit.png"));
         putValue(NAME, "Exit");

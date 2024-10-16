@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class MyMenuBar extends JMenuBar {
-    public MyMenuBar(){
+    public MyMenuBar() {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         ExitAction ea = new ExitAction();
