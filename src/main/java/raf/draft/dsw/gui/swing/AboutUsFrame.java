@@ -15,6 +15,7 @@ public class AboutUsFrame extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setResizable(false);
         setLocationRelativeTo(null);
+        this.setAlwaysOnTop(true);
         setTitle("About us - DraftRoom");
 
         Dimension screenSize = kit.getScreenSize();
