@@ -1,4 +1,5 @@
 package raf.draft.dsw.gui.swing;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class MainFrame extends JFrame {
         initialize();
     }
 
-    private static class HelperHolder{
+    private static class HelperHolder {
         private static final MainFrame INSTANCE = new MainFrame();
     }
 

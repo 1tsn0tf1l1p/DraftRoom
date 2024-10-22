@@ -1,15 +1,21 @@
 package raf.draft.dsw.gui.swing;
 
 import raf.draft.dsw.controller.ExitAction;
+import raf.draft.dsw.controller.actions.ActionManager;
 
 import javax.swing.*;
 
-public class MyToolBar extends JToolBar {
-    public MyToolBar(){
-        super(HORIZONTAL);
-        setFloatable(false);
+import static java.util.Collections.addAll;
 
-        ExitAction ea = new ExitAction();
-        add(ea);
+public class MyToolBar extends JToolBar {
+    private ActionManager actionManager;
+
+    public MyToolBar() {
+        super(HORIZONTAL);
+        actionManager = new ActionManager();
+        setFloatable(false);
+        add(actionManager.getAboutUsAction());
+        add(Box.createHorizontalGlue());
+        add(actionManager.getExitAction());
     }
 }
