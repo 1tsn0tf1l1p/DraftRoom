@@ -5,7 +5,7 @@ import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
 @Getter
-public class Project extends DraftNodeComposite {
+public class Project extends DraftNodeComposite{
     private String author;
     private String path;
 
