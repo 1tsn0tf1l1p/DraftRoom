@@ -1,8 +1,12 @@
 package raf.draft.dsw.core;
 
+import lombok.Getter;
 import raf.draft.dsw.gui.swing.MainFrame;
+import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
 
+@Getter
 public class ApplicationFramework {
+    private DraftRoomExplorerImplementation explorerImplementation;
 
     private ApplicationFramework() {
         initialize();
@@ -18,6 +22,7 @@ public class ApplicationFramework {
 
 
     private void initialize() {
+        explorerImplementation = new DraftRoomExplorerImplementation();
         MainFrame.getInstance();
     }
 }
