@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public abstract class DraftNodeComposite extends DraftNode{
+public abstract class DraftNodeComposite extends DraftNode {
 
     private List<DraftNode> children;
 
