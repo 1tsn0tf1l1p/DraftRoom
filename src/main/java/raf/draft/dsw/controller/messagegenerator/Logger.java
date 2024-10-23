@@ -1,4 +1,8 @@
 package raf.draft.dsw.controller.messagegenerator;
 
-public class Logger {
+import raf.draft.dsw.controller.observer.ISubscriber;
+
+public interface Logger extends ISubscriber {
+    @Override
+    public void update(String message);
 }

@@ -1,6 +1,7 @@
 package raf.draft.dsw.core;
 
 import lombok.Getter;
+import raf.draft.dsw.controller.messagegenerator.LoggerFactory;
 import raf.draft.dsw.controller.messagegenerator.MessageGenerator;
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.gui.swing.MainFrame;
@@ -27,6 +28,10 @@ public class ApplicationFramework {
     private void initialize() {
         explorerImplementation = new DraftRoomExplorerImplementation();
         messageGenerator = new MessageGenerator();
+        messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
+        messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+        messageGenerator.createMessage(MessageType.ERROR, "Greska test");
+
         MainFrame.getInstance();
     }
 }

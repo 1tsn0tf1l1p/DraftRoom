@@ -4,7 +4,6 @@ import lombok.Getter;
 import raf.draft.dsw.controller.observer.IPublisher;
 import raf.draft.dsw.controller.observer.ISubscriber;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class MessageGenerator implements IPublisher {
     private List<ISubscriber> subscribers;
 
     public MessageGenerator() {
-        subscribers= new ArrayList<>();
+        subscribers = new ArrayList<>();
     }
 
     public void createMessage(MessageType messageType, String message) {
@@ -27,9 +26,8 @@ public class MessageGenerator implements IPublisher {
         stringBuilder.append("[").append(formattedDate).append("]");
         stringBuilder.append(" ").append(message);
 
-        System.out.println(stringBuilder);
+
         notifySubscribers(stringBuilder.toString());
-        
     }
 
     @Override
@@ -43,7 +41,10 @@ public class MessageGenerator implements IPublisher {
     }
 
     @Override
-    public void notifySubscribers(Object object) {
-        for (ISubscriber subscriber : subscribers) subscriber.update(object);
+    public void notifySubscribers(String message) {
+        for (ISubscriber subscriber : subscribers) {
+            subscriber.update(message);
+        }
     }
+
 }
