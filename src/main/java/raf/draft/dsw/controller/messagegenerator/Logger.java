@@ -4,5 +4,5 @@ import raf.draft.dsw.controller.observer.ISubscriber;
 
 public interface Logger extends ISubscriber {
     @Override
-    public void update(String message);
+    void update(String message);
 }

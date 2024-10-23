@@ -8,7 +8,7 @@ public class FileLogger implements Logger{
     @Override
     public void update(String message) {
         try {
-            File file = new File("log.txt");
+            File file = new File("src/main/resources/log.txt");
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(message);
