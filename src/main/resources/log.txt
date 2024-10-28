@@ -1,1 +1,1 @@
-[ERROR][23.10.2024. 23:26] Greska test
+[INFO][28.10.2024. 14:01] Greska test

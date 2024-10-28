@@ -30,8 +30,7 @@ public class ApplicationFramework {
         messageGenerator = new MessageGenerator();
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
-        messageGenerator.createMessage(MessageType.ERROR, "Greska test");
-
-        MainFrame.getInstance();
+        messageGenerator.addSubscriber(MainFrame.getInstance());
+        messageGenerator.createMessage(MessageType.INFO, "Greska test");
     }
 }
