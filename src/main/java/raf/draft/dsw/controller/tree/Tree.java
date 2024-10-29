@@ -11,6 +11,6 @@ public interface Tree extends TreePublisher {
     void addChild(TreeItem parent);
     void removeChild(TreeItem node);
     void setSelectedItem(DraftNode node);
-    TreeItem getSelectedItem();
+    TreeItem getSelectedItem(DraftNode node);
 
 }

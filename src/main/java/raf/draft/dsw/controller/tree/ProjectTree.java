@@ -1,8 +1,8 @@
 package raf.draft.dsw.controller.tree;
 
 import raf.draft.dsw.controller.observer.TreeSubscriber;
-import raf.draft.dsw.controller.tree.Tree;
-import raf.draft.dsw.controller.tree.TreeView;
+import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class ProjectTree implements Tree {
     private DefaultTreeModel treeModel;
     private List<TreeSubscriber> treeSubscribers;
 
-    //    private final AbstractFactory factory = new NodeFactory();
+    //private final AbstractFactory factory = new NodeFactory();
 
     @Override
     public JTree generateTree(ProjectExplorer projectExplorer) {
@@ -72,11 +72,11 @@ public class ProjectTree implements Tree {
     }
 
     @Override
-    public void setSelectedItem(Node node) {
+    public void setSelectedItem(DraftNode node) {
     }
 
     @Override
-    public TreeItem getSelectedItem() {
+    public TreeItem getSelectedItem(DraftNode node) {
         return (TreeItem) treeView.getLastSelectedPathComponent();
     }
 
