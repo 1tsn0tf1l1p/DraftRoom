@@ -1,10 +1,13 @@
 package raf.draft.dsw.gui.swing;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
+import raf.draft.dsw.controller.observer.ISubscriber;
+
 import javax.swing.*;
 import java.awt.*;
 
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ISubscriber {
 
     private static MainFrame instance;
 
@@ -32,6 +35,21 @@ public class MainFrame extends JFrame {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
         this.setVisible(true);
+    }
+
+    @Override
+    public void update(String message) {
+        String splitMessage = message.split("]")[2].strip();
+        MessageType type = MessageType.valueOf(message.substring(1,message.indexOf("]")));
+        if (type == MessageType.ERROR) {
+            JOptionPane.showMessageDialog(null, splitMessage, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(type == MessageType.INFO) {
+            JOptionPane.showMessageDialog(null, splitMessage, "INFO", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(type == MessageType.WARNING) {
+            JOptionPane.showMessageDialog(null, splitMessage, "WARNING", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public static MainFrame getInstance() {

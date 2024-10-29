@@ -1,9 +1,7 @@
-package raf.draft.dsw.controller;
+package raf.draft.dsw.controller.actions;
 
-import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.gui.swing.AboutUsFrame;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class AboutUsAction extends AbstractRoomAction {

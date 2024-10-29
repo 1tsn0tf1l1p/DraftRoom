@@ -1,6 +1,6 @@
 package raf.draft.dsw.gui.swing;
 
-import raf.draft.dsw.controller.ExitAction;
+import raf.draft.dsw.controller.actions.ExitAction;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
