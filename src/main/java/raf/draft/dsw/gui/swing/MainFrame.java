@@ -39,15 +39,16 @@ public class MainFrame extends JFrame implements ISubscriber {
 
     @Override
     public void update(String message) {
+        String splitMessage = message.split("]")[2].strip();
         MessageType type = MessageType.valueOf(message.substring(1,message.indexOf("]")));
         if (type == MessageType.ERROR) {
-            JOptionPane.showMessageDialog(null, message, "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, splitMessage, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         else if(type == MessageType.INFO) {
-            JOptionPane.showMessageDialog(null, message, "INFO", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, splitMessage, "INFO", JOptionPane.INFORMATION_MESSAGE);
         }
         else if(type == MessageType.WARNING) {
-            JOptionPane.showMessageDialog(null, message, "WARNING", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, splitMessage, "WARNING", JOptionPane.WARNING_MESSAGE);
         }
     }
 

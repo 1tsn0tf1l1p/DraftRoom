@@ -9,4 +9,13 @@ public class Building extends DraftNodeComposite {
     public Building(String ime, DraftNode parent) {
         super(ime, parent);
     }
+
+    @Override
+    public void addChild(DraftNode child) {
+        if(child instanceof Room) {
+            if (!this.getChildren().contains(child)) {
+                this.getChildren().add(child);
+            }
+        }
+    }
 }

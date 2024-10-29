@@ -19,4 +19,5 @@ public abstract class DraftNodeComposite extends DraftNode {
     public void removeChild(DraftNode child) {
         children.remove(child);
     }
+
 }

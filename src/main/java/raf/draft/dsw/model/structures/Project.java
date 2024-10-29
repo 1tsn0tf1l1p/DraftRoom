@@ -14,4 +14,13 @@ public class Project extends DraftNodeComposite {
         this.author = author;
         this.path = path;
     }
+
+    @Override
+    public void addChild(DraftNode child) {
+        if(child instanceof Building || child instanceof Room) {
+            if (!this.getChildren().contains(child)) {
+                this.getChildren().add(child);
+            }
+        }
+    }
 }
