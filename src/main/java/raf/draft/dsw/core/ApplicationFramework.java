@@ -31,6 +31,5 @@ public class ApplicationFramework {
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
         messageGenerator.addSubscriber(MainFrame.getInstance());
-        messageGenerator.createMessage(MessageType.INFO, "Greska test");
     }
 }

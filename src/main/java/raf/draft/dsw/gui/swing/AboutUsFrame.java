@@ -1,44 +1,74 @@
 package raf.draft.dsw.gui.swing;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 
 public class AboutUsFrame extends JFrame {
+
     public AboutUsFrame() {
         initialize();
     }
 
     private void initialize() {
-
-        Toolkit kit = Toolkit.getDefaultToolkit();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setResizable(false);
+        setResizable(false);
         setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
         setTitle("About us - DraftRoom");
 
-        Dimension screenSize = kit.getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        setSize(screenWidth / 4, screenHeight / 4);
+        int screenHeight = 430;
+        int screenWidth = 300;
+        setSize(screenWidth, screenHeight);
 
-        JPanel labelPanel = new JPanel(new GridLayout(4, 1, 10, 10));
-        labelPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel title = new JLabel("About us", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 24));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(title);
+
         JLabel description = new JLabel("U ovom projekatu su učestvovali:", SwingConstants.CENTER);
+        description.setAlignmentX(Component.CENTER_ALIGNMENT);
+        description.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        mainPanel.add(description);
 
-        JLabel student1 = new JLabel("Filip Čobanin SI86/24", SwingConstants.CENTER);
-        JLabel student2 = new JLabel("Dimitrije Šovljanski SI90/24", SwingConstants.CENTER);
+        mainPanel.add(createStudentProfile("/images/filip.jpg", "Filip Čobanin SI86/24"));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainPanel.add(createStudentProfile("/images/dimitrije.jpg", "Dimitrije Šovljanski SI90/24"));
 
-        labelPanel.add(title);
-        labelPanel.add(description);
-        labelPanel.add(student1);
-        labelPanel.add(student2);
-        
-        add(labelPanel, BorderLayout.NORTH);
+        add(mainPanel);
+    }
 
+    private JPanel createStudentProfile(String imagePath, String name) {
+        JPanel profilePanel = new JPanel();
+        profilePanel.setLayout(new BoxLayout(profilePanel, BoxLayout.Y_AXIS));
+        profilePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        profilePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        ImageIcon icon = loadAndResizeImage(imagePath, 100, 100);
+        JLabel imageLabel = new JLabel(icon);
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel nameLabel = new JLabel(name);
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+        profilePanel.add(imageLabel);
+        profilePanel.add(nameLabel);
+
+        return profilePanel;
+    }
+
+    private ImageIcon loadAndResizeImage(String path, int width, int height) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            ImageIcon icon = new ImageIcon(imgURL);
+            Image resizedImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(resizedImage);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 }
