@@ -1,8 +1,10 @@
 package raf.draft.dsw.controller.tree;
 
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
+import raf.draft.dsw.model.structures.Room;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -29,10 +31,13 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer {
             iconPath = "/icons/project_explorer.png";
         }
         else if (node instanceof Project) {
-            iconPath = "/icons/folder.png";
+            iconPath = "/icons/project.png";
         }
-        else {
-            iconPath = "/icons/canvas.png";
+        else if (node instanceof Building){
+            // TODO
+        }
+        else if(node instanceof Room) {
+            // TODO
         }
 
         if (iconPath != null) {
