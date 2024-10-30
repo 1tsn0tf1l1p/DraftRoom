@@ -1,4 +1,4 @@
-package raf.draft.dsw.controller.tree;
+package raf.draft.dsw.controller.tree.mvc;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;

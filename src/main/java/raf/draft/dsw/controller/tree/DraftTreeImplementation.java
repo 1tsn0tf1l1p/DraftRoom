@@ -1,7 +1,14 @@
 package raf.draft.dsw.controller.tree;
 
+import com.sun.source.tree.Tree;
 import raf.draft.dsw.controller.observer.TreeSubscriber;
+import raf.draft.dsw.controller.tree.mvc.CustomTreeUI;
+import raf.draft.dsw.controller.tree.mvc.TreeItem;
+import raf.draft.dsw.controller.tree.mvc.TreeView;
+import raf.draft.dsw.model.factory.TreeFactory;
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.nodes.DraftNodeComposite;
+import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 
@@ -12,13 +19,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTree implements Tree {
+public class DraftTreeImplementation implements DraftTree {
 
     private TreeView treeView;
     private DefaultTreeModel treeModel;
     private List<TreeSubscriber> treeSubscribers;
 
-    //private final AbstractFactory factory = new NodeFactory();
+    private TreeFactory factory = new TreeFactory();
 
     @Override
     public JTree generateTree(ProjectExplorer projectExplorer) {
@@ -42,20 +49,27 @@ public class ProjectTree implements Tree {
 
     @Override
     public void addChild(TreeItem parent) {
-        if(parent != null && parent.getNode() instanceof Project) {
-            TreeItem item = new TreeItem(factory.createCanvas("testCanvas", parent.getNode(), 400, 400));
-            parent.add(item);
-            ((Project) parent.getNode()).addChild(item.getNode());
-            System.out.println(item.toString());
-        }
-        else if(parent != null && parent.getNode() instanceof ProjectExplorer) {
-            TreeItem item = new TreeItem(factory.createProject("testProject", parent.getNode(), "pera", "~/Documents"));
+        if(parent != null && parent.getNode() instanceof ProjectExplorer) {
+            TreeItem item = new TreeItem(factory.createProject("New Project", parent.getNode(), "", "~/Documents"));
             parent.add(item);
             ((ProjectExplorer) parent.getNode()).addChild(item.getNode());
-            System.out.println(item.toString());
+            System.out.println(item);
         }
-        // For refresh
-        notify("");
+
+        else if(parent != null && parent.getNode() instanceof Project) {
+            TreeItem item = new TreeItem(factory.createBuilding("New Building", parent.getNode()));
+            parent.add(item);
+            ((Project) parent.getNode()).addChild(item.getNode());
+            System.out.println(item);
+        }
+
+        else if(parent != null && parent.getNode() instanceof Building) {
+            TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
+            parent.add(item);
+            ((Building) parent.getNode()).addChild(item.getNode());
+            System.out.println(item);
+        }
+        notify();
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
@@ -65,7 +79,7 @@ public class ProjectTree implements Tree {
         TreeItem parent = (TreeItem) node.getParent();
         System.out.println(node.getParent());
         parent.remove(node);
-        ((Composite) node.getNode().getParent()).removeChild(node.getNode());
+        ((DraftNodeComposite) node.getNode().getParent()).removeChild(node.getNode());
         notify("");
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
@@ -92,6 +106,6 @@ public class ProjectTree implements Tree {
 
     @Override
     public <T> void notify(T t) {
-        treeSubscribers.stream().forEach(e -> e.TreeUpdate(""));
+        treeSubscribers.forEach(e -> e.TreeUpdate(""));
     }
 }

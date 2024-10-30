@@ -1,4 +1,4 @@
-package raf.draft.dsw.controller.tree;
+package raf.draft.dsw.controller.tree.mvc;
 
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.structures.Building;
