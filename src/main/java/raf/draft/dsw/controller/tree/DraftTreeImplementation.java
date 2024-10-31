@@ -30,7 +30,7 @@ public class DraftTreeImplementation implements DraftTree {
     @Override
     public JTree generateTree(ProjectExplorer projectExplorer) {
         TreeItem root = new TreeItem(projectExplorer);
-        treeModel = new DefaultTreeModel(root);// Need root
+        treeModel = new DefaultTreeModel(root);
         treeView = new TreeView(treeModel);
         treeView.setUI(new CustomTreeUI());
         uimanager();
