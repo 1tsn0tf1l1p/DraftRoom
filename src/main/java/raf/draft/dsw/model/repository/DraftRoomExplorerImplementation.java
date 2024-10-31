@@ -8,6 +8,11 @@ import raf.draft.dsw.model.structures.ProjectExplorer;
 public class DraftRoomExplorerImplementation implements DraftRoomRepository {
     private ProjectExplorer root;
     private DraftTreeImplementation treeImplementation;
+
+    public DraftRoomExplorerImplementation() {
+        this.treeImplementation = new DraftTreeImplementation();
+    }
+
     @Override
     public ProjectExplorer getRoot() {
         if (root == null){

@@ -2,6 +2,9 @@ package raf.draft.dsw.gui.swing;
 
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.observer.ISubscriber;
+import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
+import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +37,10 @@ public class MainFrame extends JFrame implements ISubscriber {
 
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
+
+        ProjectExplorer projectExplorer = ApplicationFramework.getInstance().getExplorerImplementation().getRoot();
+        JTree tree = ApplicationFramework.getInstance().getExplorerImplementation().getTreeImplementation().generateTree(projectExplorer);
+        add(new Panel(tree), BorderLayout.CENTER);
         this.setVisible(true);
     }
 
