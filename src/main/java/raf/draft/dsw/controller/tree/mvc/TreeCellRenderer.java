@@ -11,7 +11,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
 import java.net.URL;
 
-// For painting tree
 public class TreeCellRenderer extends DefaultTreeCellRenderer {
 
     public Component getTreeCellRendererComponent(JTree tree, Object cell, boolean selectionHighlight, boolean isExpanded, boolean isLeaf, int row, boolean hasFocus) {
@@ -28,23 +27,22 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer {
         String iconPath = null;
 
         if (node instanceof ProjectExplorer) {
-            iconPath = "/icons/project_explorer.png";
+            iconPath = "/images/project_explorer.png";
         }
         else if (node instanceof Project) {
-            iconPath = "/icons/project.png";
+            iconPath = "/images/project.png";
         }
         else if (node instanceof Building){
-            // TODO
+            iconPath = "/images/building.png";
         }
         else if(node instanceof Room) {
-            // TODO
+            iconPath = "/images/room.png";
         }
 
         if (iconPath != null) {
             // Loading images from resources folder
             URL imageURL = getClass().getResource(iconPath);
             if (imageURL != null) {
-                System.out.println("promenjena ikonica");
                 return new ImageIcon(imageURL);
             }
         }
