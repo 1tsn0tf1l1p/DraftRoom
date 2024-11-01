@@ -7,10 +7,12 @@ import lombok.Getter;
 public class ActionManager {
     private AbstractRoomAction exitAction;
     private AbstractRoomAction aboutUsAction;
+    private AbstractRoomAction addNodeAction;
 
     public ActionManager() {
         this.exitAction = new ExitAction();
         this.aboutUsAction = new AboutUsAction();
+        this.addNodeAction = new AddNodeAction();
     }
 
 }

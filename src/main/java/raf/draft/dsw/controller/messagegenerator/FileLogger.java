@@ -6,12 +6,12 @@ import java.io.*;
 
 public class FileLogger implements Logger{
     @Override
-    public void update(String message) {
+    public <T> void update(T t){
         try {
             File file = new File("src/main/resources/log.txt");
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(message);
+            bufferedWriter.write((String)t);
             bufferedWriter.close();
 
         } catch (IOException e) {

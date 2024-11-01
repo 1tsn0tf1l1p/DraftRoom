@@ -3,6 +3,7 @@ package raf.draft.dsw.core;
 import lombok.Getter;
 import raf.draft.dsw.controller.messagegenerator.LoggerFactory;
 import raf.draft.dsw.controller.messagegenerator.MessageGenerator;
+import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.gui.swing.MainFrame;
 import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
 
@@ -10,6 +11,7 @@ import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
 public class ApplicationFramework {
     private DraftRoomExplorerImplementation explorerImplementation;
     private MessageGenerator messageGenerator;
+    private DraftTreeImplementation tree;
 
     private ApplicationFramework() {
         initialize();
@@ -25,6 +27,8 @@ public class ApplicationFramework {
 
     private void initialize() {
         explorerImplementation = new DraftRoomExplorerImplementation();
+        tree = explorerImplementation.getTreeImplementation();
+        tree.generateTree(explorerImplementation.getRoot());
         messageGenerator = new MessageGenerator();
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));

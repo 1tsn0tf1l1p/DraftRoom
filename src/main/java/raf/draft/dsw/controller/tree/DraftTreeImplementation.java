@@ -1,7 +1,8 @@
 package raf.draft.dsw.controller.tree;
 
-import com.sun.source.tree.Tree;
-import raf.draft.dsw.controller.observer.TreeSubscriber;
+import lombok.Getter;
+import lombok.Setter;
+import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.controller.tree.mvc.CustomTreeUI;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
@@ -19,11 +20,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class DraftTreeImplementation implements DraftTree {
 
     private TreeView treeView;
     private DefaultTreeModel treeModel;
-    private List<TreeSubscriber> treeSubscribers;
+    private List<ISubscriber> treeSubscribers;
 
     private TreeFactory factory = new TreeFactory();
 
@@ -69,7 +72,6 @@ public class DraftTreeImplementation implements DraftTree {
             ((Building) parent.getNode()).addChild(item.getNode());
             System.out.println(item);
         }
-        notify();
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
@@ -80,7 +82,7 @@ public class DraftTreeImplementation implements DraftTree {
         System.out.println(node.getParent());
         parent.remove(node);
         ((DraftNodeComposite) node.getNode().getParent()).removeChild(node.getNode());
-        notify("");
+        notifySubscribers("");
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
@@ -95,17 +97,17 @@ public class DraftTreeImplementation implements DraftTree {
     }
 
     @Override
-    public void addSubscriber(TreeSubscriber subscriber) {
+    public void addSubscriber(ISubscriber subscriber) {
         treeSubscribers.add(subscriber);
     }
 
     @Override
-    public void removeSubscriber(TreeSubscriber subscriber) {
+    public void removeSubscriber(ISubscriber subscriber) {
         treeSubscribers.remove(subscriber);
     }
 
     @Override
-    public <T> void notify(T t) {
-        treeSubscribers.forEach(e -> e.TreeUpdate(""));
+    public <T> void notifySubscribers(T t) {
+        treeSubscribers.forEach(e -> e.update(""));
     }
 }

@@ -13,7 +13,6 @@ import java.util.List;
 public class MessageGenerator implements IPublisher {
 
     private List<ISubscriber> subscribers;
-
     public MessageGenerator() {
         subscribers = new ArrayList<>();
     }
@@ -41,9 +40,9 @@ public class MessageGenerator implements IPublisher {
     }
 
     @Override
-    public void notifySubscribers(String message) {
+    public <T> void notifySubscribers(T t) {
         for (ISubscriber subscriber : subscribers) {
-            subscriber.update(message);
+            subscriber.update(t);
         }
     }
 

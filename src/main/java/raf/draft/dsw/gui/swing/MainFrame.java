@@ -1,7 +1,10 @@
 package raf.draft.dsw.gui.swing;
 
+import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.observer.ISubscriber;
+import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
 import raf.draft.dsw.model.structures.ProjectExplorer;
@@ -9,9 +12,10 @@ import raf.draft.dsw.model.structures.ProjectExplorer;
 import javax.swing.*;
 import java.awt.*;
 
-
+@Getter
+@Setter
 public class MainFrame extends JFrame implements ISubscriber {
-
+    DraftTreeImplementation tree = ApplicationFramework.getInstance().getTree();
     private static MainFrame instance;
 
     private MainFrame() {
@@ -38,14 +42,13 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        ProjectExplorer projectExplorer = ApplicationFramework.getInstance().getExplorerImplementation().getRoot();
-        JTree tree = ApplicationFramework.getInstance().getExplorerImplementation().getTreeImplementation().generateTree(projectExplorer);
-        add(new Panel(tree), BorderLayout.CENTER);
+        add(new Panel(tree.getTreeView()), BorderLayout.CENTER);
         this.setVisible(true);
     }
 
     @Override
-    public void update(String message) {
+    public <T> void update(T t) {
+        String message = t.toString();
         String splitMessage = message.split("]")[2].strip();
         MessageType type = MessageType.valueOf(message.substring(1,message.indexOf("]")));
         if (type == MessageType.ERROR) {
