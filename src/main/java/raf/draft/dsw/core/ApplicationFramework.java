@@ -31,7 +31,9 @@ public class ApplicationFramework {
         explorerImplementation = new DraftRoomExplorerImplementation();
         tree = explorerImplementation.getTreeImplementation();
         projectExplorer = explorerImplementation.getRoot();
-        tree.generateTree(projectExplorer);
+        if (tree != null) {
+            tree.generateTree(projectExplorer);
+        }
         messageGenerator = new MessageGenerator();
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
