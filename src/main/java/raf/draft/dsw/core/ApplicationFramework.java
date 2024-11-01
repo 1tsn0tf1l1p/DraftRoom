@@ -6,12 +6,14 @@ import raf.draft.dsw.controller.messagegenerator.MessageGenerator;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.gui.swing.MainFrame;
 import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
+import raf.draft.dsw.model.structures.ProjectExplorer;
 
 @Getter
 public class ApplicationFramework {
     private DraftRoomExplorerImplementation explorerImplementation;
     private MessageGenerator messageGenerator;
     private DraftTreeImplementation tree;
+    private ProjectExplorer projectExplorer;
 
     private ApplicationFramework() {
         initialize();
@@ -28,7 +30,8 @@ public class ApplicationFramework {
     private void initialize() {
         explorerImplementation = new DraftRoomExplorerImplementation();
         tree = explorerImplementation.getTreeImplementation();
-        tree.generateTree(explorerImplementation.getRoot());
+        projectExplorer = explorerImplementation.getRoot();
+        tree.generateTree(projectExplorer);
         messageGenerator = new MessageGenerator();
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));

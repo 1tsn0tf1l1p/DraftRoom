@@ -13,6 +13,7 @@ public class MyToolBar extends JToolBar {
         setFloatable(false);
         add(actionManager.getAboutUsAction());
         add(actionManager.getAddNodeAction());
+        add(actionManager.getDeleteNodeAction());
         add(Box.createHorizontalGlue());
         add(actionManager.getExitAction());
     }

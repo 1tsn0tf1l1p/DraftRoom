@@ -56,21 +56,18 @@ public class DraftTreeImplementation implements DraftTree {
             TreeItem item = new TreeItem(factory.createProject("New Project", parent.getNode(), "", "~/Documents"));
             parent.add(item);
             ((ProjectExplorer) parent.getNode()).addChild(item.getNode());
-            System.out.println(item);
         }
 
         else if(parent != null && parent.getNode() instanceof Project) {
             TreeItem item = new TreeItem(factory.createBuilding("New Building", parent.getNode()));
             parent.add(item);
             ((Project) parent.getNode()).addChild(item.getNode());
-            System.out.println(item);
         }
 
         else if(parent != null && parent.getNode() instanceof Building) {
             TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
             parent.add(item);
             ((Building) parent.getNode()).addChild(item.getNode());
-            System.out.println(item);
         }
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
@@ -79,7 +76,6 @@ public class DraftTreeImplementation implements DraftTree {
     @Override
     public void removeChild(TreeItem node) {
         TreeItem parent = (TreeItem) node.getParent();
-        System.out.println(node.getParent());
         parent.remove(node);
         ((DraftNodeComposite) node.getNode().getParent()).removeChild(node.getNode());
         notifySubscribers("");
