@@ -1,1 +1,1 @@
-[ERROR][01.11.2024. 14:26] Cannot delete Project Explorer.
+[ERROR][01.11.2024. 20:44] Cannot instance Room object outside of Project

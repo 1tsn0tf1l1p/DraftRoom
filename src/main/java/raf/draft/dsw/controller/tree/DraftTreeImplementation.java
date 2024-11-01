@@ -51,24 +51,34 @@ public class DraftTreeImplementation implements DraftTree {
     }
 
     @Override
-    public void addChild(TreeItem parent) {
-        if(parent != null && parent.getNode() instanceof ProjectExplorer) {
-            TreeItem item = new TreeItem(factory.createProject("New Project", parent.getNode(), "", "~/Documents"));
-            parent.add(item);
-            ((ProjectExplorer) parent.getNode()).addChild(item.getNode());
+    public void addChild(TreeItem parent, boolean isRoom) {
+        if(!isRoom) {
+            if(parent != null && parent.getNode() instanceof ProjectExplorer) {
+                TreeItem item = new TreeItem(factory.createProject("New Project", parent.getNode(), "", "~/Documents"));
+                parent.add(item);
+                ((ProjectExplorer) parent.getNode()).addChild(item.getNode());
+            }
+
+            else if(parent != null && parent.getNode() instanceof Project) {
+                TreeItem item = new TreeItem(factory.createBuilding("New Building", parent.getNode()));
+                parent.add(item);
+                ((Project) parent.getNode()).addChild(item.getNode());
+            }
+
+            else if(parent != null && parent.getNode() instanceof Building) {
+                TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
+                parent.add(item);
+                ((Building) parent.getNode()).addChild(item.getNode());
+            }
+        }
+        else {
+            if(parent != null && parent.getNode() instanceof Project) {
+                TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
+                parent.add(item);
+                ((Project) parent.getNode()).addChild(item.getNode());
+            }
         }
 
-        else if(parent != null && parent.getNode() instanceof Project) {
-            TreeItem item = new TreeItem(factory.createBuilding("New Building", parent.getNode()));
-            parent.add(item);
-            ((Project) parent.getNode()).addChild(item.getNode());
-        }
-
-        else if(parent != null && parent.getNode() instanceof Building) {
-            TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
-            parent.add(item);
-            ((Building) parent.getNode()).addChild(item.getNode());
-        }
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }

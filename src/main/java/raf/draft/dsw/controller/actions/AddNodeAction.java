@@ -4,7 +4,6 @@ import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.core.ApplicationFramework;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class AddNodeAction extends AbstractRoomAction {
@@ -20,6 +19,6 @@ public class AddNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
-        tree.addChild(selectedItem);
+        tree.addChild(selectedItem, false);
     }
 }

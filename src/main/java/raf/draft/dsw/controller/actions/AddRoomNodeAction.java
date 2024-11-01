@@ -1,8 +1,11 @@
 package raf.draft.dsw.controller.actions;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.structures.Building;
+import raf.draft.dsw.model.structures.Project;
 
 import java.awt.event.ActionEvent;
 
@@ -10,7 +13,7 @@ public class AddRoomNodeAction extends AbstractRoomAction {
     DraftTreeImplementation tree;
     public AddRoomNodeAction() {
         tree = ApplicationFramework.getInstance().getTree();
-        // putValue(SMALL_ICON, loadIcon("/images/addNode.png"));
+        putValue(SMALL_ICON, loadIcon("/images/addApartment.png"));
         putValue(NAME, "Add Room");
         putValue(SHORT_DESCRIPTION, "Add room to a Project or Building");
 
@@ -18,5 +21,11 @@ public class AddRoomNodeAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
+        if(selectedItem.getNode() instanceof Project || selectedItem.getNode() instanceof Building) {
+            tree.addChild(selectedItem, true);
+        } else {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot instance Room object outside of Project");
+        }
     }
 }

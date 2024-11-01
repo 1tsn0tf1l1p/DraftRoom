@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public interface DraftTree extends IPublisher {
     JTree generateTree(ProjectExplorer projectExplorer);
-    void addChild(TreeItem parent);
+    void addChild(TreeItem parent, boolean isRoom);
     void removeChild(TreeItem node);
     void setSelectedItem(DraftNode node);
     TreeItem getSelectedItem(DraftNode node);
