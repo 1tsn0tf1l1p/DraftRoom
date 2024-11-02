@@ -10,6 +10,7 @@ public class ActionManager {
     private AbstractRoomAction addNodeAction;
     private AbstractRoomAction deleteNodeAction;
     private AbstractRoomAction addRoomNodeAction;
+    private AbstractRoomAction renameNodeAction;
 
     public ActionManager() {
         this.exitAction = new ExitAction();
@@ -17,6 +18,7 @@ public class ActionManager {
         this.addNodeAction = new AddNodeAction();
         this.deleteNodeAction = new DeleteNodeAction();
         this.addRoomNodeAction = new AddRoomNodeAction();
+        this.renameNodeAction = new RenameNodeAction();
     }
 
 }

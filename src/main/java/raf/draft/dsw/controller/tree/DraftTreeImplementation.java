@@ -72,10 +72,10 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
         else {
-            if(parent != null && parent.getNode() instanceof Project) {
+            if(parent != null && (parent.getNode() instanceof Project || parent.getNode() instanceof Building)) {
                 TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
                 parent.add(item);
-                ((Project) parent.getNode()).addChild(item.getNode());
+                ((DraftNodeComposite) parent.getNode()).addChild(item.getNode());
             }
         }
 

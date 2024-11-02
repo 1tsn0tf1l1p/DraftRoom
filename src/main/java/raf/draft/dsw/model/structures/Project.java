@@ -1,6 +1,7 @@
 package raf.draft.dsw.model.structures;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
@@ -22,5 +23,13 @@ public class Project extends DraftNodeComposite {
                 this.getChildren().add(child);
             }
         }
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
