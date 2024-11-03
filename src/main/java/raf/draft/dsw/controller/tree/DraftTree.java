@@ -12,6 +12,6 @@ public interface DraftTree extends IPublisher {
     void addChild(TreeItem parent, boolean isRoom);
     void removeChild(TreeItem node);
     void setSelectedItem(DraftNode node);
-    TreeItem getSelectedItem(DraftNode node);
+    TreeItem getSelectedItem();
 
 }

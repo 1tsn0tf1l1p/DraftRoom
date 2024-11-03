@@ -5,9 +5,8 @@ import lombok.Setter;
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
+import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
-import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
-import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +14,13 @@ import java.awt.*;
 @Getter
 @Setter
 public class MainFrame extends JFrame implements ISubscriber {
-    DraftTreeImplementation tree = ApplicationFramework.getInstance().getTree();
+    private JTree explorer;
+    private TabContainer tabContainer;
     private static MainFrame instance;
 
     private MainFrame() {
+        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
+        this.tabContainer = new TabContainer((TreeView) explorer);
         initialize();
     }
 
@@ -42,7 +44,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        add(new Panel(tree.getTreeView()), BorderLayout.CENTER);
+        add(new Panel(tabContainer, explorer), BorderLayout.CENTER);
         this.setVisible(true);
     }
 

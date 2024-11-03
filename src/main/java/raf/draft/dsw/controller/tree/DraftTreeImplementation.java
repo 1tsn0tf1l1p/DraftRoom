@@ -79,6 +79,7 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
 
+        notifySubscribers(null);
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
@@ -98,7 +99,7 @@ public class DraftTreeImplementation implements DraftTree {
     }
 
     @Override
-    public TreeItem getSelectedItem(DraftNode node) {
+    public TreeItem getSelectedItem() {
         return (TreeItem) treeView.getLastSelectedPathComponent();
     }
 
