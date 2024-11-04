@@ -15,7 +15,6 @@ public class TreeItem extends DefaultMutableTreeNode {
         this.node = node;
     }
 
-    // For rendering project/canvas names
     @Override
     public String toString() {
         return node.getIme();

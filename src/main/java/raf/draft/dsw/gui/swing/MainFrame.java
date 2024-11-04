@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.observer.ISubscriber;
-import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
 
@@ -19,7 +18,6 @@ public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
 
     private MainFrame() {
-        // Initialization moved to a separate method
         initialize();
     }
 
@@ -51,6 +49,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         add(toolBar, BorderLayout.NORTH);
 
         add(new Panel(tabContainer, explorer), BorderLayout.CENTER);
+
         this.setVisible(true);
     }
 

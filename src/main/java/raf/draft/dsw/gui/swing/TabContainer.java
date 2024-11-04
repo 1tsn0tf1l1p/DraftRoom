@@ -1,9 +1,7 @@
 package raf.draft.dsw.gui.swing;
 
-import com.sun.source.tree.Tree;
 import lombok.Getter;
 import raf.draft.dsw.controller.tab.TabbedPaneController;
-import raf.draft.dsw.controller.tree.DraftTree;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.gui.swing.tab.TabbedPane;

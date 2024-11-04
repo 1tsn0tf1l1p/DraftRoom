@@ -1,8 +1,10 @@
 package raf.draft.dsw.controller.actions;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.structures.Room;
 
 import java.awt.event.ActionEvent;
 
@@ -19,6 +21,10 @@ public class AddNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
+        if(selectedItem.getNode() instanceof Room) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot add node to Room.");
+            return;
+        }
         tree.addChild(selectedItem, false);
     }
 }

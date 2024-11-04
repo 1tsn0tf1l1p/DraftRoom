@@ -13,8 +13,8 @@ public class Building extends DraftNodeComposite {
     public Building(String ime, DraftNode parent) {
         super(ime, parent);
         color = new Color(new Random().nextInt(255),
-                new Random().nextInt(255),
-                new Random().nextInt(255));
+                new Random().nextInt(85, 170),
+                new Random().nextInt(85, 170));
         System.out.println(color);
     }
 

@@ -32,7 +32,6 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
             DraftNode node = ((TreeItem) cell).getNode();
             Icon icon = getIconForNode(node);
 
-            // Invert icon colors if the item is selected
             if (selectionHighlight && icon != null) {
                 icon = invertIcon(icon);
             }
@@ -69,13 +68,11 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
     private Icon invertIcon(Icon originalIcon) {
         if (originalIcon == null) return null;
 
-        // Create a buffered image from the icon
         BufferedImage image = new BufferedImage(originalIcon.getIconWidth(), originalIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
         originalIcon.paintIcon(null, g, 0, 0);
         g.dispose();
 
-        // Invert the colors
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 int rgba = image.getRGB(x, y);

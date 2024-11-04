@@ -4,8 +4,6 @@ import lombok.Getter;
 import raf.draft.dsw.controller.observer.IPublisher;
 import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.model.nodes.DraftNode;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -9,7 +9,9 @@ import java.awt.*;
 
 @Getter
 public class Project extends DraftNodeComposite {
+    @Setter
     private String author;
+    @Setter
     private String path;
     private Color color;
 
@@ -29,11 +31,4 @@ public class Project extends DraftNodeComposite {
         }
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

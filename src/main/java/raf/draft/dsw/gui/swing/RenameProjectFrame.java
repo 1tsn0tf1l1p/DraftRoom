@@ -1,6 +1,5 @@
 package raf.draft.dsw.gui.swing;
 
-import lombok.Getter;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.model.structures.Project;
@@ -15,9 +14,11 @@ public class RenameProjectFrame extends JFrame {
     private JTextField path;
     private JButton confirmBtn;
     private Project node;
+    private TabContainer tabContainer;
 
     public RenameProjectFrame(Project node) {
         this.node = node;
+        this.tabContainer = MainFrame.getInstance().getTabContainer();
         initialize();
         actions();
     }
@@ -30,6 +31,7 @@ public class RenameProjectFrame extends JFrame {
             TreeView treeView = ApplicationFramework.getInstance().getTree().getTreeView();
             treeView.expandPath(treeView.getSelectionPath());
             SwingUtilities.updateComponentTreeUI(treeView);
+            tabContainer.getTabbedPane().notifySubscribers(null);
             dispose();
         });
     }

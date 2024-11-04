@@ -1,5 +1,4 @@
 package raf.draft.dsw.gui.swing.tab;
-import com.formdev.flatlaf.FlatLightLaf;
 import lombok.Getter;
 import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;

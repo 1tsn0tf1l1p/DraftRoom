@@ -1,7 +1,6 @@
 package raf.draft.dsw.model.nodes;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public abstract class DraftNode {

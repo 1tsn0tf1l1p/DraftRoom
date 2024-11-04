@@ -1,5 +1,6 @@
 package raf.draft.dsw.gui.swing.tab;
 
+import raf.draft.dsw.controller.observer.IPublisher;
 import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.controller.tab.TabCloseButton;
 import raf.draft.dsw.core.ApplicationFramework;
@@ -9,33 +10,38 @@ import raf.draft.dsw.model.structures.Room;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class TabbedPane extends JTabbedPane implements ISubscriber {
+public class TabbedPane extends JTabbedPane implements ISubscriber, IPublisher {
 
     private Project project;
+    List<ISubscriber> subscribers;
 
     public TabbedPane() {
+        subscribers = new CopyOnWriteArrayList<>();
         this.setBackground(Color.WHITE);
         this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        setUpChangeListener();
+    }
+
+    private void setUpChangeListener() {
+        this.addChangeListener(e -> {
+            Component selectedTab = getSelectedTab();
+            if (selectedTab != null) {
+                notifySubscribers(selectedTab);
+                System.out.println("Tab clicked: " + getTitleAt(getSelectedIndex()));
+            }
+        });
     }
 
     public void setProject(Project project) {
         if(project == null) {
-            for (int i = 0; i < this.getTabCount(); i++) {
-                System.out.println("Removing tab: " + this.getTitleAt(i));
-            }
             this.removeAll();
-            System.out.println();
-            System.out.println();
-            for (int i = 0; i < this.getTabCount(); i++) {
-                System.out.println("Removing tab: " + this.getTitleAt(i));
-            }
             this.project = null;
             return;
         }
-        System.out.println("Pozvao se setproject");
         this.project = project;
-        System.out.println(project.toString());
         this.removeAll();
         ApplicationFramework.getInstance().getTree().addSubscriber(this);
         project.getChildren().forEach(e -> {
@@ -48,6 +54,14 @@ public class TabbedPane extends JTabbedPane implements ISubscriber {
                 });
             }
         });
+    }
+
+    public Component getSelectedTab() {
+        int selectedIndex = this.getSelectedIndex();
+        if (selectedIndex != -1) {
+            return this.getComponentAt(selectedIndex);
+        }
+        return null;
     }
 
     @Override
@@ -91,5 +105,20 @@ public class TabbedPane extends JTabbedPane implements ISubscriber {
                 });
             }
         });
+    }
+
+    @Override
+    public void addSubscriber(ISubscriber subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    @Override
+    public void removeSubscriber(ISubscriber subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    @Override
+    public <T> void notifySubscribers(T t) {
+        subscribers.forEach(e -> e.update(t));
     }
 }

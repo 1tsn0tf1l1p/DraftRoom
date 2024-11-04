@@ -1,5 +1,7 @@
 package raf.draft.dsw.controller.tree.mvc;
 
+import raf.draft.dsw.gui.swing.MainFrame;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -37,6 +39,7 @@ public class TreeCellEditor extends DefaultTreeCellEditor implements ActionListe
         ((TreeItem) clickedOn).setName(e.getActionCommand());
         ((TreeItem) clickedOn).getNode().setIme(e.getActionCommand());
         stopCellEditing();
+        MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers(null);
     }
 
 }

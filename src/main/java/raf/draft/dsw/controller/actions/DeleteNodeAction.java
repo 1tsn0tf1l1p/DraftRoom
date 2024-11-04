@@ -4,6 +4,7 @@ import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.gui.swing.MainFrame;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 
@@ -24,11 +25,14 @@ public class DeleteNodeAction extends AbstractRoomAction {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
         if(selectedItem.getNode() instanceof ProjectExplorer) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot delete Project Explorer.");
+            MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
         } else {
             if(selectedItem.getNode() instanceof Project) {
                 ApplicationFramework.getInstance().getTabbedPaneController().clearTabs();
+                MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
             }
             tree.removeChild(selectedItem);
+            MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
         }
     }
 }

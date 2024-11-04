@@ -3,7 +3,6 @@ package raf.draft.dsw.controller.tab;
 import raf.draft.dsw.controller.tree.DraftTree;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
-import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.gui.swing.TabContainer;
 import raf.draft.dsw.gui.swing.tab.TabView;
 import raf.draft.dsw.gui.swing.tab.TabbedPane;
@@ -37,6 +36,7 @@ public class TabbedPaneController {
             TreeItem treeItem = tree.getSelectedItem();
             if (treeItem.getNode() instanceof Project) {
                 refreshProjectAndTabs((Project) treeItem.getNode());
+                tabContainer.getTabbedPane().notifySubscribers(null);
             }
         }
     }
@@ -48,11 +48,13 @@ public class TabbedPaneController {
         tabbedPane.setProject(selectedProject);
 
         selectedProject.getChildren().forEach(this::addTabToTabbedPane);
+        tabContainer.getTabbedPane().notifySubscribers(null);
     }
 
     public void clearTabs() {
         TabbedPane tabbedPane = tabContainer.getTabbedPane();
         tabbedPane.setProject(null);
+        tabContainer.getTabbedPane().notifySubscribers(null);
     }
 
     private void addTabToTabbedPane(DraftNode child) {
@@ -61,6 +63,7 @@ public class TabbedPaneController {
         if(child instanceof Room) {
             TabView tab = new TabView((Room) child);
             tabbedPane.addTab(child.getIme(), tab);
+            tabContainer.getTabbedPane().notifySubscribers(null);
         }
         else if (child instanceof Building) {
             System.out.println(((Building) child).getChildren());
@@ -68,6 +71,7 @@ public class TabbedPaneController {
                 System.out.println(draftNode.getIme());
                 TabView tab = new TabView((Room) draftNode);
                 tabbedPane.addTab(draftNode.getIme(), tab);
+                tabContainer.getTabbedPane().notifySubscribers(null);
             }
         }
     }

@@ -1,8 +1,11 @@
 package raf.draft.dsw.controller.tab;
 
+import lombok.Getter;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+@Getter
 public class TabKeyListener implements KeyListener {
 
     private boolean ctrlFlag = false;
@@ -29,7 +32,4 @@ public class TabKeyListener implements KeyListener {
         }
     }
 
-    public boolean isCtrlFlag() {
-        return ctrlFlag;
-    }
 }

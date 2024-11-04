@@ -13,9 +13,11 @@ public class RenameNodeFrame extends JFrame {
     private JTextField nameField;
     private JButton confirmButton;
     private DraftNode draftNode;
+    private TabContainer tabContainer;
 
     public RenameNodeFrame(DraftNode draftNode) {
         this.draftNode = draftNode;
+        this.tabContainer = MainFrame.getInstance().getTabContainer();
         initialize();
         actions();
     }
@@ -61,6 +63,7 @@ public class RenameNodeFrame extends JFrame {
                 TreeView treeView = ApplicationFramework.getInstance().getTree().getTreeView();
                 treeView.expandPath(treeView.getSelectionPath());
                 SwingUtilities.updateComponentTreeUI(treeView);
+                tabContainer.getTabbedPane().notifySubscribers(null);
                 dispose();
             }
         });
