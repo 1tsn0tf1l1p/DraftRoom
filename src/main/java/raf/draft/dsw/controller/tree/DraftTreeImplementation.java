@@ -3,6 +3,7 @@ package raf.draft.dsw.controller.tree;
 import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.controller.observer.ISubscriber;
+import raf.draft.dsw.controller.tree.mvc.CustomTreeCellRenderer;
 import raf.draft.dsw.controller.tree.mvc.CustomTreeUI;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
@@ -15,8 +16,8 @@ import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +36,27 @@ public class DraftTreeImplementation implements DraftTree {
         TreeItem root = new TreeItem(projectExplorer);
         treeModel = new DefaultTreeModel(root);
         treeView = new TreeView(treeModel);
+
         treeView.setUI(new CustomTreeUI());
-        uimanager();
-        treeView.repaint();
+        configureUIManager();
+
+        treeView.setBackground(Color.GRAY);
+        treeView.setShowsRootHandles(true);
+        treeView.setRootVisible(true);
         treeSubscribers = new ArrayList<>();
-        System.out.println(treeView);
+        treeView.setCellRenderer(new CustomTreeCellRenderer());
         return treeView;
     }
 
-    private void uimanager() {
+    private void configureUIManager() {
         UIManager.put("Tree.line", Color.BLACK);
         UIManager.put("Tree.hash", Color.BLACK);
-        UIManager.put("Tree.expandedIcon", new ImageIcon(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)));
-        UIManager.put("Tree.collapsedIcon", new ImageIcon(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)));
+
+        UIManager.put("Tree.selectionBackground", Color.DARK_GRAY);
+        UIManager.put("Tree.textBackground", Color.GRAY);
+
+        UIManager.put("Tree.expandedIcon", UIManager.getIcon("Tree.expandedIcon"));
+        UIManager.put("Tree.collapsedIcon", UIManager.getIcon("Tree.collapsedIcon"));
     }
 
     @Override

@@ -11,14 +11,27 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
 import java.net.URL;
 
-public class TreeCellRenderer extends DefaultTreeCellRenderer {
+public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 
-    public Component getTreeCellRendererComponent(JTree tree, Object cell, boolean selectionHighlight, boolean isExpanded, boolean isLeaf, int row, boolean hasFocus) {
+    @Override
+    public Component getTreeCellRendererComponent(JTree tree, Object cell, boolean selectionHighlight,
+                                                  boolean isExpanded, boolean isLeaf, int row, boolean hasFocus) {
         super.getTreeCellRendererComponent(tree, cell, selectionHighlight, isExpanded, isLeaf, row, hasFocus);
 
-        DraftNode node = ((TreeItem) cell).getNode();
-        Icon icon = getIconForNode(node);
-        setIcon(icon);
+        if (selectionHighlight) {
+            setBackground(Color.DARK_GRAY);
+            setForeground(Color.WHITE);
+        } else {
+            setBackground(Color.GRAY);
+            setForeground(Color.BLACK);
+        }
+        setOpaque(true);
+
+        if (cell instanceof TreeItem) {
+            DraftNode node = ((TreeItem) cell).getNode();
+            Icon icon = getIconForNode(node);
+            setIcon(icon);
+        }
 
         return this;
     }
@@ -28,19 +41,15 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer {
 
         if (node instanceof ProjectExplorer) {
             iconPath = "/images/project_explorer.png";
-        }
-        else if (node instanceof Project) {
+        } else if (node instanceof Project) {
             iconPath = "/images/project.png";
-        }
-        else if (node instanceof Building){
+        } else if (node instanceof Building) {
             iconPath = "/images/building.png";
-        }
-        else if(node instanceof Room) {
+        } else if (node instanceof Room) {
             iconPath = "/images/room.png";
         }
 
         if (iconPath != null) {
-            // Loading images from resources folder
             URL imageURL = getClass().getResource(iconPath);
             if (imageURL != null) {
                 return new ImageIcon(imageURL);
@@ -48,31 +57,5 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer {
         }
 
         return null;
-    }
-
-    @Override
-    public Color getBackgroundNonSelectionColor() {
-        return new Color(240, 240, 240);
-    }
-
-    @Override
-    public Color getBackgroundSelectionColor() {
-        return new Color(170, 170, 170);
-    }
-
-    @Override
-    public Color getBackground() {
-        return new Color(240, 240, 240);
-    }
-
-
-    @Override
-    public Color getTextNonSelectionColor() {
-        return Color.BLACK;
-    }
-
-    @Override
-    public Color getTextSelectionColor() {
-        return Color.WHITE;
     }
 }

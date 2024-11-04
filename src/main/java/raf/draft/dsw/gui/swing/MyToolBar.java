@@ -3,6 +3,8 @@ package raf.draft.dsw.gui.swing;
 import raf.draft.dsw.controller.actions.ActionManager;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 
 public class MyToolBar extends JToolBar {
     private ActionManager actionManager;
@@ -11,6 +13,8 @@ public class MyToolBar extends JToolBar {
         super(HORIZONTAL);
         actionManager = new ActionManager();
         setFloatable(false);
+        setBackground(Color.WHITE);
+        setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         add(actionManager.getAddNodeAction());
         add(actionManager.getAddRoomNodeAction());
         add(actionManager.getDeleteNodeAction());

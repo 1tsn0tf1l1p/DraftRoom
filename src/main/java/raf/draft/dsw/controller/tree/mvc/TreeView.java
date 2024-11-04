@@ -7,7 +7,7 @@ public class TreeView extends JTree {
 
     public TreeView(DefaultTreeModel dftTreeModel) {
         super.setModel(dftTreeModel);
-        TreeCellRenderer treeCellRenderer = new TreeCellRenderer();
+        CustomTreeCellRenderer treeCellRenderer = new CustomTreeCellRenderer();
         super.addTreeSelectionListener(new MyTreeSelectionListener());
         super.setCellEditor(new TreeCellEditor(this, treeCellRenderer));
         super.setCellRenderer(treeCellRenderer);
