@@ -1,1 +1,1 @@
-[ERROR][04.11.2024. 22:53] Cannot instance Room object outside of Project
+[ERROR][04.11.2024. 23:04] Cannot add node to Room.
