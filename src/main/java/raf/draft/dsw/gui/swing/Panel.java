@@ -17,7 +17,7 @@ public class Panel extends JPanel {
     private void init() {
         JPanel leftPanel = new JPanel();
         leftPanel.add(projectExplorer);
-        leftPanel.setBackground(Color.GRAY);
+        leftPanel.setBackground(Color.LIGHT_GRAY);
         JScrollPane rightScrollPane = new JScrollPane();
         rightScrollPane.setBackground(Color.BLACK);
         rightScrollPane.add(tabContainer);

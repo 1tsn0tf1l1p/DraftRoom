@@ -19,8 +19,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
 
     private MainFrame() {
-        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
-        this.tabContainer = new TabContainer((TreeView) explorer);
+        // Initialization moved to a separate method
         initialize();
     }
 
@@ -28,7 +27,14 @@ public class MainFrame extends JFrame implements ISubscriber {
         private static final MainFrame INSTANCE = new MainFrame();
     }
 
+    public static MainFrame getInstance() {
+        return HelperHolder.INSTANCE;
+    }
+
     private void initialize() {
+        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
+        this.tabContainer = new TabContainer((TreeView) explorer);
+
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -62,9 +68,5 @@ public class MainFrame extends JFrame implements ISubscriber {
         else if(type == MessageType.WARNING) {
             JOptionPane.showMessageDialog(null, splitMessage, "WARNING", JOptionPane.WARNING_MESSAGE);
         }
-    }
-
-    public static MainFrame getInstance() {
-        return HelperHolder.INSTANCE;
     }
 }

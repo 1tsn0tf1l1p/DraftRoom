@@ -15,13 +15,24 @@ public class TabbedPane extends JTabbedPane implements ISubscriber {
     private Project project;
 
     public TabbedPane() {
-        // Set the background color of the tabbed pane to white
         this.setBackground(Color.WHITE);
-        // Set the tab layout policy to SCROLL_TAB_LAYOUT to ensure tabs are properly displayed
         this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
     public void setProject(Project project) {
+        if(project == null) {
+            for (int i = 0; i < this.getTabCount(); i++) {
+                System.out.println("Removing tab: " + this.getTitleAt(i));
+            }
+            this.removeAll();
+            System.out.println();
+            System.out.println();
+            for (int i = 0; i < this.getTabCount(); i++) {
+                System.out.println("Removing tab: " + this.getTitleAt(i));
+            }
+            this.project = null;
+            return;
+        }
         System.out.println("Pozvao se setproject");
         this.project = project;
         System.out.println(project.toString());
@@ -44,9 +55,13 @@ public class TabbedPane extends JTabbedPane implements ISubscriber {
         addTab(title, null, component);
         int count = this.getTabCount() - 1;
         setTabComponentAt(count, new TabCloseButton(component, title));
-        // Set the background color of the tab component to white
-        this.setBackgroundAt(count, Color.WHITE);
-        // Set the background color of the component to white
+        if(component instanceof TabView) {
+            Color roomColor = ((TabView)component).getColor();
+            this.setBackgroundAt(count, roomColor);
+        }
+        else {
+            this.setBackgroundAt(count, Color.WHITE);
+        }
         component.setBackground(Color.WHITE);
     }
 
@@ -57,6 +72,10 @@ public class TabbedPane extends JTabbedPane implements ISubscriber {
     }
 
     private void refreshTabs() {
+        if(project == null) {
+            return;
+        }
+
         this.removeAll();
         project.getChildren().forEach(child -> {
             if(child instanceof Room) {

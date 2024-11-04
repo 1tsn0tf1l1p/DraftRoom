@@ -3,6 +3,7 @@ package raf.draft.dsw.core;
 import lombok.Getter;
 import raf.draft.dsw.controller.messagegenerator.LoggerFactory;
 import raf.draft.dsw.controller.messagegenerator.MessageGenerator;
+import raf.draft.dsw.controller.tab.TabbedPaneController;
 import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.gui.swing.MainFrame;
 import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
@@ -14,6 +15,7 @@ public class ApplicationFramework {
     private MessageGenerator messageGenerator;
     private DraftTreeImplementation tree;
     private ProjectExplorer projectExplorer;
+    private TabbedPaneController tabbedPaneController;
 
     private ApplicationFramework() {
         initialize();
@@ -41,5 +43,6 @@ public class ApplicationFramework {
 
     public void postInitialize() {
         messageGenerator.addSubscriber(MainFrame.getInstance());
+        tabbedPaneController = new TabbedPaneController(MainFrame.getInstance().getTabContainer());
     }
 }

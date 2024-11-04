@@ -5,13 +5,17 @@ import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
+import java.awt.*;
+
 @Getter
 public class Project extends DraftNodeComposite {
     private String author;
     private String path;
+    private Color color;
 
     public Project(String ime, DraftNode parent, String author, String path) {
         super(ime, parent);
+        color = Color.WHITE;
         this.author = author;
         this.path = path;
     }

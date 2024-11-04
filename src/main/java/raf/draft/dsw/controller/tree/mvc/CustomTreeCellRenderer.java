@@ -9,6 +9,7 @@ import raf.draft.dsw.model.structures.Room;
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -22,7 +23,7 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
             setBackground(Color.DARK_GRAY);
             setForeground(Color.WHITE);
         } else {
-            setBackground(Color.GRAY);
+            setBackground(Color.LIGHT_GRAY);
             setForeground(Color.BLACK);
         }
         setOpaque(true);
@@ -30,6 +31,12 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
         if (cell instanceof TreeItem) {
             DraftNode node = ((TreeItem) cell).getNode();
             Icon icon = getIconForNode(node);
+
+            // Invert icon colors if the item is selected
+            if (selectionHighlight && icon != null) {
+                icon = invertIcon(icon);
+            }
+
             setIcon(icon);
         }
 
@@ -57,5 +64,27 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
         }
 
         return null;
+    }
+
+    private Icon invertIcon(Icon originalIcon) {
+        if (originalIcon == null) return null;
+
+        // Create a buffered image from the icon
+        BufferedImage image = new BufferedImage(originalIcon.getIconWidth(), originalIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        originalIcon.paintIcon(null, g, 0, 0);
+        g.dispose();
+
+        // Invert the colors
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int rgba = image.getRGB(x, y);
+                Color color = new Color(rgba, true);
+                Color invertedColor = new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue(), color.getAlpha());
+                image.setRGB(x, y, invertedColor.getRGB());
+            }
+        }
+
+        return new ImageIcon(image);
     }
 }

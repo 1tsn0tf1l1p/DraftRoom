@@ -16,7 +16,6 @@ import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class DraftTreeImplementation implements DraftTree {
         treeView.setUI(new CustomTreeUI());
         configureUIManager();
 
-        treeView.setBackground(Color.GRAY);
+        treeView.setBackground(Color.LIGHT_GRAY);
         treeView.setShowsRootHandles(true);
         treeView.setRootVisible(true);
         treeSubscribers = new ArrayList<>();

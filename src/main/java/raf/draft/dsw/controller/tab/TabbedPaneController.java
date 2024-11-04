@@ -50,6 +50,11 @@ public class TabbedPaneController {
         selectedProject.getChildren().forEach(this::addTabToTabbedPane);
     }
 
+    public void clearTabs() {
+        TabbedPane tabbedPane = tabContainer.getTabbedPane();
+        tabbedPane.setProject(null);
+    }
+
     private void addTabToTabbedPane(DraftNode child) {
         TabbedPane tabbedPane = tabContainer.getTabbedPane();
         System.out.println(child.getIme());
