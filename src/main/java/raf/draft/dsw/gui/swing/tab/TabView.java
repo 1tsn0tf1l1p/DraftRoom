@@ -20,7 +20,6 @@ public class TabView extends JPanel implements ISubscriber {
         }else {
             color = Color.WHITE;
         }
-        System.out.println(color);
 
         this.revalidate();
         this.repaint();
