@@ -30,7 +30,6 @@ public class TabbedPane extends JTabbedPane implements ISubscriber, IPublisher {
             Component selectedTab = getSelectedTab();
             if (selectedTab != null) {
                 notifySubscribers(selectedTab);
-                System.out.println("Tab clicked: " + getTitleAt(getSelectedIndex()));
             }
         });
     }
@@ -81,7 +80,6 @@ public class TabbedPane extends JTabbedPane implements ISubscriber, IPublisher {
 
     @Override
     public <T> void update(T t) {
-        System.out.println("Usao sam u update");
         refreshTabs();
     }
 

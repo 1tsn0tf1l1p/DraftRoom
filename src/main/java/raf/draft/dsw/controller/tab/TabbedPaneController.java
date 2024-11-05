@@ -59,16 +59,13 @@ public class TabbedPaneController {
 
     private void addTabToTabbedPane(DraftNode child) {
         TabbedPane tabbedPane = tabContainer.getTabbedPane();
-        System.out.println(child.getIme());
         if(child instanceof Room) {
             TabView tab = new TabView((Room) child);
             tabbedPane.addTab(child.getIme(), tab);
             tabContainer.getTabbedPane().notifySubscribers(null);
         }
         else if (child instanceof Building) {
-            System.out.println(((Building) child).getChildren());
             for (DraftNode draftNode : ((Building) child).getChildren()) {
-                System.out.println(draftNode.getIme());
                 TabView tab = new TabView((Room) draftNode);
                 tabbedPane.addTab(draftNode.getIme(), tab);
                 tabContainer.getTabbedPane().notifySubscribers(null);

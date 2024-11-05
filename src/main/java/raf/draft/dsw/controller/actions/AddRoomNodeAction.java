@@ -22,10 +22,14 @@ public class AddRoomNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
-        if(selectedItem.getNode() instanceof Project || selectedItem.getNode() instanceof Building) {
-            tree.addChild(selectedItem, true);
-        } else {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot instance Room object outside of Project");
+        if(selectedItem == null) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");
+        }else {
+            if(selectedItem.getNode() instanceof Project || selectedItem.getNode() instanceof Building) {
+                tree.addChild(selectedItem, true);
+            } else {
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot instance Room object outside of Project");
+            }
         }
     }
 }

@@ -1,1 +1,2 @@
-[ERROR][04.11.2024. 23:04] Cannot add node to Room.
+[ERROR][05.11.2024. 16:01] Cannot rename Project Explorer!
+[ERROR][05.11.2024. 16:01] Cannot rename project explorer.

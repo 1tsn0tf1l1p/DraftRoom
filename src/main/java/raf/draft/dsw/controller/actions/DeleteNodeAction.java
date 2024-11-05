@@ -23,16 +23,20 @@ public class DeleteNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
-        if(selectedItem.getNode() instanceof ProjectExplorer) {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot delete Project Explorer.");
-            MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
+        if(selectedItem == null) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node to be deleted.");
         } else {
-            if(selectedItem.getNode() instanceof Project) {
-                ApplicationFramework.getInstance().getTabbedPaneController().clearTabs();
+            if(selectedItem.getNode() instanceof ProjectExplorer) {
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot delete Project Explorer.");
+                MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
+            } else {
+                if(selectedItem.getNode() instanceof Project) {
+                    ApplicationFramework.getInstance().getTabbedPaneController().clearTabs();
+                    MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
+                }
+                tree.removeChild(selectedItem);
                 MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
             }
-            tree.removeChild(selectedItem);
-            MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
         }
     }
 }

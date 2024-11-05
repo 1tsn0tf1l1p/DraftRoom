@@ -1,6 +1,9 @@
 package raf.draft.dsw.controller.tree.mvc;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
+import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.gui.swing.MainFrame;
+import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
@@ -36,6 +39,11 @@ public class TreeCellEditor extends DefaultTreeCellEditor implements ActionListe
 
     public void actionPerformed(ActionEvent e) {
         if (!(clickedOn instanceof TreeItem)) return;
+        if(((TreeItem) clickedOn).getNode() instanceof ProjectExplorer) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot rename project explorer.");
+            cancelCellEditing();
+            return;
+        }
         ((TreeItem) clickedOn).setName(e.getActionCommand());
         ((TreeItem) clickedOn).getNode().setIme(e.getActionCommand());
         stopCellEditing();

@@ -15,7 +15,6 @@ public class Building extends DraftNodeComposite {
         color = new Color(new Random().nextInt(255),
                 new Random().nextInt(85, 170),
                 new Random().nextInt(85, 170));
-        System.out.println(color);
     }
 
     @Override

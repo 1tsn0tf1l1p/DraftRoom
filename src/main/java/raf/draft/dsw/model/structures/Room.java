@@ -41,7 +41,6 @@ public class Room extends DraftNode implements IPublisher {
     @Override
     public void setIme(String ime) {
         super.setIme(ime);
-        System.out.println("Moje ime je marko");
         notifySubscribers(this);
     }
 }

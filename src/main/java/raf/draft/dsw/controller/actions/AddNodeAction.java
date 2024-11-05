@@ -21,10 +21,14 @@ public class AddNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
-        if(selectedItem.getNode() instanceof Room) {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot add node to Room.");
-            return;
+        if(selectedItem == null) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");
+        }else {
+            if(selectedItem.getNode() instanceof Room) {
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot add node to Room.");
+                return;
+            }
+            tree.addChild(selectedItem, false);
         }
-        tree.addChild(selectedItem, false);
     }
 }
