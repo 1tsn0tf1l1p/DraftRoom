@@ -2,18 +2,33 @@ package raf.draft.dsw.controller.messagegenerator;
 
 import raf.draft.dsw.core.ApplicationFramework;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public class FileLogger implements Logger{
-    @Override
-    public void update(String message) {
+public class FileLogger implements Logger {
+    private File file;
+
+    public FileLogger() {
+        file = new File("src/main/resources/log.txt");
         try {
-            File file = new File("src/main/resources/log.txt");
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(message);
-            bufferedWriter.close();
+            if (file.exists()) {
+                new FileWriter(file, false).close();
+            }
+        } catch (IOException e) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Error initializing log file.");
+        }
+    }
 
+    @Override
+    public <T> void update(T t) {
+        try {
+            FileWriter fileWriter = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.append((String) t);
+            bufferedWriter.newLine();
+            bufferedWriter.close();
         } catch (IOException e) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Error with file creation.");
         }

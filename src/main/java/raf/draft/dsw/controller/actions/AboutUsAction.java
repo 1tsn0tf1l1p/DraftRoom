@@ -17,7 +17,6 @@ public class AboutUsAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         aboutUsFrame.setVisible(true);
     }
 }

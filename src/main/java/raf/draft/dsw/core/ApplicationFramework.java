@@ -3,14 +3,19 @@ package raf.draft.dsw.core;
 import lombok.Getter;
 import raf.draft.dsw.controller.messagegenerator.LoggerFactory;
 import raf.draft.dsw.controller.messagegenerator.MessageGenerator;
-import raf.draft.dsw.controller.messagegenerator.MessageType;
+import raf.draft.dsw.controller.tab.TabbedPaneController;
+import raf.draft.dsw.controller.tree.DraftTreeImplementation;
 import raf.draft.dsw.gui.swing.MainFrame;
 import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
+import raf.draft.dsw.model.structures.ProjectExplorer;
 
 @Getter
 public class ApplicationFramework {
     private DraftRoomExplorerImplementation explorerImplementation;
     private MessageGenerator messageGenerator;
+    private DraftTreeImplementation tree;
+    private ProjectExplorer projectExplorer;
+    private TabbedPaneController tabbedPaneController;
 
     private ApplicationFramework() {
         initialize();
@@ -24,13 +29,20 @@ public class ApplicationFramework {
         return HelperHolder.INSTANCE;
     }
 
-
     private void initialize() {
         explorerImplementation = new DraftRoomExplorerImplementation();
+        tree = explorerImplementation.getTreeImplementation();
+        projectExplorer = explorerImplementation.getRoot();
+        if (tree != null) {
+            tree.generateTree(projectExplorer);
+        }
         messageGenerator = new MessageGenerator();
         messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
         messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+    }
+
+    public void postInitialize() {
         messageGenerator.addSubscriber(MainFrame.getInstance());
-        messageGenerator.createMessage(MessageType.INFO, "Greska test");
+        tabbedPaneController = new TabbedPaneController(MainFrame.getInstance().getTabContainer());
     }
 }

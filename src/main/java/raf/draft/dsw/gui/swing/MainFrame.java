@@ -1,14 +1,20 @@
 package raf.draft.dsw.gui.swing;
 
+import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.observer.ISubscriber;
+import raf.draft.dsw.controller.tree.mvc.TreeView;
+import raf.draft.dsw.core.ApplicationFramework;
 
 import javax.swing.*;
 import java.awt.*;
 
-
+@Getter
+@Setter
 public class MainFrame extends JFrame implements ISubscriber {
-
+    private JTree explorer;
+    private TabContainer tabContainer;
     private static MainFrame instance;
 
     private MainFrame() {
@@ -19,7 +25,14 @@ public class MainFrame extends JFrame implements ISubscriber {
         private static final MainFrame INSTANCE = new MainFrame();
     }
 
+    public static MainFrame getInstance() {
+        return HelperHolder.INSTANCE;
+    }
+
     private void initialize() {
+        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
+        this.tabContainer = new TabContainer((TreeView) explorer);
+
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -34,11 +47,15 @@ public class MainFrame extends JFrame implements ISubscriber {
 
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
+
+        add(new Panel(tabContainer, explorer), BorderLayout.CENTER);
+
         this.setVisible(true);
     }
 
     @Override
-    public void update(String message) {
+    public <T> void update(T t) {
+        String message = t.toString();
         String splitMessage = message.split("]")[2].strip();
         MessageType type = MessageType.valueOf(message.substring(1,message.indexOf("]")));
         if (type == MessageType.ERROR) {
@@ -50,9 +67,5 @@ public class MainFrame extends JFrame implements ISubscriber {
         else if(type == MessageType.WARNING) {
             JOptionPane.showMessageDialog(null, splitMessage, "WARNING", JOptionPane.WARNING_MESSAGE);
         }
-    }
-
-    public static MainFrame getInstance() {
-        return HelperHolder.INSTANCE;
     }
 }

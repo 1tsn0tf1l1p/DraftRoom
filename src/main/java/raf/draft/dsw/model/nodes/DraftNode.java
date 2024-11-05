@@ -11,4 +11,12 @@ public abstract class DraftNode {
         this.ime = ime;
         this.parent = parent;
     }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public void setParent(DraftNode parent) {
+        this.parent = parent;
+    }
 }

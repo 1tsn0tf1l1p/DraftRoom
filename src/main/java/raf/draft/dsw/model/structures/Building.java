@@ -4,10 +4,17 @@ import lombok.Getter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
+import java.awt.*;
+import java.util.Random;
+
 @Getter
 public class Building extends DraftNodeComposite {
+    private Color color;
     public Building(String ime, DraftNode parent) {
         super(ime, parent);
+        color = new Color(new Random().nextInt(255),
+                new Random().nextInt(85, 170),
+                new Random().nextInt(85, 170));
     }
 
     @Override

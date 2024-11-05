@@ -1,5 +1,6 @@
 package raf.draft.dsw.controller.observer;
 
 public interface ISubscriber {
-    void update(String message);
+    <T> void update(T t);
+
 }

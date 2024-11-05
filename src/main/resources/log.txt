@@ -1,1 +1,2 @@
-[INFO][29.10.2024. 16:20] Greska test
+[ERROR][05.11.2024. 16:01] Cannot rename Project Explorer!
+[ERROR][05.11.2024. 16:01] Cannot rename project explorer.
