@@ -1,6 +1,6 @@
 package raf.draft.dsw.controller.tab;
 
-import raf.draft.dsw.gui.swing.tab.TabView;
+import raf.draft.dsw.view.tab.TabView;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

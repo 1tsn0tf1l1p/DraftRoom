@@ -6,13 +6,13 @@ import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
 @Getter
 public class ProjectExplorer extends DraftNodeComposite {
-    public ProjectExplorer(String ime, DraftNode parent) {
+    public ProjectExplorer(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
 
     @Override
     public void addChild(DraftNode child) {
-        if(child instanceof Project) {
+        if (child instanceof Project) {
             if (!this.getChildren().contains(child)) {
                 this.getChildren().add(child);
             }

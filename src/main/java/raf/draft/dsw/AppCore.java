@@ -1,7 +1,7 @@
 package raf.draft.dsw;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.core.ApplicationFramework;
 
 import javax.swing.*;
 

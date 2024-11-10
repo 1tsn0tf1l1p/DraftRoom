@@ -1,15 +1,16 @@
 package raf.draft.dsw.controller.actions;
 
-import raf.draft.dsw.controller.messagegenerator.MessageType;
-import raf.draft.dsw.controller.tree.DraftTreeImplementation;
-import raf.draft.dsw.controller.tree.mvc.TreeItem;
-import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.core.ApplicationFramework;
+import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.tree.TreeItem;
 
 import java.awt.event.ActionEvent;
 
 public class AddNodeAction extends AbstractRoomAction {
     DraftTreeImplementation tree;
+
     public AddNodeAction() {
         tree = ApplicationFramework.getInstance().getTree();
         putValue(SMALL_ICON, loadIcon("/images/addNode.png"));
@@ -21,10 +22,10 @@ public class AddNodeAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
-        if(selectedItem == null) {
+        if (selectedItem == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");
-        }else {
-            if(selectedItem.getNode() instanceof Room) {
+        } else {
+            if (selectedItem.getNode() instanceof Room) {
                 ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot add node to Room.");
                 return;
             }

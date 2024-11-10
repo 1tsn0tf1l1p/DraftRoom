@@ -1,9 +1,11 @@
 package raf.draft.dsw.model.structures;
 
 import lombok.Getter;
-import raf.draft.dsw.controller.observer.IPublisher;
-import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.nodes.DraftNodeComposite;
+import raf.draft.dsw.model.observer.IPublisher;
+import raf.draft.dsw.model.observer.ISubscriber;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,17 +14,16 @@ public class Room extends DraftNode implements IPublisher {
 
     private List<ISubscriber> subscribers;
 
-    public Room(String ime, DraftNode parent) {
+    public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         subscribers = new CopyOnWriteArrayList<>();
     }
 
     @Override
     public void addSubscriber(ISubscriber subscriber) {
-        if(subscribers.contains(subscriber)) {
+        if (subscribers.contains(subscriber)) {
             return;
-        }
-        else {
+        } else {
             subscribers.add(subscriber);
         }
     }
@@ -34,7 +35,6 @@ public class Room extends DraftNode implements IPublisher {
 
     @Override
     public <T> void notifySubscribers(T t) {
-        System.out.println(subscribers);
         subscribers.forEach(e -> e.update(t));
     }
 
