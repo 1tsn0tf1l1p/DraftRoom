@@ -4,6 +4,8 @@ import lombok.Getter;
 import raf.draft.dsw.controller.observer.IPublisher;
 import raf.draft.dsw.controller.observer.ISubscriber;
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.nodes.DraftNodeComposite;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,7 +14,7 @@ public class Room extends DraftNode implements IPublisher {
 
     private List<ISubscriber> subscribers;
 
-    public Room(String ime, DraftNode parent) {
+    public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         subscribers = new CopyOnWriteArrayList<>();
     }
@@ -34,7 +36,6 @@ public class Room extends DraftNode implements IPublisher {
 
     @Override
     public <T> void notifySubscribers(T t) {
-        System.out.println(subscribers);
         subscribers.forEach(e -> e.update(t));
     }
 

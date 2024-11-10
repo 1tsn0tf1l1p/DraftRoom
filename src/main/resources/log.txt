@@ -1,0 +1,2 @@
+[ERROR][10.11.2024. 12:23] Node with name New Room 2 already exists.
+[ERROR][10.11.2024. 12:23] Node with name New Building 1 already exists.

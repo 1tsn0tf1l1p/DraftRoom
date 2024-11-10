@@ -8,7 +8,7 @@ public abstract class DraftNodeComposite extends DraftNode {
 
     private List<DraftNode> children;
 
-    public DraftNodeComposite(String ime, DraftNode parent) {
+    public DraftNodeComposite(String ime, DraftNodeComposite parent) {
         super(ime,parent);
         this.children = new ArrayList<>();
     }

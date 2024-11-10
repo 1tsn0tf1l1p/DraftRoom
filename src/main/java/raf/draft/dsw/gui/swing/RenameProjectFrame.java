@@ -1,7 +1,9 @@
 package raf.draft.dsw.gui.swing;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
+import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.structures.Project;
 
 import javax.swing.*;
@@ -9,15 +11,15 @@ import java.awt.*;
 
 public class RenameProjectFrame extends JFrame {
 
-    private JTextField name;
-    private JTextField author;
-    private JTextField path;
+    private JTextField nameField;
+    private JTextField authorField;
+    private JTextField pathField;
     private JButton confirmBtn;
-    private Project node;
+    private Project draftNode;
     private TabContainer tabContainer;
 
     public RenameProjectFrame(Project node) {
-        this.node = node;
+        this.draftNode = node;
         this.tabContainer = MainFrame.getInstance().getTabContainer();
         initialize();
         actions();
@@ -25,9 +27,16 @@ public class RenameProjectFrame extends JFrame {
 
     private void actions() {
         confirmBtn.addActionListener(e -> {
-            node.setIme(name.getText());
-            node.setAuthor(author.getText());
-            node.setPath(path.getText());
+            for (DraftNode child : draftNode.getParent().getChildren()) {
+                if(child.getIme().equals(nameField.getText()) &&
+                        ((Project) child).getPath().equals(pathField.getText())){
+                    ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR,"Project with name " + nameField.getText() + " already exists.");
+                    return;
+                }
+            }
+            draftNode.setIme(nameField.getText());
+            draftNode.setAuthor(authorField.getText());
+            draftNode.setPath(pathField.getText());
             TreeView treeView = ApplicationFramework.getInstance().getTree().getTreeView();
             treeView.expandPath(treeView.getSelectionPath());
             SwingUtilities.updateComponentTreeUI(treeView);
@@ -53,30 +62,30 @@ public class RenameProjectFrame extends JFrame {
         gbc.gridy = 0;
         panel.add(nameLbl, gbc);
 
-        name = new JTextField(node.getIme());
+        nameField = new JTextField(draftNode.getIme());
         gbc.gridx = 1;
         gbc.gridy = 0;
-        panel.add(name, gbc);
+        panel.add(nameField, gbc);
 
         JLabel authorLbl = new JLabel("Author:");
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(authorLbl, gbc);
 
-        author = new JTextField(node.getAuthor());
+        authorField = new JTextField(draftNode.getAuthor());
         gbc.gridx = 1;
         gbc.gridy = 1;
-        panel.add(author, gbc);
+        panel.add(authorField, gbc);
 
         JLabel pathLbl = new JLabel("Path:");
         gbc.gridx = 0;
         gbc.gridy = 2;
         panel.add(pathLbl, gbc);
 
-        path = new JTextField(node.getPath());
+        pathField = new JTextField(draftNode.getPath());
         gbc.gridx = 1;
         gbc.gridy = 2;
-        panel.add(path, gbc);
+        panel.add(pathField, gbc);
 
         confirmBtn = new JButton("Confirm");
         gbc.gridx = 0;

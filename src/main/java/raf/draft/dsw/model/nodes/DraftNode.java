@@ -2,12 +2,14 @@ package raf.draft.dsw.model.nodes;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public abstract class DraftNode {
     private String ime;
-    private DraftNode parent;
+    private DraftNodeComposite parent;
 
-    public DraftNode(String ime, DraftNode parent) {
+    public DraftNode(String ime, DraftNodeComposite parent) {
         this.ime = ime;
         this.parent = parent;
     }
@@ -16,7 +18,20 @@ public abstract class DraftNode {
         this.ime = ime;
     }
 
-    public void setParent(DraftNode parent) {
+    public void setParent(DraftNodeComposite parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        DraftNode draftNode = (DraftNode) object;
+        return Objects.equals(ime, draftNode.ime) && Objects.equals(parent, draftNode.parent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ime, parent);
     }
 }

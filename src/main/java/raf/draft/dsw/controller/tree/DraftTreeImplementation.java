@@ -7,6 +7,7 @@ import raf.draft.dsw.controller.tree.mvc.CustomTreeCellRenderer;
 import raf.draft.dsw.controller.tree.mvc.CustomTreeUI;
 import raf.draft.dsw.controller.tree.mvc.TreeItem;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
+import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.TreeFactory;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
@@ -62,26 +63,26 @@ public class DraftTreeImplementation implements DraftTree {
     public void addChild(TreeItem parent, boolean isRoom) {
         if(!isRoom) {
             if(parent != null && parent.getNode() instanceof ProjectExplorer) {
-                TreeItem item = new TreeItem(factory.createProject("New Project", parent.getNode(), "", "~/Documents"));
+                TreeItem item = new TreeItem(factory.createProject((DraftNodeComposite) parent.getNode()));
                 parent.add(item);
                 ((ProjectExplorer) parent.getNode()).addChild(item.getNode());
             }
 
             else if(parent != null && parent.getNode() instanceof Project) {
-                TreeItem item = new TreeItem(factory.createBuilding("New Building", parent.getNode()));
+                TreeItem item = new TreeItem(factory.createBuilding((DraftNodeComposite) parent.getNode()));
                 parent.add(item);
                 ((Project) parent.getNode()).addChild(item.getNode());
             }
 
             else if(parent != null && parent.getNode() instanceof Building) {
-                TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
+                TreeItem item = new TreeItem(factory.createRoom((DraftNodeComposite) parent.getNode()));
                 parent.add(item);
                 ((Building) parent.getNode()).addChild(item.getNode());
             }
         }
         else {
             if(parent != null && (parent.getNode() instanceof Project || parent.getNode() instanceof Building)) {
-                TreeItem item = new TreeItem(factory.createRoom("New Room", parent.getNode()));
+                TreeItem item = new TreeItem(factory.createRoom((DraftNodeComposite) parent.getNode()));
                 parent.add(item);
                 ((DraftNodeComposite) parent.getNode()).addChild(item.getNode());
             }

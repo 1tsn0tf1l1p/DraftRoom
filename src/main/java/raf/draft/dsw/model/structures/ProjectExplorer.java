@@ -6,7 +6,7 @@ import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
 @Getter
 public class ProjectExplorer extends DraftNodeComposite {
-    public ProjectExplorer(String ime, DraftNode parent) {
+    public ProjectExplorer(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
 

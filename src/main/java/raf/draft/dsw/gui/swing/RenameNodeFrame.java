@@ -1,5 +1,6 @@
 package raf.draft.dsw.gui.swing;
 
+import raf.draft.dsw.controller.messagegenerator.MessageType;
 import raf.draft.dsw.controller.tree.mvc.TreeView;
 import raf.draft.dsw.core.ApplicationFramework;
 import raf.draft.dsw.model.nodes.DraftNode;
@@ -59,6 +60,12 @@ public class RenameNodeFrame extends JFrame {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for (DraftNode child : draftNode.getParent().getChildren()) {
+                    if(child.getIme().equals(nameField.getText())){
+                        ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR,"Node with name " + nameField.getText() + " already exists.");
+                        return;
+                    }
+                }
                 draftNode.setIme(nameField.getText());
                 TreeView treeView = ApplicationFramework.getInstance().getTree().getTreeView();
                 treeView.expandPath(treeView.getSelectionPath());
