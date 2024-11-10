@@ -2,7 +2,9 @@ package raf.draft.dsw.model.tree;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.TreeFactory;
+import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.observer.ISubscriber;
@@ -89,8 +91,12 @@ public class DraftTreeImplementation implements DraftTree {
     @Override
     public void removeChild(TreeItem node) {
         TreeItem parent = (TreeItem) node.getParent();
+        if(parent == null) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node selected.");
+            return;
+        }
         parent.remove(node);
-        ((DraftNodeComposite) node.getNode().getParent()).removeChild(node.getNode());
+        node.getNode().getParent().removeChild(node.getNode());
         notifySubscribers("");
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
