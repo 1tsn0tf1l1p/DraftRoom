@@ -39,4 +39,4 @@ build/
 .DS_Store
 
 ### Custom ###
-src/resources/log.txt
+src/main/resources/log.txt
