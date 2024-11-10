@@ -1,5 +1,7 @@
 package raf.draft.dsw.controller.tab;
 
+import raf.draft.dsw.view.frames.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -40,6 +42,9 @@ public class TabCloseButton extends JPanel {
             }
             if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.remove(tab);
+                if(tabbedPane.getTabCount() == 0) {
+                    MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
+                }
             }
         });
 
