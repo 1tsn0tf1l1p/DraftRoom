@@ -12,7 +12,7 @@ public class ProjectExplorer extends DraftNodeComposite {
 
     @Override
     public void addChild(DraftNode child) {
-        if(child instanceof Project) {
+        if (child instanceof Project) {
             if (!this.getChildren().contains(child)) {
                 this.getChildren().add(child);
             }

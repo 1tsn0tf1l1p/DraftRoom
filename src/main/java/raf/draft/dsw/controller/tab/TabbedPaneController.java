@@ -1,15 +1,15 @@
 package raf.draft.dsw.controller.tab;
 
-import raf.draft.dsw.controller.tree.DraftTree;
-import raf.draft.dsw.controller.tree.mvc.TreeItem;
-import raf.draft.dsw.controller.tree.mvc.TreeView;
-import raf.draft.dsw.gui.swing.TabContainer;
-import raf.draft.dsw.gui.swing.tab.TabView;
-import raf.draft.dsw.gui.swing.tab.TabbedPane;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.model.tree.DraftTree;
+import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.bars.TabContainer;
+import raf.draft.dsw.view.tab.TabView;
+import raf.draft.dsw.view.tab.TabbedPane;
+import raf.draft.dsw.view.tree.TreeView;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -59,12 +59,11 @@ public class TabbedPaneController {
 
     private void addTabToTabbedPane(DraftNode child) {
         TabbedPane tabbedPane = tabContainer.getTabbedPane();
-        if(child instanceof Room) {
+        if (child instanceof Room) {
             TabView tab = new TabView((Room) child);
             tabbedPane.addTab(child.getIme(), tab);
             tabContainer.getTabbedPane().notifySubscribers(null);
-        }
-        else if (child instanceof Building) {
+        } else if (child instanceof Building) {
             for (DraftNode draftNode : ((Building) child).getChildren()) {
                 TabView tab = new TabView((Room) draftNode);
                 tabbedPane.addTab(draftNode.getIme(), tab);

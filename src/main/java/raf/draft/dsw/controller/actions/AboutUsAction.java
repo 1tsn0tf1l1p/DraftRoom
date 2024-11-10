@@ -1,6 +1,6 @@
 package raf.draft.dsw.controller.actions;
 
-import raf.draft.dsw.gui.swing.AboutUsFrame;
+import raf.draft.dsw.view.frames.AboutUsFrame;
 
 import java.awt.event.ActionEvent;
 

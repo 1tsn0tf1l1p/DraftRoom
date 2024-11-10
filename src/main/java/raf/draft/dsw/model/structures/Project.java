@@ -25,7 +25,7 @@ public class Project extends DraftNodeComposite {
 
     @Override
     public void addChild(DraftNode child) {
-        if(child instanceof Building || child instanceof Room) {
+        if (child instanceof Building || child instanceof Room) {
             if (!this.getChildren().contains(child)) {
                 this.getChildren().add(child);
             }

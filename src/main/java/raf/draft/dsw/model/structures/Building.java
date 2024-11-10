@@ -11,6 +11,7 @@ import java.util.Random;
 @Getter
 public class Building extends DraftNodeComposite {
     private Color color;
+
     public Building(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         color = new Color(new Random().nextInt(255),
@@ -20,7 +21,7 @@ public class Building extends DraftNodeComposite {
 
     @Override
     public void addChild(DraftNode child) {
-        if(child instanceof Room) {
+        if (child instanceof Room) {
             if (!this.getChildren().contains(child)) {
                 this.getChildren().add(child);
             }
