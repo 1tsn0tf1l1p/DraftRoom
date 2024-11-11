@@ -62,7 +62,7 @@ public class RenameNodeFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (DraftNode child : draftNode.getParent().getChildren()) {
-                    if (child.getIme().equals(nameField.getText())) {
+                    if (child.getIme().equals(nameField.getText()) && child!=draftNode) {
                         ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Node with name " + nameField.getText() + " already exists.");
                         return;
                     }

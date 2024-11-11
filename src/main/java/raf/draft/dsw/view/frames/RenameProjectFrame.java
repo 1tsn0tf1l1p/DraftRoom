@@ -30,7 +30,7 @@ public class RenameProjectFrame extends JFrame {
         confirmBtn.addActionListener(e -> {
             for (DraftNode child : draftNode.getParent().getChildren()) {
                 if (child.getIme().equals(nameField.getText()) &&
-                        ((Project) child).getPath().equals(pathField.getText())) {
+                        ((Project) child).getPath().equals(pathField.getText()) && child!=draftNode) {
                     ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Project with name " + nameField.getText() + " already exists.");
                     return;
                 }
