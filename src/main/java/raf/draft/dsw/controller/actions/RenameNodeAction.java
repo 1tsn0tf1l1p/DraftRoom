@@ -26,6 +26,11 @@ public class RenameNodeAction extends AbstractRoomAction {
         DraftTreeImplementation tree = ApplicationFramework.getInstance().getTree();
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
 
+        if (selectedItem == null) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node selected.");
+            return;
+        }
+
         if (selectedItem.getNode() instanceof Project) {
             RenameProjectFrame renameProjectFrame = new RenameProjectFrame((Project) selectedItem.getNode());
             renameProjectFrame.setVisible(true);
