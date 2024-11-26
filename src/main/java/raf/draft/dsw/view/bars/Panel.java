@@ -3,6 +3,8 @@ package raf.draft.dsw.view.bars;
 import raf.draft.dsw.model.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
+import raf.draft.dsw.view.frames.MainFrame;
+import raf.draft.dsw.view.room.RoomView;
 import raf.draft.dsw.view.tab.TabView;
 
 import javax.swing.*;
@@ -16,6 +18,7 @@ public class Panel extends JPanel implements ISubscriber {
     private JLabel authorLbl;
     private JLabel pathLbl;
     private JLabel objectLbl;
+    private JPanel rightPanel;
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -54,8 +57,8 @@ public class Panel extends JPanel implements ISubscriber {
         pathLbl.setHorizontalAlignment(SwingConstants.CENTER);
         objectLbl.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(tabContainer, BorderLayout.CENTER);
+        rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
@@ -68,24 +71,31 @@ public class Panel extends JPanel implements ISubscriber {
     @Override
     public <T> void update(T t) {
         Component selectedTab = tabContainer.getTabbedPane().getSelectedTab();
+        RoomView roomView=null;
+        
+        if (selectedTab != null) {
+            roomView = new RoomView(((TabView)selectedTab).getRoom());
+            rightPanel.add(roomView, BorderLayout.CENTER);
+        }else {
+            rightPanel.removeAll();
+        }
+
         if (t != null && t.equals("delete")) {
             projectLbl.setText("Project: /");
             authorLbl.setText("Author: /");
             pathLbl.setText("Path: /");
             objectLbl.setText("Building: /");
         } else {
-            if (selectedTab != null && selectedTab instanceof TabView) {
-                if (((TabView) selectedTab).getRoom().getParent() instanceof Project) {
-                    projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getIme());
-                    authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getAuthor());
-                    pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getPath());
-                    objectLbl.setText("Building: /");
-                } else if (((TabView) selectedTab).getRoom().getParent() instanceof Building) {
-                    projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getParent().getIme());
-                    authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getAuthor());
-                    pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getPath());
-                    objectLbl.setText("Building: " + ((TabView) selectedTab).getRoom().getParent().getIme());
-                }
+            if (((TabView) selectedTab).getRoom().getParent() instanceof Project) {
+                projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getIme());
+                authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getAuthor());
+                pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getPath());
+                objectLbl.setText("Building: /");
+            } else if (((TabView) selectedTab).getRoom().getParent() instanceof Building) {
+                projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getParent().getIme());
+                authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getAuthor());
+                pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getPath());
+                objectLbl.setText("Building: " + ((TabView) selectedTab).getRoom().getParent().getIme());
             }
         }
     }

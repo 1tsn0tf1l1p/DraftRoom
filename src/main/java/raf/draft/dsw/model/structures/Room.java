@@ -10,22 +10,24 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
-public class Room extends DraftNode implements IPublisher {
+public class Room extends DraftNodeComposite implements IPublisher {
 
     private List<ISubscriber> subscribers;
-
+    private double width;
+    private double height;
     public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         subscribers = new CopyOnWriteArrayList<>();
+        width = 1000;
+        height = 500;
     }
 
     @Override
     public void addSubscriber(ISubscriber subscriber) {
         if (subscribers.contains(subscriber)) {
             return;
-        } else {
-            subscribers.add(subscriber);
         }
+        subscribers.add(subscriber);
     }
 
     @Override
