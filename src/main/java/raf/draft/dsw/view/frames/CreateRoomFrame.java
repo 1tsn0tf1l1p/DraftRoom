@@ -71,8 +71,9 @@ public class CreateRoomFrame  extends JFrame {
         confirmButton.addActionListener(_ -> {
             try {
                 Room room = (Room) draftNode;
-                room.setWidth(Integer.parseInt(widthField.getValue().toString()));
-                room.setHeight(Integer.parseInt(heightField.getValue().toString()));
+                room.setSize(Integer.parseInt(widthField.getValue().toString()), Integer.parseInt(heightField.getValue().toString()));
+                System.out.println(room.getWidth());
+                System.out.println(room.getHeight());
                 dispose();
             } catch(NumberFormatException exception) {
                 ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Invalid width or height input.");

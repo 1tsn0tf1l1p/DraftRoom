@@ -12,7 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 @Getter
-@Setter
 public class Room extends DraftNodeComposite implements IPublisher {
 
     private List<ISubscriber> subscribers;
@@ -47,5 +46,10 @@ public class Room extends DraftNodeComposite implements IPublisher {
     public void setIme(String ime) {
         super.setIme(ime);
         notifySubscribers(this);
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width / 10;
+        this.height = height / 10;
     }
 }
