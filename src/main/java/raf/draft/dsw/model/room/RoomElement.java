@@ -27,4 +27,8 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         super (roomElement.getIme(),roomElement.getParent());
     }
 
+    @Override
+    public Prototype clone(){
+        return null;
+    }
 }
