@@ -49,7 +49,7 @@ public class Room extends DraftNodeComposite implements IPublisher {
     }
 
     public void setSize(int width, int height) {
-        this.width = width / 10;
-        this.height = height / 10;
+        this.width = width;
+        this.height = height;
     }
 }
