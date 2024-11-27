@@ -1,6 +1,7 @@
 package raf.draft.dsw.model.structures;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.observer.IPublisher;
@@ -9,17 +10,19 @@ import raf.draft.dsw.model.observer.ISubscriber;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+
 @Getter
+@Setter
 public class Room extends DraftNodeComposite implements IPublisher {
 
     private List<ISubscriber> subscribers;
-    private double width;
-    private double height;
+    private int width;
+    private int height;
     public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         subscribers = new CopyOnWriteArrayList<>();
-        width = 1000;
-        height = 500;
+        this.width = 0;
+        this.height = 0;
     }
 
     @Override

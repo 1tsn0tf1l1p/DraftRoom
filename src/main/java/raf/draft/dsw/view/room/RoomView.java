@@ -11,7 +11,6 @@ public class RoomView extends JPanel {
     private Room room;
 
     public RoomView(Room room) {
-        this.setBackground(((Building)room.getParent()).getColor());
         this.room = room;
     }
 

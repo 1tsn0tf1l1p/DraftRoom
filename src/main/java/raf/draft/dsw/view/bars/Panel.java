@@ -72,12 +72,16 @@ public class Panel extends JPanel implements ISubscriber {
     public <T> void update(T t) {
         Component selectedTab = tabContainer.getTabbedPane().getSelectedTab();
         RoomView roomView=null;
+
+        Component centerComponent = ((BorderLayout) rightPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
+
+        if (centerComponent != null) {
+            rightPanel.remove(centerComponent);
+        }
         
         if (selectedTab != null) {
             roomView = new RoomView(((TabView)selectedTab).getRoom());
             rightPanel.add(roomView, BorderLayout.CENTER);
-        }else {
-            rightPanel.removeAll();
         }
 
         if (t != null && t.equals("delete")) {
@@ -86,16 +90,18 @@ public class Panel extends JPanel implements ISubscriber {
             pathLbl.setText("Path: /");
             objectLbl.setText("Building: /");
         } else {
-            if (((TabView) selectedTab).getRoom().getParent() instanceof Project) {
-                projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getIme());
-                authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getAuthor());
-                pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getPath());
-                objectLbl.setText("Building: /");
-            } else if (((TabView) selectedTab).getRoom().getParent() instanceof Building) {
-                projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getParent().getIme());
-                authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getAuthor());
-                pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getPath());
-                objectLbl.setText("Building: " + ((TabView) selectedTab).getRoom().getParent().getIme());
+            if (selectedTab != null && selectedTab instanceof TabView) {
+                if (((TabView) selectedTab).getRoom().getParent() instanceof Project) {
+                    projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getIme());
+                    authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getAuthor());
+                    pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getPath());
+                    objectLbl.setText("Building: /");
+                } else if (((TabView) selectedTab).getRoom().getParent() instanceof Building) {
+                    projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getParent().getIme());
+                    authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getAuthor());
+                    pathLbl.setText("Path: " + ((Project) ((TabView) selectedTab).getRoom().getParent().getParent()).getPath());
+                    objectLbl.setText("Building: " + ((TabView) selectedTab).getRoom().getParent().getIme());
+                }
             }
         }
     }
