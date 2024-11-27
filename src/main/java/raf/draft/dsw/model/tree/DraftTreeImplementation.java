@@ -74,8 +74,6 @@ public class DraftTreeImplementation implements DraftTree {
                 ((Project) parent.getNode()).addChild(item.getNode());
             } else if (parent != null && parent.getNode() instanceof Building) {
                 Room room = factory.createRoom((DraftNodeComposite) parent.getNode());
-                CreateRoomFrame roomFrame = new CreateRoomFrame(room);
-                roomFrame.setVisible(true);
                 TreeItem item = new TreeItem(room);
                 parent.add(item);
                 ((Building) parent.getNode()).addChild(item.getNode());
@@ -83,8 +81,6 @@ public class DraftTreeImplementation implements DraftTree {
         } else {
             if (parent != null && (parent.getNode() instanceof Project || parent.getNode() instanceof Building)) {
                 Room room = factory.createRoom((DraftNodeComposite) parent.getNode());
-                CreateRoomFrame roomFrame = new CreateRoomFrame(room);
-                roomFrame.setVisible(true);
                 TreeItem item = new TreeItem(room);
                 parent.add(item);
                 ((DraftNodeComposite) parent.getNode()).addChild(item.getNode());

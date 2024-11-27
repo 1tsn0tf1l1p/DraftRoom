@@ -3,22 +3,23 @@ package raf.draft.dsw.model.room;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
 
-public class VesMasina extends RoomElement{
+public class Boiler extends RoomElement{
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
      * @param ime    the name of the node
      * @param parent the parent node
      */
-    public VesMasina(String ime, DraftNodeComposite parent) {
+    public Boiler(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
-    public VesMasina(VesMasina vesMasina) {
-        super(vesMasina.getIme(), vesMasina.getParent());
+
+    public Boiler(Boiler bojler) {
+        super(bojler.getIme(), bojler.getParent());
     }
 
     @Override
     public Prototype clone() {
-        return new VesMasina(this);
+        return new Boiler(this);
     }
 }
