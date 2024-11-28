@@ -71,14 +71,14 @@ public class Panel extends JPanel implements ISubscriber {
     @Override
     public <T> void update(T t) {
         Component selectedTab = tabContainer.getTabbedPane().getSelectedTab();
-        RoomView roomView=null;
+        RoomView roomView;
 
         Component centerComponent = ((BorderLayout) rightPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
 
         if (centerComponent != null) {
             rightPanel.remove(centerComponent);
         }
-        
+
         if (selectedTab != null) {
             roomView = new RoomView(((TabView)selectedTab).getRoom());
             rightPanel.add(roomView, BorderLayout.CENTER);
@@ -90,7 +90,7 @@ public class Panel extends JPanel implements ISubscriber {
             pathLbl.setText("Path: /");
             objectLbl.setText("Building: /");
         } else {
-            if (selectedTab != null && selectedTab instanceof TabView) {
+            if (selectedTab instanceof TabView) {
                 if (((TabView) selectedTab).getRoom().getParent() instanceof Project) {
                     projectLbl.setText("Project: " + ((TabView) selectedTab).getRoom().getParent().getIme());
                     authorLbl.setText("Author: " + ((Project) ((TabView) selectedTab).getRoom().getParent()).getAuthor());
@@ -104,5 +104,7 @@ public class Panel extends JPanel implements ISubscriber {
                 }
             }
         }
+        rightPanel.revalidate();
+        rightPanel.repaint();
     }
 }

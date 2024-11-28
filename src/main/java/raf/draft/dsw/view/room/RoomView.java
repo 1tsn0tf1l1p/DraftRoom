@@ -19,7 +19,6 @@ public class RoomView extends JPanel {
     private List<RoomElement> elements;
     private List<Painter> painters;
     private RoomElementFactory factory;
-    private boolean roomDrawn = false;
 
     public RoomView(Room room) {
         this.room = room;
@@ -33,7 +32,8 @@ public class RoomView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!roomDrawn) {
+                System.out.println(room.getWidth());
+                if (room.getWidth()==0) {
                     CreateRoomFrame createRoomFrame = new CreateRoomFrame(room);
                     createRoomFrame.setVisible(true);
                     createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter(){
@@ -42,7 +42,7 @@ public class RoomView extends JPanel {
                             repaint();
                         }
                     });
-                    roomDrawn=true;
+
                 } else {
                     RoomElement newBed = factory.create("bed", e);
                     CreateRoomFrame createRoomFrame = new CreateRoomFrame(newBed);
@@ -64,20 +64,40 @@ public class RoomView extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        if (room.getWidth()>0) {
+        if (room.getWidth()!=0) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+
             int roomWidth = getWidth();
             int roomHeight = getHeight();
 
-            g2d.setColor(Color.LIGHT_GRAY);
-            g2d.fillRect(50, 50, roomWidth, roomHeight);
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(50, 50, roomWidth, roomHeight);
-        }
-        for (Painter painter : painters) {
-            painter.paint(g2d, painter.getElement());
-        }
+            float roomAspectRatio = (float) room.getWidth() / room.getHeight();
 
+            int padding = 20;
+            int availableWidth = roomWidth - 2 * padding;
+            int availableHeight = roomHeight - 2 * padding;
+
+            int rectWidth = availableWidth;
+            int rectHeight = (int) (rectWidth / roomAspectRatio);
+
+            if (rectHeight > availableHeight) {
+                rectHeight = availableHeight;
+                rectWidth = (int) (rectHeight * roomAspectRatio);
+            }
+            int x = (roomWidth - rectWidth) / 2;
+            int y = (roomHeight - rectHeight) / 2;
+
+            g2d.setColor(Color.LIGHT_GRAY);
+            g2d.fillRect(x, y, rectWidth, rectHeight);
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(x, y, rectWidth, rectHeight);
+
+            for (Painter painter : painters) {
+                painter.paint(g2d, painter.getElement());
+            }
+        }
     }
+
+
+
 }
