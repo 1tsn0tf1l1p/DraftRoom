@@ -1,20 +1,18 @@
 package raf.draft.dsw.view.room;
 
+import lombok.Getter;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-
-/**
- * ElementPainter je apstraktna klasa koja deklariše metode za iscrtavnje Diagram
- * elementa i detekciju pogotka
- * @author Filip C.
- *
- */
+@Getter
 public abstract class Painter {
+    protected RoomElement element;
 
-    public Painter(RoomElement element) {}
+    public Painter(RoomElement element) {
+        this.element=element;
+    }
 
     public abstract void paint(Graphics2D g, RoomElement element);
 

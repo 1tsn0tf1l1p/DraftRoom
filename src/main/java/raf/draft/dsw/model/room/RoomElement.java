@@ -31,4 +31,8 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     public Prototype clone(){
         return null;
     }
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 }

@@ -3,13 +3,11 @@ package raf.draft.dsw.view.frames;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.view.bars.TabContainer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CreateRoomFrame  extends JFrame {
     private JSpinner widthField;
@@ -70,13 +68,18 @@ public class CreateRoomFrame  extends JFrame {
     private void actions() {
         confirmButton.addActionListener(_ -> {
             try {
-                Room room = (Room) draftNode;
-                room.setSize(Integer.parseInt(widthField.getValue().toString()), Integer.parseInt(heightField.getValue().toString()));
-                System.out.println(room.getWidth());
-                System.out.println(room.getHeight());
+                int width = Integer.parseInt(widthField.getValue().toString());
+                int height = Integer.parseInt(heightField.getValue().toString());
+                if (draftNode instanceof RoomElement) {
+                    ((RoomElement) draftNode).setSize(width, height);
+                } else if (draftNode instanceof Room) {
+                    ((Room) draftNode).setSize(width, height);
+
+                }
                 dispose();
-            } catch(NumberFormatException exception) {
-                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Invalid width or height input.");
+            } catch (NumberFormatException exception) {
+                ApplicationFramework.getInstance().getMessageGenerator()
+                        .createMessage(MessageType.ERROR, "Invalid width or height input.");
             }
         });
     }
