@@ -19,12 +19,23 @@ public class RoomView extends JPanel {
     private List<RoomElement> elements;
     private List<Painter> painters;
     private RoomElementFactory factory;
+    private Dimension originalSize;
 
     public RoomView(Room room) {
         this.room = room;
         this.elements = new ArrayList<>();
         this.painters = new ArrayList<>();
-        factory = new RoomElementFactory(room);
+        this.originalSize = new Dimension(800, 600);
+        factory = new RoomElementFactory(room, originalSize);
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                originalSize = RoomView.this.getSize();
+                factory = new RoomElementFactory(room, originalSize);
+                repaint();
+            }
+        });
+
         addActions();
     }
 
@@ -32,17 +43,17 @@ public class RoomView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(room.getWidth());
-                if (room.getWidth()==0) {
+                System.out.println("Room width: " + room.getWidth());
+
+                if (room.getWidth() == 0) {
                     CreateRoomFrame createRoomFrame = new CreateRoomFrame(room);
                     createRoomFrame.setVisible(true);
-                    createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter(){
+                    createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent e) {
                             repaint();
                         }
                     });
-
                 } else {
                     RoomElement newBed = factory.create("bed", e);
                     CreateRoomFrame createRoomFrame = new CreateRoomFrame(newBed);
@@ -64,8 +75,9 @@ public class RoomView extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        if (room.getWidth()!=0) {
-            super.paintComponent(g);
+        super.paintComponent(g);
+
+        if (room.getWidth() != 0) {
             Graphics2D g2d = (Graphics2D) g;
 
             int roomWidth = getWidth();
@@ -84,6 +96,7 @@ public class RoomView extends JPanel {
                 rectHeight = availableHeight;
                 rectWidth = (int) (rectHeight * roomAspectRatio);
             }
+
             int x = (roomWidth - rectWidth) / 2;
             int y = (roomHeight - rectHeight) / 2;
 
@@ -92,12 +105,26 @@ public class RoomView extends JPanel {
             g2d.setColor(Color.BLACK);
             g2d.drawRect(x, y, rectWidth, rectHeight);
 
+            System.out.println("Scaled room at: " + x + ", " + y + " with size: " + rectWidth + "x" + rectHeight);
+
             for (Painter painter : painters) {
-                painter.paint(g2d, painter.getElement());
+                if (painter.getElement() instanceof RoomElement) {
+                    RoomElement element = (RoomElement) painter.getElement();
+
+                    double scaleX = rectWidth / (double) room.getWidth();
+                    double scaleY = rectHeight / (double) room.getHeight();
+
+                    int scaledX = x + (int) (element.getX() * scaleX);
+                    int scaledY = y + (int) (element.getY() * scaleY);
+                    int scaledWidth = (int) (element.getWidth() * scaleX);
+                    int scaledHeight = (int) (element.getHeight() * scaleY);
+
+                    element.setScaledPosition(scaledX, scaledY);
+                    element.setScaledSize(scaledWidth, scaledHeight);
+
+                    painter.paint(g2d, element);
+                }
             }
         }
     }
-
-
-
 }

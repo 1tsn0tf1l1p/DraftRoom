@@ -14,6 +14,11 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     private int width;
     private int height;
     private int rotateRatio;
+    private int scaledX;
+    private int scaledY;
+    private int scaledWidth;
+    private int scaledHeight;
+
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -23,16 +28,28 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     public RoomElement(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
+
     public RoomElement(RoomElement roomElement) {
-        super (roomElement.getIme(),roomElement.getParent());
+        super(roomElement.getIme(), roomElement.getParent());
     }
 
     @Override
-    public Prototype clone(){
+    public Prototype clone() {
         return null;
     }
+
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setScaledPosition(int scaledX, int scaledY) {
+        this.scaledX = scaledX;
+        this.scaledY = scaledY;
+    }
+
+    public void setScaledSize(int scaledWidth, int scaledHeight) {
+        this.scaledWidth = scaledWidth;
+        this.scaledHeight = scaledHeight;
     }
 }

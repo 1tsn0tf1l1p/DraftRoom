@@ -7,13 +7,16 @@ import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.room.BedPainter;
 import raf.draft.dsw.view.room.Painter;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class RoomElementFactory {
     Room room;
+    Dimension originalSize;
 
-    public RoomElementFactory(Room room) {
+    public RoomElementFactory(Room room, Dimension originalSize) {
         this.room = room;
+        this.originalSize = originalSize;
     }
 
     public RoomElement create(String type, MouseEvent e) {
@@ -24,7 +27,7 @@ public class RoomElementFactory {
     }
     public Painter createPainter(DraftNode element){
         if (element instanceof Bed){
-            return new BedPainter((RoomElement) element);
+            return new BedPainter((RoomElement) element, originalSize);
         }
         return null;
     }
