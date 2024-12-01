@@ -21,7 +21,7 @@ public class RoomElementFactory {
 
     public RoomElement create(String type, MouseEvent e) {
         if(type.equalsIgnoreCase("Bed")) {
-            return new Bed("Dimijeva kolevka za lepe tete", room, e.getX(), e.getY());
+            return new Bed("New Bed", room, e.getX(), e.getY());
         }
         return null;
     }

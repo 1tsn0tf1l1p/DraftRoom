@@ -1,6 +1,7 @@
-package raf.draft.dsw.controller.actions;
+package raf.draft.dsw.controller.actions.global;
 
 import lombok.Getter;
+import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.structures.Project;

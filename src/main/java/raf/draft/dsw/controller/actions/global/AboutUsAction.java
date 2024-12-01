@@ -1,5 +1,6 @@
-package raf.draft.dsw.controller.actions;
+package raf.draft.dsw.controller.actions.global;
 
+import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.view.frames.AboutUsFrame;
 
 import java.awt.event.ActionEvent;

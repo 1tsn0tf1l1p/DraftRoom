@@ -6,7 +6,7 @@ import raf.draft.dsw.model.room.RoomElement;
 import java.awt.*;
 
 public class BedPainter extends Painter {
-    private Dimension originalSize; // Keep track of the original size of the canvas
+    private Dimension originalSize;
 
     public BedPainter(RoomElement element, Dimension originalSize) {
         super(element);
@@ -15,25 +15,23 @@ public class BedPainter extends Painter {
 
     @Override
     public void paint(Graphics2D g, RoomElement element) {
-        // Use the scaled position and dimensions
         int scaledX = element.getScaledX();
         int scaledY = element.getScaledY();
+        System.out.println(scaledX);
+        System.out.println(scaledY);
+        System.out.println(element.getX());
+        System.out.println(element.getY());
         int scaledWidth = element.getScaledWidth();
         int scaledHeight = element.getScaledHeight();
 
-        // Draw the scaled bed
         g.setColor(Color.BLUE);
-        g.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
         g.setColor(Color.BLACK);
         g.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
-
-        // Draw the element name
-        g.drawString(element.getIme(), scaledX + 20, scaledY + scaledHeight / 2);
+        g.drawRect(scaledX+5,scaledY+5,scaledWidth-10,scaledHeight/10);
     }
 
     @Override
     public boolean elementAt(RoomElement element, Point pos) {
-        // Check if the point lies within the scaled rectangle
         Dimension currentSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scaleX = currentSize.getWidth() / originalSize.getWidth();
         double scaleY = currentSize.getHeight() / originalSize.getHeight();

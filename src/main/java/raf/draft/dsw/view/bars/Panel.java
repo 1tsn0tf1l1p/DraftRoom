@@ -1,5 +1,6 @@
 package raf.draft.dsw.view.bars;
 
+import lombok.Getter;
 import raf.draft.dsw.model.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+@Getter
 public class Panel extends JPanel implements ISubscriber {
     private JTree projectExplorer;
     private TabContainer tabContainer;
@@ -19,6 +21,7 @@ public class Panel extends JPanel implements ISubscriber {
     private JLabel pathLbl;
     private JLabel objectLbl;
     private JPanel rightPanel;
+    private RoomView roomView;
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -71,7 +74,6 @@ public class Panel extends JPanel implements ISubscriber {
     @Override
     public <T> void update(T t) {
         Component selectedTab = tabContainer.getTabbedPane().getSelectedTab();
-        RoomView roomView;
 
         Component centerComponent = ((BorderLayout) rightPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
 

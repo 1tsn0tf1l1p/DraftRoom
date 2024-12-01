@@ -20,6 +20,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
     private JTree explorer;
     private TabContainer tabContainer;
+    private Panel panel;
 
     private MainFrame() {
         initialize();
@@ -48,7 +49,8 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        add(new Panel(tabContainer, explorer), BorderLayout.CENTER);
+        panel = new Panel(tabContainer, explorer);
+        add(panel, BorderLayout.CENTER);
 
         this.setVisible(true);
     }
