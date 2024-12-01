@@ -20,6 +20,18 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getDeleteNodeAction());
         add(actionManager.getRenameNodeAction());
         add(Box.createHorizontalGlue());
+
+        add(actionManager.getSelectStateAction());
+        add(actionManager.getMoveStateAction());
+        add(actionManager.getAddStateAction());
+        add(actionManager.getDeleteStateAction());
+        add(actionManager.getEditStateAction());
+        add(actionManager.getResizeStateAction());
+        add(actionManager.getRotateStateAction());
+        add(actionManager.getCopyPasteRoomStateAction());
+        //add(actionManager.getZoomStateAction());
+
+        add(Box.createHorizontalGlue());
         add(actionManager.getAboutUsAction());
         add(actionManager.getExitAction());
     }

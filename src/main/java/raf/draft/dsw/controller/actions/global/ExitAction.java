@@ -1,4 +1,6 @@
-package raf.draft.dsw.controller.actions;
+package raf.draft.dsw.controller.actions.global;
+
+import raf.draft.dsw.controller.actions.AbstractRoomAction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -45,10 +45,10 @@ public class TabbedPane extends JTabbedPane implements ISubscriber, IPublisher {
         ApplicationFramework.getInstance().getTree().addSubscriber(this);
         project.getChildren().forEach(e -> {
             if (e instanceof Room) {
-                ((Room) e).addSubscriber(this);
+                ((IPublisher) e).addSubscriber(this);
             } else if (e instanceof Building) {
                 ((Building) e).getChildren().forEach(r -> {
-                    ((Room) r).addSubscriber(this);
+                    ((IPublisher) r).addSubscriber(this);
                 });
             }
         });
@@ -89,12 +89,12 @@ public class TabbedPane extends JTabbedPane implements ISubscriber, IPublisher {
         this.removeAll();
         project.getChildren().forEach(child -> {
             if (child instanceof Room) {
-                ((Room) child).addSubscriber(this);
+                ((IPublisher) child).addSubscriber(this);
                 TabView tab = new TabView((Room) child);
                 this.addTab(child.getIme(), tab);
             } else if (child instanceof Building) {
                 ((Building) child).getChildren().forEach(buildingChild -> {
-                    ((Room) buildingChild).addSubscriber(this);
+                    ((IPublisher) buildingChild).addSubscriber(this);
                     TabView tabView = new TabView((Room) buildingChild);
                     this.addTab(buildingChild.getIme(), tabView);
                 });
