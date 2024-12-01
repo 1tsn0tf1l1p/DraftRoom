@@ -1,9 +1,10 @@
 package raf.draft.dsw.view.room;
 
 import lombok.Getter;
-import raf.draft.dsw.controller.state.AddState;
 import raf.draft.dsw.controller.state.EditRoomState;
+import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
+import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.model.structures.Room;
@@ -57,7 +58,12 @@ public class RoomView extends JPanel {
     }
 
     public void changeState(RoomState state) {
-        this.currentState = state;
+        if (room.getWidth()!=0) {
+            this.currentState = state;
+        }
+        else{
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING,"You must initialize the room first!");
+        }
     }
 
     private void addChildren() {

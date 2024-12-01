@@ -3,18 +3,17 @@ package raf.draft.dsw.controller.actions.state;
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.controller.state.AddState;
 import raf.draft.dsw.model.core.ApplicationFramework;
-import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.view.frames.MainFrame;
 import raf.draft.dsw.view.room.RoomView;
 
 import java.awt.event.ActionEvent;
 
 public class AddStateAction extends AbstractRoomAction {
-    DraftTreeImplementation tree;
-    RoomView roomView;
+    private RoomView roomView;
 
     public AddStateAction() {
-        tree = ApplicationFramework.getInstance().getTree();
+        putValue(SMALL_ICON, loadIcon("/images/addState.png"));
         putValue(NAME, "Add State");
         putValue(SHORT_DESCRIPTION, "Put the program into add state.");
     }
@@ -22,6 +21,11 @@ public class AddStateAction extends AbstractRoomAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
-        roomView.changeState(new AddState(roomView));
+        if (roomView != null) {
+            roomView.changeState(new AddState(roomView));
+        }
+        else {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
+        }
     }
 }

@@ -26,6 +26,8 @@ public class AddState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
+
+
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(roomView.getRoom(), originalSize);
         RoomElement newBed = factory.create("bed", e);
