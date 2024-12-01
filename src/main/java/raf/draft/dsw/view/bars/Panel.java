@@ -60,10 +60,12 @@ public class Panel extends JPanel implements ISubscriber {
         pathLbl.setHorizontalAlignment(SwingConstants.CENTER);
         objectLbl.setHorizontalAlignment(SwingConstants.CENTER);
 
+        JPanel addComponents = new JPanel(new GridLayout(5,1,10,10));
+
         rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
-
+        rightPanel.add(addComponents,BorderLayout.EAST);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
 

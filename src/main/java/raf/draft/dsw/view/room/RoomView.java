@@ -14,8 +14,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.awt.event.MouseMotionAdapter;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
 public class RoomView extends JPanel {
@@ -28,7 +29,7 @@ public class RoomView extends JPanel {
 
     public RoomView(Room room) {
         this.room = room;
-        this.painters = new ArrayList<>();
+        this.painters = new CopyOnWriteArrayList<>();
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(room, originalSize);
 
@@ -42,6 +43,12 @@ public class RoomView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleMouseClick(e);
+            }
+        });
+        roomRectangle.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                handleMouseDrag(e);
             }
         });
 
@@ -75,7 +82,10 @@ public class RoomView extends JPanel {
     }
 
     private void handleMouseClick(MouseEvent e) {
-        System.out.println("Room width: " + room.getWidth());
         currentState.handleMouseClick(e);
     }
+    private void handleMouseDrag(MouseEvent e) {
+        currentState.handleMouseDrag(e);
+    }
+
 }

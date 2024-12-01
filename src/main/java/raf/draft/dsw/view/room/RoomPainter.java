@@ -5,19 +5,17 @@ import raf.draft.dsw.model.room.RoomElement;
 import java.awt.*;
 
 public class RoomPainter extends Painter {
-
     public RoomPainter(RoomElement element) {
         super(element);
+        this.selected=false;
     }
 
     @Override
     public void paint(Graphics2D g, RoomElement element) {
         int x = element.getX();
         int y = element.getY();
-
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(x, y, element.getWidth() , element.getHeight());
-
+        g.setColor(Color.BLUE);
+        g.fillRect(x, y, element.getWidth(), element.getHeight());
         g.setColor(Color.BLACK);
         g.drawRect(x, y, element.getWidth(), element.getHeight());
     }
