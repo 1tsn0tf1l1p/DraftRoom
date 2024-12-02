@@ -14,16 +14,12 @@ public class MoveState implements RoomState {
     private Painter selectedPainter;
     private int initialDragX;
     private int initialDragY;
-    private int offsetX;
-    private int offsetY;
 
     public MoveState(RoomView roomView) {
         this.roomView = roomView;
         this.selectedPainter = null;
         this.initialDragX = -1;
         this.initialDragY = -1;
-        this.offsetX = 0;
-        this.offsetY = 0;
     }
 
     @Override
@@ -32,10 +28,11 @@ public class MoveState implements RoomState {
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
                 selectedPainter = painter;
-                // Calculate offset when drag starts, so the element stays under the cursor
+
+                // Calculate the offset between the cursor and the element's position
                 RoomElement element = selectedPainter.getElement();
-                offsetX = e.getX() - element.getX();  // X offset from the element's position
-                offsetY = e.getY() - element.getY();  // Y offset from the element's position
+                initialDragX = e.getX() - element.getX(); // Offset X from element's top-left corner
+                initialDragY = e.getY() - element.getY(); // Offset Y from element's top-left corner
                 break;
             }
         }
@@ -48,17 +45,9 @@ public class MoveState implements RoomState {
             // Get the RoomElement associated with the selected Painter
             RoomElement element = selectedPainter.getElement();
 
-            // Get the current mouse position
-            int currentDragX = e.getX();
-            int currentDragY = e.getY();
-
-            // Calculate the new position of the element based on the mouse position
-            int deltaX = currentDragX - selectedPainter.getElement().getScaledX();
-            int deltaY = currentDragY - selectedPainter.getElement().getScaledY();
-
-            // Update the RoomElement's position to the new mouse position
-            element.setScaledX(currentDragX - deltaX);
-            element.setScaledY(currentDragY - deltaY);
+            // Update the element's position using the cursor position minus the offset
+            element.setX(e.getX() - initialDragX); // Keep the same relative cursor position
+            element.setY(e.getY() - initialDragY);
 
             // Repaint the RoomView to reflect changes
             roomView.repaint();
@@ -86,7 +75,5 @@ public class MoveState implements RoomState {
         selectedPainter = null;
         initialDragX = -1;
         initialDragY = -1;
-        offsetX = 0;
-        offsetY = 0;
     }
 }
