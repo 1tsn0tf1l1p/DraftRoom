@@ -36,7 +36,7 @@ public class RoomView extends JPanel {
         currentState = new EditRoomState(this);
 
         setLayout(new BorderLayout());
-        roomRectangle = new RoomRectangle(room, painters);
+        roomRectangle = new RoomRectangle(room, this, painters);
         add(roomRectangle, BorderLayout.CENTER);
 
         roomRectangle.addMouseListener(new MouseAdapter() {

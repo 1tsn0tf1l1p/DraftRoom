@@ -43,6 +43,11 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.height = height;
     }
 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void setScaledPosition(int scaledX, int scaledY) {
         this.scaledX = scaledX;
         this.scaledY = scaledY;
