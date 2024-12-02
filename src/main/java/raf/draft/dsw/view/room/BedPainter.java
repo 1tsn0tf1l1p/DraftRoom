@@ -19,20 +19,19 @@ public class BedPainter extends Painter {
     @Override
     public void paint(Graphics2D g, RoomElement element) {
         super.g = g;
+
         int scaledX = element.getScaledX();
         int scaledY = element.getScaledY();
-        System.out.println(scaledX);
-        System.out.println(scaledY);
-        System.out.println(element.getX());
-        System.out.println(element.getY());
         int scaledWidth = element.getScaledWidth();
         int scaledHeight = element.getScaledHeight();
 
         if (selected) g.setColor(Color.BLUE);
         else g.setColor(Color.BLACK);
+
         g.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
-        g.drawRect(scaledX+5,scaledY+5,scaledWidth-10,scaledHeight/10);
+        g.drawRect(scaledX + 5, scaledY + 5, scaledWidth - 10, scaledHeight / 10);
     }
+
 
     @Override
     public boolean elementAt(RoomElement element, Point pos) {
