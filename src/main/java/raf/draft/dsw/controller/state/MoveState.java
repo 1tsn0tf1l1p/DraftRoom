@@ -24,38 +24,66 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
+        selectedPainter = null;
+        initialDragX = -1;
+        initialDragY = -1;
+
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
-                selectedPainter = painter;
-                RoomElement element = selectedPainter.getElement();
+                RoomElement element = painter.getElement();
                 double uniformScale = calculateUniformScale();
-                initialDragX = e.getX() - (int) (element.getX() * uniformScale);
-                initialDragY = e.getY() - (int) (element.getY() * uniformScale);
-                break;
+
+                int elementX = (int) (element.getX() * uniformScale);
+                int elementY = (int) (element.getY() * uniformScale);
+                int elementWidth = (int) (element.getWidth() * uniformScale);
+                int elementHeight = (int) (element.getHeight() * uniformScale);
+
+                if (e.getX() >= elementX && e.getX() <= elementX + elementWidth &&
+                        e.getY() >= elementY && e.getY() <= elementY + elementHeight) {
+
+                    selectedPainter = painter;
+                    initialDragX = e.getX() - elementX;
+                    initialDragY = e.getY() - elementY;
+                    break;
+                }
             }
         }
+
         roomView.repaint();
     }
 
     @Override
     public void handleMouseDrag(MouseEvent e) {
-        if (selectedPainter != null) {
+        if (selectedPainter != null && initialDragX >= 0 && initialDragY >= 0) {
             RoomElement element = selectedPainter.getElement();
             double uniformScale = calculateUniformScale();
-            element.setX((int) ((e.getX() - initialDragX) / uniformScale));
-            element.setY((int) ((e.getY() - initialDragY) / uniformScale));
-            roomView.repaint();
+            int elementX = (int) (element.getX() * uniformScale);
+            int elementY = (int) (element.getY() * uniformScale);
+            int elementWidth = (int) (element.getWidth() * uniformScale);
+            int elementHeight = (int) (element.getHeight() * uniformScale);
+            if (e.getX() >= elementX && e.getX() <= elementX + elementWidth &&
+                    e.getY() >= elementY && e.getY() <= elementY + elementHeight) {
+                element.setX((int) ((e.getX() - initialDragX) / uniformScale));
+                element.setY((int) ((e.getY() - initialDragY) / uniformScale));
+                roomView.repaint();
+            } else {
+                selectedPainter = null;
+                initialDragX = -1;
+                initialDragY = -1;
+            }
         }
-    }
-
-    private double calculateUniformScale() {
-        double scaleX = roomView.getWidth() / (double) roomView.getRoom().getWidth();
-        double scaleY = roomView.getHeight() / (double) roomView.getRoom().getHeight();
-        return Math.min(scaleX, scaleY);
     }
 
     @Override
     public void handleKeyPress(KeyEvent e) {
+
+    }
+
+    @Override
+    public void handleMouseRelease(MouseEvent e) {
+        selectedPainter = null;
+        initialDragX = -1;
+        initialDragY = -1;
     }
 
     @Override
@@ -70,5 +98,11 @@ public class MoveState implements RoomState {
         selectedPainter = null;
         initialDragX = -1;
         initialDragY = -1;
+    }
+
+    private double calculateUniformScale() {
+        double scaleX = roomView.getWidth() / (double) roomView.getRoom().getWidth();
+        double scaleY = roomView.getHeight() / (double) roomView.getRoom().getHeight();
+        return Math.min(scaleX, scaleY);
     }
 }

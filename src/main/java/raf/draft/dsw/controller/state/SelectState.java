@@ -35,6 +35,11 @@ public class SelectState implements RoomState {
     }
 
     @Override
+    public void handleMouseRelease(MouseEvent e) {
+
+    }
+
+    @Override
     public void enterState() {
     }
 

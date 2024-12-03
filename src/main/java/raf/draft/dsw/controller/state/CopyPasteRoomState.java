@@ -22,6 +22,11 @@ public class CopyPasteRoomState implements RoomState {
     }
 
     @Override
+    public void handleMouseRelease(MouseEvent e) {
+
+    }
+
+    @Override
     public void enterState() {
 
     }

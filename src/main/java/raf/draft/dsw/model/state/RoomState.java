@@ -8,6 +8,7 @@ public interface RoomState {
     void handleMouseClick(MouseEvent e);
     void handleMouseDrag(MouseEvent e);
     void handleKeyPress(KeyEvent e);
+    void handleMouseRelease(MouseEvent e);
     void enterState();
     void exitState();
 }
