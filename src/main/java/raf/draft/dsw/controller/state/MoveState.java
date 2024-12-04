@@ -7,6 +7,7 @@ import raf.draft.dsw.view.room.RoomView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,19 +41,41 @@ public class MoveState implements RoomState {
         previousMouseY = e.getY();
 
         roomView.repaint();
-
     }
 
     @Override
     public void handleMouseDrag(MouseEvent e) {
-        if (!selectedPainters.isEmpty() && previousMouseX >= 0 && previousMouseY >= 0) {
+        if (previousMouseX >= 0 && previousMouseY >= 0) {
             int deltaX = e.getX() - previousMouseX;
             int deltaY = e.getY() - previousMouseY;
 
-            for (Painter painter : selectedPainters) {
-                RoomElement element = painter.getElement();
-                element.setX(element.getX() + deltaX);
-                element.setY(element.getY() + deltaY);
+            if (!selectedPainters.isEmpty()) {
+                // Pomeranje selektovanih elemenata
+                for (Painter painter : selectedPainters) {
+                    RoomElement element = painter.getElement();
+
+                    // Snimi trenutnu poziciju
+                    int originalX = element.getX();
+                    int originalY = element.getY();
+
+                    // Pomeraj element
+                    element.setX(element.getX() + deltaX);
+                    element.setY(element.getY() + deltaY);
+
+                    // Provera "lepljenja" na ivice sobe
+                    snapToEdge(element);
+
+                    // Provera preseka
+                    if (checkIntersection(element)) {
+                        // Vrati na početnu poziciju ako postoji presek
+                        element.setX(originalX);
+                        element.setY(originalY);
+                    }
+                }
+            } else {
+                // Pomeranje cele sobe
+                roomView.getRoom().moveRoom(deltaX, deltaY);
+                System.out.println("Pozvao se move Room");
             }
 
             previousMouseX = e.getX();
@@ -62,6 +85,36 @@ public class MoveState implements RoomState {
         }
     }
 
+
+    private void snapToEdge(RoomElement element) {
+        int roomWidth = roomView.getRoom().getWidth();
+        int roomHeight = roomView.getRoom().getHeight();
+
+        if (element.getX() < 10) element.setX(0); // Leva ivica
+        if (element.getY() < 10) element.setY(0); // Gornja ivica
+        if (element.getX() + element.getWidth() > roomWidth - 10) {
+            element.setX(roomWidth - element.getWidth()); // Desna ivica
+        }
+        if (element.getY() + element.getHeight() > roomHeight - 10) {
+            element.setY(roomHeight - element.getHeight()); // Donja ivica
+        }
+    }
+
+
+    private boolean checkIntersection(RoomElement element) {
+        Rectangle elementBounds = element.getBounds();
+        for (Painter otherPainter : roomView.getPainters()) {
+            if (!selectedPainters.contains(otherPainter)) {
+                RoomElement otherElement = otherPainter.getElement();
+                if (elementBounds.intersects(otherElement.getBounds())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     @Override
     public void handleMousePressed(MouseEvent e) {
         handleMouseClick(e);
@@ -69,6 +122,7 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleKeyPress(KeyEvent e) {
+        // Ostaviti prazno ako nema specifičnih zahteva za tastere
     }
 
     @Override

@@ -13,6 +13,17 @@ public class DeleteState implements RoomState {
 
     public DeleteState(RoomView roomView) {
         this.roomView = roomView;
+        deleteSelected();
+    }
+
+    private void deleteSelected() {
+        for (Painter painter : roomView.getPainters()) {
+            if (painter.isSelected()) {
+                roomView.getRoom().removeChild(painter.getElement());
+                roomView.getPainters().remove(painter);
+                roomView.repaint();
+            }
+        }
     }
 
     @Override

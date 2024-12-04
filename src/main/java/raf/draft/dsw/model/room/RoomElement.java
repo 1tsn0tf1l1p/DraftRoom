@@ -68,4 +68,9 @@ public abstract class RoomElement extends DraftNode implements Prototype {
                 && point.y >= resizeY && point.y <= (resizeY + threshold);
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
+
 }
