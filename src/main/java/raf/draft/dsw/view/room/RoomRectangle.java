@@ -46,6 +46,7 @@ public class RoomRectangle extends JComponent {
 
             double scaleX = rectWidth / (double) room.getWidth();
             double scaleY = rectHeight / (double) room.getHeight();
+
             for (Painter painter : painters) {
                 if (painter.getElement() != null) {
                     RoomElement element = painter.getElement();
@@ -56,6 +57,7 @@ public class RoomRectangle extends JComponent {
 
                     element.setScaledPosition(scaledX, scaledY);
                     element.setScaledSize(scaledWidth, scaledHeight);
+
                     painter.paint(g2d, element);
                 }
             }
@@ -70,4 +72,5 @@ public class RoomRectangle extends JComponent {
             g2.draw(selectionBox);
         }
     }
+
 }

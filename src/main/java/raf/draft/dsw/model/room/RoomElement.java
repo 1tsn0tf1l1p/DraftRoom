@@ -6,6 +6,8 @@ import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
 
+import java.awt.*;
+
 @Getter
 @Setter
 public abstract class RoomElement extends DraftNode implements Prototype {
@@ -57,4 +59,13 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.scaledWidth = scaledWidth;
         this.scaledHeight = scaledHeight;
     }
+
+    public boolean isPointInResizeArea(Point point, int threshold) {
+        int resizeX = this.scaledX + this.scaledWidth - threshold;
+        int resizeY = this.scaledY + this.scaledHeight - threshold;
+
+        return point.x >= resizeX && point.x <= (resizeX + threshold)
+                && point.y >= resizeY && point.y <= (resizeY + threshold);
+    }
+
 }
