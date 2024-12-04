@@ -50,30 +50,23 @@ public class MoveState implements RoomState {
             int deltaY = e.getY() - previousMouseY;
 
             if (!selectedPainters.isEmpty()) {
-                // Pomeranje selektovanih elemenata
                 for (Painter painter : selectedPainters) {
                     RoomElement element = painter.getElement();
 
-                    // Snimi trenutnu poziciju
                     int originalX = element.getX();
                     int originalY = element.getY();
 
-                    // Pomeraj element
                     element.setX(element.getX() + deltaX);
                     element.setY(element.getY() + deltaY);
 
-                    // Provera "lepljenja" na ivice sobe
                     snapToEdge(element);
 
-                    // Provera preseka
                     if (checkIntersection(element)) {
-                        // Vrati na početnu poziciju ako postoji presek
                         element.setX(originalX);
                         element.setY(originalY);
                     }
                 }
             } else {
-                // Pomeranje cele sobe
                 roomView.getRoom().moveRoom(deltaX, deltaY);
                 System.out.println("Pozvao se move Room");
             }
@@ -90,13 +83,13 @@ public class MoveState implements RoomState {
         int roomWidth = roomView.getRoom().getWidth();
         int roomHeight = roomView.getRoom().getHeight();
 
-        if (element.getX() < 10) element.setX(0); // Leva ivica
-        if (element.getY() < 10) element.setY(0); // Gornja ivica
+        if (element.getX() < 10) element.setX(0);
+        if (element.getY() < 10) element.setY(0);
         if (element.getX() + element.getWidth() > roomWidth - 10) {
-            element.setX(roomWidth - element.getWidth()); // Desna ivica
+            element.setX(roomWidth - element.getWidth());
         }
         if (element.getY() + element.getHeight() > roomHeight - 10) {
-            element.setY(roomHeight - element.getHeight()); // Donja ivica
+            element.setY(roomHeight - element.getHeight());
         }
     }
 
@@ -122,7 +115,6 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleKeyPress(KeyEvent e) {
-        // Ostaviti prazno ako nema specifičnih zahteva za tastere
     }
 
     @Override
