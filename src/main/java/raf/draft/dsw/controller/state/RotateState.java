@@ -17,6 +17,11 @@ public class RotateState implements RoomState {
     }
 
     @Override
+    public void handleMousePressed(MouseEvent e) {
+
+    }
+
+    @Override
     public void handleKeyPress(KeyEvent e) {
 
     }

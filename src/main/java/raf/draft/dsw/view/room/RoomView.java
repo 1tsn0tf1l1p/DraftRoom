@@ -1,6 +1,7 @@
 package raf.draft.dsw.view.room;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.controller.state.EditRoomState;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
@@ -8,7 +9,6 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.model.structures.Room;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
+@Setter
 public class RoomView extends JPanel {
     private Room room;
     private List<Painter> painters;
@@ -26,6 +27,7 @@ public class RoomView extends JPanel {
     private RoomRectangle roomRectangle;
     private RoomState currentState;
     private Dimension originalSize;
+    private Rectangle selectionBox;
 
     public RoomView(Room room) {
         this.room = room;
@@ -40,6 +42,16 @@ public class RoomView extends JPanel {
         add(roomRectangle, BorderLayout.CENTER);
 
         roomRectangle.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                handleMousePress(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                handleMouseRelease(e);
+            }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleMouseClick(e);
@@ -65,11 +77,10 @@ public class RoomView extends JPanel {
     }
 
     public void changeState(RoomState state) {
-        if (room.getWidth()!=0) {
+        if (room.getWidth() != 0) {
             this.currentState = state;
-        }
-        else{
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING,"You must initialize the room first!");
+        } else {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "You must initialize the room first!");
         }
     }
 
@@ -84,8 +95,42 @@ public class RoomView extends JPanel {
     private void handleMouseClick(MouseEvent e) {
         currentState.handleMouseClick(e);
     }
+
+    private void handleMousePress(MouseEvent e) {
+        currentState.handleMousePressed(e);
+    }
+
+
+
     private void handleMouseDrag(MouseEvent e) {
+        if (selectionBox != null) {
+            int x = Math.min(selectionBox.x, e.getX());
+            int y = Math.min(selectionBox.y, e.getY());
+            int width = Math.abs(selectionBox.x - e.getX());
+            int height = Math.abs(selectionBox.y - e.getY());
+
+            selectionBox.setBounds(x, y, width, height);
+            repaint();
+        }
         currentState.handleMouseDrag(e);
     }
 
+    private void handleMouseRelease(MouseEvent e) {
+        currentState.handleMouseRelease(e);
+        selectionBox = null;
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (selectionBox != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(new Color(0, 0, 255, 50));
+            g2.fill(selectionBox);
+            g2.setColor(Color.BLUE);
+            g2.draw(selectionBox);
+        }
+    }
 }

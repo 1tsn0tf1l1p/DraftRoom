@@ -3,6 +3,7 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class RoomPainter extends Painter {
     public RoomPainter(RoomElement element) {
@@ -26,5 +27,10 @@ public class RoomPainter extends Painter {
         int y = element.getY();
 
         return pos.x >= x && pos.x <= x + element.getWidth() && pos.y >= y && pos.y <= y + element.getHeight();
+    }
+
+    @Override
+    public Rectangle2D getBounds() {
+        return null;
     }
 }
