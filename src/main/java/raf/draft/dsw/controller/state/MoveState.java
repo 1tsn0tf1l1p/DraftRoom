@@ -7,107 +7,88 @@ import raf.draft.dsw.view.room.RoomView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MoveState implements RoomState {
 
     private RoomView roomView;
-    private Painter selectedPainter;
-    private int initialDragX;
-    private int initialDragY;
+    private List<Painter> selectedPainters;
+    private int previousMouseX;
+    private int previousMouseY;
 
     public MoveState(RoomView roomView) {
         this.roomView = roomView;
-        this.selectedPainter = null;
-        this.initialDragX = -1;
-        this.initialDragY = -1;
+        this.selectedPainters = new ArrayList<>();
+        this.previousMouseX = -1;
+        this.previousMouseY = -1;
     }
 
     @Override
     public void handleMouseClick(MouseEvent e) {
-        selectedPainter = null;
-        initialDragX = -1;
-        initialDragY = -1;
+        selectedPainters.clear();
+        previousMouseX = -1;
+        previousMouseY = -1;
 
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
-                RoomElement element = painter.getElement();
-                double uniformScale = calculateUniformScale();
-
-                int elementX = (int) (element.getX() * uniformScale);
-                int elementY = (int) (element.getY() * uniformScale);
-                int elementWidth = (int) (element.getWidth() * uniformScale);
-                int elementHeight = (int) (element.getHeight() * uniformScale);
-
-                if (e.getX() >= elementX && e.getX() <= elementX + elementWidth &&
-                        e.getY() >= elementY && e.getY() <= elementY + elementHeight) {
-
-                    selectedPainter = painter;
-                    initialDragX = e.getX() - elementX;
-                    initialDragY = e.getY() - elementY;
-                    break;
-                }
+                selectedPainters.add(painter);
             }
         }
 
+        previousMouseX = e.getX();
+        previousMouseY = e.getY();
+
         roomView.repaint();
+
     }
 
     @Override
     public void handleMouseDrag(MouseEvent e) {
-        if (selectedPainter != null && initialDragX >= 0 && initialDragY >= 0) {
-            RoomElement element = selectedPainter.getElement();
-            double uniformScale = calculateUniformScale();
-            int elementX = (int) (element.getX() * uniformScale);
-            int elementY = (int) (element.getY() * uniformScale);
-            int elementWidth = (int) (element.getWidth() * uniformScale);
-            int elementHeight = (int) (element.getHeight() * uniformScale);
-            if (e.getX() >= elementX && e.getX() <= elementX + elementWidth &&
-                    e.getY() >= elementY && e.getY() <= elementY + elementHeight) {
-                element.setX((int) ((e.getX() - initialDragX) / uniformScale));
-                element.setY((int) ((e.getY() - initialDragY) / uniformScale));
-                roomView.repaint();
-            } else {
-                selectedPainter = null;
-                initialDragX = -1;
-                initialDragY = -1;
+        if (!selectedPainters.isEmpty() && previousMouseX >= 0 && previousMouseY >= 0) {
+            int deltaX = e.getX() - previousMouseX;
+            int deltaY = e.getY() - previousMouseY;
+
+            for (Painter painter : selectedPainters) {
+                RoomElement element = painter.getElement();
+                element.setX(element.getX() + deltaX);
+                element.setY(element.getY() + deltaY);
             }
+
+            previousMouseX = e.getX();
+            previousMouseY = e.getY();
+
+            roomView.repaint();
         }
     }
 
     @Override
     public void handleMousePressed(MouseEvent e) {
-
+        handleMouseClick(e);
     }
 
     @Override
     public void handleKeyPress(KeyEvent e) {
-
     }
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
-        selectedPainter = null;
-        initialDragX = -1;
-        initialDragY = -1;
+        selectedPainters.clear();
+        previousMouseX = -1;
+        previousMouseY = -1;
     }
 
     @Override
     public void enterState() {
-        selectedPainter = null;
-        initialDragX = -1;
-        initialDragY = -1;
+        selectedPainters.clear();
+        previousMouseX = -1;
+        previousMouseY = -1;
     }
 
     @Override
     public void exitState() {
-        selectedPainter = null;
-        initialDragX = -1;
-        initialDragY = -1;
-    }
-
-    private double calculateUniformScale() {
-        double scaleX = roomView.getWidth() / (double) roomView.getRoom().getWidth();
-        double scaleY = roomView.getHeight() / (double) roomView.getRoom().getHeight();
-        return Math.min(scaleX, scaleY);
+        selectedPainters.clear();
+        previousMouseX = -1;
+        previousMouseY = -1;
     }
 }
