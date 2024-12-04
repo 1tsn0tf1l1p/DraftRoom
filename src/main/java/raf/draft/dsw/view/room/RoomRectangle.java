@@ -60,5 +60,14 @@ public class RoomRectangle extends JComponent {
                 }
             }
         }
+
+        if (roomView.getSelectionBox() != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            Rectangle selectionBox = roomView.getSelectionBox();
+            g2.setColor(new Color(0, 0, 255, 50));
+            g2.fill(selectionBox);
+            g2.setColor(Color.BLUE);
+            g2.draw(selectionBox);
+        }
     }
 }
