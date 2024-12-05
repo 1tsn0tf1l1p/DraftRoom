@@ -8,11 +8,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.Rectangle2D;
 
 public class SelectState implements RoomState {
     private RoomView roomView;
     private Point startPoint;
-    private Rectangle selectionBox;
 
     public SelectState(RoomView roomView) {
         this.roomView = roomView;
@@ -20,9 +20,9 @@ public class SelectState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
-        Point scaledPoint = scalePoint(e.getPoint());
+        Point unscaledPoint = unscalePoint(e.getPoint());
         for (Painter painter : roomView.getPainters()) {
-            painter.setSelected(painter.elementAt(painter.getElement(), scaledPoint));
+            painter.setSelected(painter.elementAt(painter.getElement(), unscaledPoint));
         }
         roomView.repaint();
     }
@@ -30,16 +30,20 @@ public class SelectState implements RoomState {
     @Override
     public void handleMouseDrag(MouseEvent e) {
         if (startPoint != null) {
-            Point scaledStartPoint = startPoint;
-            Point scaledCurrentPoint = unscalePoint(e.getPoint());
+            Point unscaledStartPoint = startPoint;
+            Point unscaledCurrentPoint = unscalePoint(e.getPoint());
 
-            int x = Math.min(scaledStartPoint.x, scaledCurrentPoint.x);
-            int y = Math.min(scaledStartPoint.y, scaledCurrentPoint.y);
-            int width = Math.abs(scaledStartPoint.x - scaledCurrentPoint.x);
-            int height = Math.abs(scaledStartPoint.y - scaledCurrentPoint.y);
+            int x = Math.min(unscaledStartPoint.x, unscaledCurrentPoint.x);
+            int y = Math.min(unscaledStartPoint.y, unscaledCurrentPoint.y);
+            int width = Math.abs(unscaledStartPoint.x - unscaledCurrentPoint.x);
+            int height = Math.abs(unscaledStartPoint.y - unscaledCurrentPoint.y);
 
-            selectionBox = new Rectangle(x, y, width, height);
-            roomView.setSelectionBox(selectionBox);
+            if (roomView.getSelectionBox() == null) {
+                roomView.setSelectionBox(new Rectangle(x, y, width, height));
+            } else {
+                roomView.getSelectionBox().setBounds(x, y, width, height);
+            }
+
             roomView.repaint();
         }
     }
@@ -51,18 +55,28 @@ public class SelectState implements RoomState {
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
-        if (selectionBox != null) {
+        if (roomView.getSelectionBox() != null) {
+            Rectangle selectionBox = roomView.getSelectionBox();
+            Rectangle2D selectionBox2D = new Rectangle2D.Double(
+                    selectionBox.x,
+                    selectionBox.y,
+                    selectionBox.width,
+                    selectionBox.height
+            );
+
             for (Painter painter : roomView.getPainters()) {
-                if (selectionBox.intersects(painter.getBounds())) {
+                Rectangle2D painterBounds = painter.getBounds();
+
+                if (painterBounds != null && selectionBox2D.intersects(painterBounds)) {
                     painter.setSelected(true);
                 } else {
                     painter.setSelected(false);
                 }
             }
         }
-        selectionBox = null;
-        startPoint = null;
+
         roomView.setSelectionBox(null);
+        startPoint = null;
         roomView.repaint();
     }
 
@@ -92,10 +106,5 @@ public class SelectState implements RoomState {
 
     @Override
     public void exitState() {
-    }
-
-    private Point scalePoint(Point point) {
-        double zoomFactor = roomView.getZoomFactor();
-        return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
 }

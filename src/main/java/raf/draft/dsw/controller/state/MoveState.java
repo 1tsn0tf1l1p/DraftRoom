@@ -7,6 +7,7 @@ import raf.draft.dsw.view.room.RoomView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class MoveState implements RoomState {
 
     private RoomView roomView;
     private List<Painter> selectedPainters;
-    private int previousMouseX;
-    private int previousMouseY;
+    private double previousMouseX;
+    private double previousMouseY;
 
     public MoveState(RoomView roomView) {
         this.roomView = roomView;
@@ -32,23 +33,39 @@ public class MoveState implements RoomState {
         previousMouseX = -1;
         previousMouseY = -1;
 
+        // Gather all selected painters
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
                 selectedPainters.add(painter);
             }
         }
 
-        previousMouseX = e.getX();
-        previousMouseY = e.getY();
+        double zoomFactor = roomView.getZoomFactor();
+
+        if (!selectedPainters.isEmpty()) {
+            Painter nearestPainter = findNearestPainter(e.getPoint());
+            RoomElement nearestElement = nearestPainter.getElement();
+
+            previousMouseX = e.getX() / zoomFactor;
+            previousMouseY = e.getY() / zoomFactor;
+        } else {
+            previousMouseX = e.getX() / zoomFactor;
+            previousMouseY = e.getY() / zoomFactor;
+        }
 
         roomView.repaint();
     }
 
     @Override
     public void handleMouseDrag(MouseEvent e) {
+        double zoomFactor = roomView.getZoomFactor();
+
         if (previousMouseX >= 0 && previousMouseY >= 0) {
-            int deltaX = e.getX() - previousMouseX;
-            int deltaY = e.getY() - previousMouseY;
+            double currentMouseX = e.getX() / zoomFactor;
+            double currentMouseY = e.getY() / zoomFactor;
+
+            double deltaX = currentMouseX - previousMouseX;
+            double deltaY = currentMouseY - previousMouseY;
 
             if (!selectedPainters.isEmpty()) {
                 for (Painter painter : selectedPainters) {
@@ -57,8 +74,8 @@ public class MoveState implements RoomState {
                     int originalX = element.getX();
                     int originalY = element.getY();
 
-                    element.setX(element.getX() + deltaX);
-                    element.setY(element.getY() + deltaY);
+                    element.setX((int) (originalX + deltaX));
+                    element.setY((int) (originalY + deltaY));
 
                     snapToEdge(element);
 
@@ -68,17 +85,15 @@ public class MoveState implements RoomState {
                     }
                 }
             } else {
-                roomView.getRoom().moveRoom(deltaX, deltaY);
-                System.out.println("Pozvao se move Room");
+                roomView.getRoom().moveRoom((int) deltaX, (int) deltaY);
             }
 
-            previousMouseX = e.getX();
-            previousMouseY = e.getY();
+            previousMouseX = currentMouseX;
+            previousMouseY = currentMouseY;
 
             roomView.repaint();
         }
     }
-
 
     private void snapToEdge(RoomElement element) {
         int roomWidth = roomView.getRoom().getWidth();
@@ -94,7 +109,6 @@ public class MoveState implements RoomState {
         }
     }
 
-
     private boolean checkIntersection(RoomElement element) {
         Rectangle elementBounds = element.getBounds();
         for (Painter otherPainter : roomView.getPainters()) {
@@ -108,6 +122,28 @@ public class MoveState implements RoomState {
         return false;
     }
 
+    private Painter findNearestPainter(Point cursorPoint) {
+        Painter nearestPainter = null;
+        double nearestDistance = Double.MAX_VALUE;
+
+        for (Painter painter : selectedPainters) {
+            RoomElement element = painter.getElement();
+
+            Point center = new Point(
+                    element.getX() + element.getWidth() / 2,
+                    element.getY() + element.getHeight() / 2
+            );
+
+            double distance = cursorPoint.distance(center);
+
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestPainter = painter;
+            }
+        }
+
+        return nearestPainter;
+    }
 
     @Override
     public void handleMousePressed(MouseEvent e) {
@@ -120,7 +156,6 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleMouseWheelMoved(MouseWheelEvent e) {
-
     }
 
     @Override
