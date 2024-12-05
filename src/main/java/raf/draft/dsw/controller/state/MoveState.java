@@ -8,6 +8,7 @@ import raf.draft.dsw.view.room.RoomView;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.Rectangle;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +116,11 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleKeyPress(KeyEvent e) {
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
+
     }
 
     @Override

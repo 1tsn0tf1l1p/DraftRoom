@@ -8,6 +8,7 @@ import raf.draft.dsw.view.room.RoomView;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class ResizeState implements RoomState {
     private RoomView roomView;
@@ -31,19 +32,19 @@ public class ResizeState implements RoomState {
 
     @Override
     public void handleMousePressed(MouseEvent e) {
+        Point scaledPoint = unscalePoint(e.getPoint());
+
         for (Painter painter : roomView.getPainters()) {
             RoomElement element = painter.getElement();
-            if (element != null && isWithinResizeArea(element, e.getPoint())) {
+            if (element != null && isWithinResizeArea(element, scaledPoint)) {
                 selectedElement = element;
                 isResizing = true;
 
-                // Store the initial dimensions of the element
                 initialWidth = element.getWidth();
                 initialHeight = element.getHeight();
 
-                // Store the initial mouse position
-                initialX = e.getX();
-                initialY = e.getY();
+                initialX = scaledPoint.x;
+                initialY = scaledPoint.y;
 
                 break;
             }
@@ -53,8 +54,10 @@ public class ResizeState implements RoomState {
     @Override
     public void handleMouseDrag(MouseEvent e) {
         if (isResizing && selectedElement != null) {
-            int deltaX = e.getX() - initialX;
-            int deltaY = e.getY() - initialY;
+            Point scaledPoint = unscalePoint(e.getPoint());
+
+            int deltaX = scaledPoint.x - initialX;
+            int deltaY = scaledPoint.y - initialY;
 
             int newWidth = initialWidth + deltaX;
             int newHeight = initialHeight + deltaY;
@@ -68,10 +71,12 @@ public class ResizeState implements RoomState {
         }
     }
 
-
-
     @Override
     public void handleKeyPress(KeyEvent e) {
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
     }
 
     @Override
@@ -98,8 +103,11 @@ public class ResizeState implements RoomState {
         int width = element.getScaledWidth();
         int height = element.getScaledHeight();
 
-        int resizeAreaWidth = RESIZE_THRESHOLD * 2;
-        int resizeAreaHeight = RESIZE_THRESHOLD * 2;
+        double zoomFactor = roomView.getZoomFactor();
+        int scaledThreshold = (int) (RESIZE_THRESHOLD / zoomFactor);
+
+        int resizeAreaWidth = scaledThreshold * 2;
+        int resizeAreaHeight = scaledThreshold * 2;
 
         Rectangle resizeArea = new Rectangle(
                 x + width - resizeAreaWidth,
@@ -109,5 +117,10 @@ public class ResizeState implements RoomState {
         );
 
         return resizeArea.contains(point);
+    }
+
+    private Point unscalePoint(Point point) {
+        double zoomFactor = roomView.getZoomFactor();
+        return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
 }

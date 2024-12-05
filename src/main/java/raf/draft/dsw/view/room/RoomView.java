@@ -3,12 +3,15 @@ package raf.draft.dsw.view.room;
 import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.controller.state.EditRoomState;
+import raf.draft.dsw.controller.state.ZoomState;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.view.room.Painter;
+import raf.draft.dsw.view.room.RoomRectangle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Getter
 @Setter
 public class RoomView extends JPanel {
+    private double zoomFactor = 1.0;
     private Room room;
     private List<Painter> painters;
     private RoomElementFactory factory;
@@ -38,8 +42,34 @@ public class RoomView extends JPanel {
         currentState = new EditRoomState(this);
 
         setLayout(new BorderLayout());
+
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setLayout(null);
+        add(layeredPane, BorderLayout.CENTER);
+
         roomRectangle = new RoomRectangle(room, this, painters);
-        add(roomRectangle, BorderLayout.CENTER);
+        roomRectangle.setBounds(0, 0, originalSize.width, originalSize.height);
+        layeredPane.add(roomRectangle, JLayeredPane.DEFAULT_LAYER);
+
+        JComponent selectionBoxLayer = new JComponent() {
+            protected void paintComponent(Graphics g) {
+                if (selectionBox != null) {
+                    Graphics2D g2d = (Graphics2D) g;
+
+                    int x = (int) (selectionBox.x * zoomFactor);
+                    int y = (int) (selectionBox.y * zoomFactor);
+                    int width = (int) (selectionBox.width * zoomFactor);
+                    int height = (int) (selectionBox.height * zoomFactor);
+
+                    g2d.setColor(new Color(0, 0, 255, 50));
+                    g2d.fillRect(x, y, width, height);
+                    g2d.setColor(Color.BLUE);
+                    g2d.drawRect(x, y, width, height);
+                }
+            }
+        };
+        selectionBoxLayer.setBounds(0, 0, originalSize.width, originalSize.height);
+        layeredPane.add(selectionBoxLayer, JLayeredPane.PALETTE_LAYER);
 
         roomRectangle.addMouseListener(new MouseAdapter() {
             @Override
@@ -57,6 +87,7 @@ public class RoomView extends JPanel {
                 handleMouseClick(e);
             }
         });
+
         roomRectangle.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -64,16 +95,29 @@ public class RoomView extends JPanel {
             }
         });
 
+        this.addMouseWheelListener(e -> {
+            if (currentState instanceof ZoomState) {
+                ((ZoomState) currentState).handleMouseWheelMoved(e);
+            }
+        });
+
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
-                originalSize = RoomView.this.getSize();
-                factory = new RoomElementFactory(room, originalSize);
+                adjustSizes(layeredPane);
                 repaint();
             }
         });
 
         addChildren();
+    }
+
+    private void adjustSizes(JLayeredPane layeredPane) {
+        Dimension newSize = getSize();
+        originalSize = newSize;
+
+        roomRectangle.setBounds(0, 0, newSize.width, newSize.height);
+        layeredPane.getComponent(1).setBounds(0, 0, newSize.width, newSize.height); // Selection box layer
     }
 
     public void changeState(RoomState state) {
@@ -100,14 +144,13 @@ public class RoomView extends JPanel {
         currentState.handleMousePressed(e);
     }
 
-
-
     private void handleMouseDrag(MouseEvent e) {
         if (selectionBox != null) {
-            int x = Math.min(selectionBox.x, e.getX());
-            int y = Math.min(selectionBox.y, e.getY());
-            int width = Math.abs(selectionBox.x - e.getX());
-            int height = Math.abs(selectionBox.y - e.getY());
+            Point startPoint = selectionBox.getLocation();
+            int x = Math.min((int) (startPoint.x / zoomFactor), (int) (e.getX() / zoomFactor));
+            int y = Math.min((int) (startPoint.y / zoomFactor), (int) (e.getY() / zoomFactor));
+            int width = Math.abs((int) (startPoint.x / zoomFactor) - (int) (e.getX() / zoomFactor));
+            int height = Math.abs((int) (startPoint.y / zoomFactor) - (int) (e.getY() / zoomFactor));
 
             selectionBox.setBounds(x, y, width, height);
             repaint();
@@ -115,22 +158,10 @@ public class RoomView extends JPanel {
         currentState.handleMouseDrag(e);
     }
 
+
     private void handleMouseRelease(MouseEvent e) {
         currentState.handleMouseRelease(e);
         selectionBox = null;
         repaint();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        if (selectionBox != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(new Color(0, 0, 255, 50));
-            g2.fill(selectionBox);
-            g2.setColor(Color.BLUE);
-            g2.draw(selectionBox);
-        }
     }
 }

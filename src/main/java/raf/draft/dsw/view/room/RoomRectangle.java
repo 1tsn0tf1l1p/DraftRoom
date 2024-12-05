@@ -24,6 +24,10 @@ public class RoomRectangle extends JComponent {
 
         if (room.getWidth() != 0) {
             Graphics2D g2d = (Graphics2D) g;
+
+            double zoomFactor = roomView.getZoomFactor();
+            g2d.scale(zoomFactor, zoomFactor);
+
             int panelWidth = getWidth();
             int panelHeight = getHeight();
             float roomAspectRatio = (float) room.getWidth() / room.getHeight();
@@ -63,14 +67,9 @@ public class RoomRectangle extends JComponent {
             }
         }
 
-        if (roomView.getSelectionBox() != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            Rectangle selectionBox = roomView.getSelectionBox();
-            g2.setColor(new Color(0, 0, 255, 50));
-            g2.fill(selectionBox);
-            g2.setColor(Color.BLUE);
-            g2.draw(selectionBox);
-        }
     }
+
+
+
 
 }

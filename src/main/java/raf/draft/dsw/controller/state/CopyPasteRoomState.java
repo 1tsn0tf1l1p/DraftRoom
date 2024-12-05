@@ -4,6 +4,7 @@ import raf.draft.dsw.model.state.RoomState;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class CopyPasteRoomState implements RoomState {
     @Override
@@ -23,6 +24,11 @@ public class CopyPasteRoomState implements RoomState {
 
     @Override
     public void handleKeyPress(KeyEvent e) {
+
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
 
     }
 

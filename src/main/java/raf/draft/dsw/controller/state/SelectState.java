@@ -7,10 +7,10 @@ import raf.draft.dsw.view.room.RoomView;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class SelectState implements RoomState {
     private RoomView roomView;
-
     private Point startPoint;
     private Rectangle selectionBox;
 
@@ -20,8 +20,9 @@ public class SelectState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
+        Point scaledPoint = scalePoint(e.getPoint());
         for (Painter painter : roomView.getPainters()) {
-            painter.setSelected(painter.elementAt(painter.getElement(), e.getPoint()));
+            painter.setSelected(painter.elementAt(painter.getElement(), scaledPoint));
         }
         roomView.repaint();
     }
@@ -29,19 +30,23 @@ public class SelectState implements RoomState {
     @Override
     public void handleMouseDrag(MouseEvent e) {
         if (startPoint != null) {
-            int x = Math.min(startPoint.x, e.getX());
-            int y = Math.min(startPoint.y, e.getY());
-            int width = Math.abs(startPoint.x - e.getX());
-            int height = Math.abs(startPoint.y - e.getY());
-            selectionBox = new Rectangle(x, y, width, height);
+            Point scaledStartPoint = startPoint;
+            Point scaledCurrentPoint = unscalePoint(e.getPoint());
 
+            int x = Math.min(scaledStartPoint.x, scaledCurrentPoint.x);
+            int y = Math.min(scaledStartPoint.y, scaledCurrentPoint.y);
+            int width = Math.abs(scaledStartPoint.x - scaledCurrentPoint.x);
+            int height = Math.abs(scaledStartPoint.y - scaledCurrentPoint.y);
+
+            selectionBox = new Rectangle(x, y, width, height);
             roomView.setSelectionBox(selectionBox);
             roomView.repaint();
         }
     }
 
-    @Override
-    public void handleKeyPress(KeyEvent e) {
+    private Point unscalePoint(Point point) {
+        double zoomFactor = roomView.getZoomFactor();
+        return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
 
     @Override
@@ -62,16 +67,8 @@ public class SelectState implements RoomState {
     }
 
     @Override
-    public void enterState() {
-    }
-
-    @Override
-    public void exitState() {
-    }
-
-    @Override
     public void handleMousePressed(MouseEvent e) {
-        startPoint = e.getPoint();
+        startPoint = unscalePoint(e.getPoint());
 
         for (Painter painter : roomView.getPainters()) {
             painter.setSelected(false);
@@ -79,5 +76,26 @@ public class SelectState implements RoomState {
 
         roomView.setSelectionBox(null);
         roomView.repaint();
+    }
+
+    @Override
+    public void handleKeyPress(KeyEvent e) {
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
+    }
+
+    @Override
+    public void enterState() {
+    }
+
+    @Override
+    public void exitState() {
+    }
+
+    private Point scalePoint(Point point) {
+        double zoomFactor = roomView.getZoomFactor();
+        return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
 }

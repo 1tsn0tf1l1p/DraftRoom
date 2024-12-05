@@ -8,6 +8,7 @@ import raf.draft.dsw.view.room.RoomView;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class EditState implements RoomState {
     private RoomView roomView;
@@ -44,6 +45,11 @@ public class EditState implements RoomState {
 
     @Override
     public void handleKeyPress(KeyEvent e) {
+
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
 
     }
 
