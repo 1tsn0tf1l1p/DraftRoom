@@ -57,17 +57,11 @@ public class SelectState implements RoomState {
     public void handleMouseRelease(MouseEvent e) {
         if (roomView.getSelectionBox() != null) {
             Rectangle selectionBox = roomView.getSelectionBox();
-            Rectangle2D selectionBox2D = new Rectangle2D.Double(
-                    selectionBox.x,
-                    selectionBox.y,
-                    selectionBox.width,
-                    selectionBox.height
-            );
 
             for (Painter painter : roomView.getPainters()) {
                 Rectangle2D painterBounds = painter.getBounds();
 
-                if (painterBounds != null && selectionBox2D.intersects(painterBounds)) {
+                if (painterBounds != null && selectionBox.contains(painterBounds)) {
                     painter.setSelected(true);
                 } else {
                     painter.setSelected(false);
@@ -80,17 +74,14 @@ public class SelectState implements RoomState {
         roomView.repaint();
     }
 
+
+
     @Override
     public void handleMousePressed(MouseEvent e) {
         startPoint = unscalePoint(e.getPoint());
-
-        for (Painter painter : roomView.getPainters()) {
-            painter.setSelected(false);
-        }
-
-        roomView.setSelectionBox(null);
         roomView.repaint();
     }
+
 
     @Override
     public void handleKeyPress(KeyEvent e) {

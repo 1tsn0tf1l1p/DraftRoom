@@ -55,9 +55,8 @@ public class RoomView extends JPanel {
         selectionBoxLayer = new JComponent() {
             @Override
             protected void paintComponent(Graphics g) {
-                if (currentState instanceof SelectState && selectionBox != null) {
+                if (selectionBox != null) {
                     Graphics2D g2d = (Graphics2D) g;
-
                     int x = (int) (selectionBox.x * zoomFactor);
                     int y = (int) (selectionBox.y * zoomFactor);
                     int width = (int) (selectionBox.width * zoomFactor);
@@ -151,6 +150,7 @@ public class RoomView extends JPanel {
             if (selectionBox == null) {
                 Point startPoint = new Point((int) (e.getX() / zoomFactor), (int) (e.getY() / zoomFactor));
                 selectionBox = new Rectangle(startPoint);
+                System.out.println("Initialized selectionBox at: " + selectionBox);
             }
 
             Point currentPoint = new Point((int) (e.getX() / zoomFactor), (int) (e.getY() / zoomFactor));
@@ -161,6 +161,7 @@ public class RoomView extends JPanel {
             int height = Math.abs(selectionBox.y - currentPoint.y);
 
             selectionBox.setBounds(x, y, width, height);
+            System.out.println("Updated selectionBox to: " + selectionBox);
 
             repaint();
         }
@@ -168,10 +169,8 @@ public class RoomView extends JPanel {
         currentState.handleMouseDrag(e);
     }
 
+
     private void handleMouseRelease(MouseEvent e) {
-        if (currentState instanceof SelectState) {
-            selectionBox = null;
-        }
         repaint();
         currentState.handleMouseRelease(e);
     }
