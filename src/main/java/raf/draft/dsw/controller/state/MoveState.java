@@ -33,7 +33,6 @@ public class MoveState implements RoomState {
         previousMouseX = -1;
         previousMouseY = -1;
 
-        // Gather all selected painters
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
                 selectedPainters.add(painter);
@@ -120,6 +119,7 @@ public class MoveState implements RoomState {
             }
         }
         return false;
+
     }
 
     private Painter findNearestPainter(Point cursorPoint) {

@@ -15,8 +15,9 @@ public class Bed extends RoomElement {
         super.setX(x);
         super.setY(y);
     }
-    public Bed(Bed krevet) {
-        super(krevet.getIme(), krevet.getParent());
+    public Bed(Bed bed) {
+        super(bed);
+
     }
 
     @Override

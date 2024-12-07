@@ -163,7 +163,6 @@ public class RoomView extends JPanel {
             selectionBox.setBounds(x, y, width, height);
             System.out.println("Updated selectionBox to: " + selectionBox);
 
-            repaint();
         }
 
         currentState.handleMouseDrag(e);

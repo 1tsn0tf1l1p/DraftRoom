@@ -24,15 +24,28 @@ public class BedPainter extends Painter {
         int scaledWidth = element.getScaledWidth();
         int scaledHeight = element.getScaledHeight();
 
+        // Save the current transform
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        // Apply rotation
+        int centerX = scaledX + scaledWidth / 2;
+        int centerY = scaledY + scaledHeight / 2;
+        g2d.rotate(Math.toRadians(element.getRotateRatio()), centerX, centerY);
+
+        // Draw the rectangle
         if (selected) {
-            g.setColor(Color.BLUE);
+            g2d.setColor(Color.BLUE);
         } else {
-            g.setColor(Color.BLACK);
+            g2d.setColor(Color.BLACK);
         }
 
-        g.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
+        g2d.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
 
-        g.drawRect(scaledX + 5, scaledY + 5, scaledWidth - 10, scaledHeight / 10);
+        // Draw the inner rectangle
+        g2d.drawRect(scaledX + 5, scaledY + 5, scaledWidth - 10, scaledHeight / 10);
+
+        // Restore the original transform
+        g2d.dispose();
     }
 
 
