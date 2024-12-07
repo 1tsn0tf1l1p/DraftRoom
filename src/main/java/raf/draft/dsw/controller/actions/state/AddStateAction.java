@@ -20,6 +20,7 @@ public class AddStateAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPanel().setVisibilityAddPanel(true);
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new AddState(roomView));

@@ -40,7 +40,11 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.setScaledX(roomElement.getScaledX());
         this.setScaledY(roomElement.getScaledY());
     }
-
+    public RoomElement(String ime, DraftNodeComposite parent, int x, int y) {
+        super(ime,parent);
+        setX(x);
+        setY(y);
+    }
     @Override
     public Prototype clone() {
         return null;

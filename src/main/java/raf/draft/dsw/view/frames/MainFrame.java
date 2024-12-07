@@ -2,6 +2,7 @@ package raf.draft.dsw.view.frames;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.draft.dsw.controller.actions.ActionManager;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.observer.ISubscriber;

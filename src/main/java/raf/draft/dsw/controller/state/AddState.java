@@ -1,8 +1,11 @@
 package raf.draft.dsw.controller.state;
 
+import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
@@ -16,11 +19,13 @@ public class AddState implements RoomState {
     private Dimension originalSize;
     private RoomView roomView;
     private RoomElementFactory factory;
+    private DraftTreeImplementation tree;
 
     public AddState(RoomView roomView) {
         this.roomView = roomView;
         this.originalSize = roomView.getOriginalSize();
         this.factory = roomView.getFactory();
+        tree = ApplicationFramework.getInstance().getTree();
     }
 
     @Override
@@ -39,21 +44,23 @@ public class AddState implements RoomState {
                 e.getButton()
         );
 
-        RoomElement newElement = factory.create("bed", unscaledEvent);
+        RoomElement newElement = factory.create(roomView.getSelectedItem(), unscaledEvent);
+
+        Painter painter = factory.createPainter(newElement);
+        roomView.getPainters().add(painter);
+        roomView.getRoom().addChild(newElement);
         CreateRoomFrame createRoomFrame = new CreateRoomFrame(newElement);
         createRoomFrame.setVisible(true);
 
         createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                Painter painter = factory.createPainter(newElement);
-                roomView.getPainters().add(painter);
-                roomView.getRoom().addChild(newElement);
-                roomView.getRoomRectangle().repaint();
+                roomView.repaint();
+                TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
+                tree.addChild(treeItem, false, newElement);
             }
         });
     }
-
 
     @Override
     public void handleMouseDrag(MouseEvent e) {

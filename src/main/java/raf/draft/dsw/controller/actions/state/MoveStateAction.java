@@ -21,6 +21,7 @@ public class MoveStateAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new MoveState(roomView));

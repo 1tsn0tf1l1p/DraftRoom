@@ -63,7 +63,7 @@ public class Room extends DraftNodeComposite implements IPublisher {
                 element.setY(element.getY() + deltaY);
             }
         }
-        notifySubscribers(this); // Obaveštavanje pretplatnika o promenama
+        notifySubscribers(this);
     }
 
 

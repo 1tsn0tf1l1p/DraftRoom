@@ -21,6 +21,7 @@ public class ResizeStateAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new ResizeState(roomView));

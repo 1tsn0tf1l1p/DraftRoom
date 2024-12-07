@@ -1,6 +1,7 @@
 package raf.draft.dsw.view.bars;
 
 import lombok.Getter;
+import raf.draft.dsw.controller.state.AddState;
 import raf.draft.dsw.model.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
@@ -10,6 +11,7 @@ import raf.draft.dsw.view.tab.TabView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 @Getter
@@ -22,7 +24,7 @@ public class Panel extends JPanel implements ISubscriber {
     private JLabel objectLbl;
     private JPanel rightPanel;
     private RoomView roomView;
-
+    private JToolBar addComponents;
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
         this.tabContainer = tabContainer;
@@ -50,6 +52,8 @@ public class Panel extends JPanel implements ISubscriber {
         rightScrollPane.add(tabContainer);
 
         JPanel labelsPanel = new JPanel(new GridLayout(2, 2, 10, 0));
+        labelsPanel.setBackground(Color.WHITE);
+        labelsPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
         labelsPanel.add(projectLbl);
         labelsPanel.add(objectLbl);
         labelsPanel.add(authorLbl);
@@ -60,15 +64,15 @@ public class Panel extends JPanel implements ISubscriber {
         pathLbl.setHorizontalAlignment(SwingConstants.CENTER);
         objectLbl.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JPanel addComponents = new JPanel(new GridLayout(5,1,10,10));
-
+        addComponents = new AddStateToolBar();
+        addComponents.setVisible(false);
         rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
         rightPanel.add(addComponents,BorderLayout.EAST);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
-
+        splitPane.setBackground(Color.WHITE);
         this.setLayout(new BorderLayout());
         this.add(splitPane, BorderLayout.CENTER);
     }
@@ -110,5 +114,8 @@ public class Panel extends JPanel implements ISubscriber {
         }
         rightPanel.revalidate();
         rightPanel.repaint();
+    }
+    public void setVisibilityAddPanel(Boolean bool){
+        addComponents.setVisible(bool);
     }
 }

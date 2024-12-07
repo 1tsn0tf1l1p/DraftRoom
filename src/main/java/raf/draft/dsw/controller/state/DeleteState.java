@@ -1,6 +1,9 @@
 package raf.draft.dsw.controller.state;
 
+import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -9,17 +12,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class DeleteState implements RoomState {
+    private DraftTreeImplementation treeImplementation;
 
     private RoomView roomView;
 
     public DeleteState(RoomView roomView) {
         this.roomView = roomView;
+        treeImplementation = ApplicationFramework.getInstance().getTree();
         deleteSelected();
     }
 
     private void deleteSelected() {
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
+                TreeItem item = treeImplementation.returnTreeItemForRoom(painter.getElement());
+                treeImplementation.removeChild(item);
                 roomView.getRoom().removeChild(painter.getElement());
                 roomView.getPainters().remove(painter);
                 roomView.repaint();
@@ -31,6 +38,8 @@ public class DeleteState implements RoomState {
     public void handleMouseClick(MouseEvent e) {
         for (Painter painter : roomView.getPainters()){
             if (painter.elementAt(painter.getElement(), e.getPoint())) {
+                TreeItem item = treeImplementation.returnTreeItemForRoom(painter.getElement());
+                treeImplementation.removeChild(item);
                 roomView.getRoom().removeChild(painter.getElement());
                 roomView.getPainters().remove(painter);
             }

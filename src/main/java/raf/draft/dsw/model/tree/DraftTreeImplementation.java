@@ -8,19 +8,21 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.tree.CustomTreeCellRenderer;
 import raf.draft.dsw.view.tree.CustomTreeUI;
 import raf.draft.dsw.view.tree.TreeView;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 @Getter
@@ -62,7 +64,7 @@ public class DraftTreeImplementation implements DraftTree {
     }
 
     @Override
-    public void addChild(TreeItem parent, boolean isRoom) {
+    public void addChild(TreeItem parent, boolean isRoom, RoomElement roomElement) {
         if (!isRoom) {
             if (parent != null && parent.getNode() instanceof ProjectExplorer) {
                 TreeItem item = new TreeItem(factory.createProject((DraftNodeComposite) parent.getNode()));
@@ -77,6 +79,9 @@ public class DraftTreeImplementation implements DraftTree {
                 TreeItem item = new TreeItem(room);
                 parent.add(item);
                 ((Building) parent.getNode()).addChild(item.getNode());
+            } else if (parent != null && parent.getNode() instanceof Room && roomElement != null) {
+                TreeItem item = new TreeItem(roomElement);
+                parent.add(item);
             }
         } else {
             if (parent != null && (parent.getNode() instanceof Project || parent.getNode() instanceof Building)) {
@@ -91,6 +96,38 @@ public class DraftTreeImplementation implements DraftTree {
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
+
+    public TreeItem returnTreeItemForRoom(DraftNode node) {
+        if (node == null || treeModel == null) {
+            return null;
+        }
+
+        TreeItem root = (TreeItem) treeModel.getRoot();
+        return findNodeInTree(root, node);
+    }
+
+    private TreeItem findNodeInTree(TreeItem current, DraftNode node) {
+        if (current == null) {
+            return null;
+        }
+
+        if (current.getNode().equals(node)) {
+            return current;
+        }
+
+        Enumeration<TreeNode> children = current.children();
+        while (children.hasMoreElements()) {
+            TreeItem child = (TreeItem) children.nextElement();
+            TreeItem found = findNodeInTree(child, node);
+            if (found != null) {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+
 
     @Override
     public void removeChild(TreeItem node) {

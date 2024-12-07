@@ -2,6 +2,7 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.structures.Room;
 
 public class Doors extends RoomElement{
     /**
@@ -16,6 +17,10 @@ public class Doors extends RoomElement{
 
     public Doors(Doors vrata) {
         super(vrata.getIme(), vrata.getParent());
+    }
+
+    public Doors(String newDoors, Room room, int x, int y) {
+        super(newDoors,room,x,y);
     }
 
     @Override

@@ -6,6 +6,7 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.frames.MainFrame;
 
 import java.awt.event.ActionEvent;
 
@@ -22,6 +23,7 @@ public class AddNodeAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPanel().setVisibilityAddPanel(true);
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
         if (selectedItem == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");
@@ -30,7 +32,7 @@ public class AddNodeAction extends AbstractRoomAction {
                 ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot add node to Room.");
                 return;
             }
-            tree.addChild(selectedItem, false);
+            tree.addChild(selectedItem, false, null);
         }
     }
 }
