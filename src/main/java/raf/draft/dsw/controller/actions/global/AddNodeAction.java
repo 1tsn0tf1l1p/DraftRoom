@@ -23,7 +23,7 @@ public class AddNodeAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainFrame.getInstance().getPanel().setVisibilityAddPanel(true);
+
         TreeItem selectedItem = (TreeItem) tree.getTreeView().getLastSelectedPathComponent();
         if (selectedItem == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");

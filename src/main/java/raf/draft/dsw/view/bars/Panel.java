@@ -85,6 +85,7 @@ public class Panel extends JPanel implements ISubscriber {
 
         if (centerComponent != null) {
             rightPanel.remove(centerComponent);
+            setVisibilityAddPanel(false);
         }
 
         if (selectedTab != null) {

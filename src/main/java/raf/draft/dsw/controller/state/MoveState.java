@@ -44,7 +44,6 @@ public class MoveState implements RoomState {
         if (!selectedPainters.isEmpty()) {
             Painter nearestPainter = findNearestPainter(e.getPoint());
             RoomElement nearestElement = nearestPainter.getElement();
-
             previousMouseX = e.getX() / zoomFactor;
             previousMouseY = e.getY() / zoomFactor;
         } else {
@@ -66,61 +65,87 @@ public class MoveState implements RoomState {
             double deltaX = currentMouseX - previousMouseX;
             double deltaY = currentMouseY - previousMouseY;
 
-            if (!selectedPainters.isEmpty()) {
-                for (Painter painter : selectedPainters) {
-                    RoomElement element = painter.getElement();
+            boolean movementHalted = false;
 
-                    int originalX = element.getX();
-                    int originalY = element.getY();
+            List<Painter> paintersToMove = selectedPainters.isEmpty() ? roomView.getPainters() : selectedPainters;
 
-                    element.setX((int) (originalX + deltaX));
-                    element.setY((int) (originalY + deltaY));
+            for (Painter painter : paintersToMove) {
+                RoomElement element = painter.getElement();
 
-                    snapToEdge(element);
+                int originalX = element.getX();
+                int originalY = element.getY();
 
-                    if (checkIntersection(element)) {
-                        element.setX(originalX);
-                        element.setY(originalY);
-                    }
+                element.setX((int) (originalX + deltaX));
+                element.setY((int) (originalY + deltaY));
+
+                boolean snapped = snapToEdge(element);
+                boolean intersects = checkIntersection(element);
+
+                if (snapped || intersects) {
+                    element.setX(originalX);
+                    element.setY(originalY);
+                    movementHalted = true;
+                    break;
                 }
-            } else {
-                roomView.getRoom().moveRoom((int) deltaX, (int) deltaY);
             }
 
-            previousMouseX = currentMouseX;
-            previousMouseY = currentMouseY;
+            if (!movementHalted) {
+                previousMouseX = currentMouseX;
+                previousMouseY = currentMouseY;
 
-            roomView.repaint();
+                roomView.repaint();
+            }
         }
     }
 
-    private void snapToEdge(RoomElement element) {
+
+
+
+    private boolean snapToEdge(RoomElement element) {
         int roomWidth = roomView.getRoom().getWidth();
         int roomHeight = roomView.getRoom().getHeight();
 
-        if (element.getX() < 10) element.setX(0);
-        if (element.getY() < 10) element.setY(0);
-        if (element.getX() + element.getWidth() > roomWidth - 10) {
+        boolean snapped = false;
+
+        if (element.getX() < 0) {
+            element.setX(0);
+            snapped = true;
+        }
+        if (element.getY() < 0) {
+            element.setY(0);
+            snapped = true;
+        }
+        if (element.getX() + element.getWidth() > roomWidth) {
             element.setX(roomWidth - element.getWidth());
+            snapped = true;
         }
-        if (element.getY() + element.getHeight() > roomHeight - 10) {
+        if (element.getY() + element.getHeight() > roomHeight) {
             element.setY(roomHeight - element.getHeight());
+            snapped = true;
         }
+
+        return snapped;
     }
+
+
 
     private boolean checkIntersection(RoomElement element) {
         Rectangle elementBounds = element.getBounds();
+
         for (Painter otherPainter : roomView.getPainters()) {
-            if (!selectedPainters.contains(otherPainter)) {
-                RoomElement otherElement = otherPainter.getElement();
-                if (elementBounds.intersects(otherElement.getBounds())) {
-                    return true;
-                }
+            RoomElement otherElement = otherPainter.getElement();
+
+            if (element == otherElement) {
+                continue;
+            }
+
+            if (elementBounds.intersects(otherElement.getBounds())) {
+                return true;
             }
         }
         return false;
-
     }
+
 
     private Painter findNearestPainter(Point cursorPoint) {
         Painter nearestPainter = null;
