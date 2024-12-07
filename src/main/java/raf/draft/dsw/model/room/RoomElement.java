@@ -34,8 +34,9 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         super(roomElement.getIme(), roomElement.getParent());
         this.setWidth(roomElement.getWidth());
         this.setHeight(roomElement.getHeight());
+
         this.setX(roomElement.getX()+roomElement.getWidth()+10);
-        this.setY(roomElement.getY());
+        this.setY(roomElement.getY()+10);
         this.setScaledSize(roomElement.getScaledX(),roomElement.getScaledY());
         this.setScaledX(roomElement.getScaledX());
         this.setScaledY(roomElement.getScaledY());

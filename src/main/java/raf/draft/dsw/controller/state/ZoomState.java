@@ -11,29 +11,27 @@ public class ZoomState implements RoomState {
     private final RoomView roomView;
     private double zoomFactor = 1.0;
 
+    private static final double MIN_ZOOM = 0.5;
+    private static final double MAX_ZOOM = 3.0;
+
     public ZoomState(RoomView roomView) {
         this.roomView = roomView;
     }
 
-
     @Override
     public void handleMouseClick(MouseEvent e) {
-
     }
 
     @Override
     public void handleMouseDrag(MouseEvent e) {
-
     }
 
     @Override
     public void handleMousePressed(MouseEvent e) {
-
     }
 
     @Override
     public void handleKeyPress(KeyEvent e) {
-
     }
 
     @Override
@@ -42,9 +40,9 @@ public class ZoomState implements RoomState {
         double zoomStep = 0.1;
 
         if (notches < 0) {
-            zoomFactor += zoomStep;
+            zoomFactor = Math.min(MAX_ZOOM, zoomFactor + zoomStep);
         } else if (notches > 0) {
-            zoomFactor = Math.max(0.1, zoomFactor - zoomStep);
+            zoomFactor = Math.max(MIN_ZOOM, zoomFactor - zoomStep);
         }
 
         roomView.setZoomFactor(zoomFactor);
@@ -53,7 +51,6 @@ public class ZoomState implements RoomState {
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
-
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.awt.*;
 public class CreateRoomFrame extends JFrame {
     private JSpinner widthField;
     private JSpinner heightField;
+    private JTextField nameField;
     private JButton confirmButton;
     private DraftNode draftNode;
 
@@ -30,61 +31,62 @@ public class CreateRoomFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setTitle(draftNode.getIme());
-        setSize(400, 200);
+        setSize(400, 250);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel width = new JLabel("Width:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(width, gbc);
-
-        JLabel height = new JLabel("Height:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(height, gbc);
-
         int widthNum;
         int heightNum;
+
         if (draftNode instanceof Room) {
             widthNum = ((Room) draftNode).getWidth();
             heightNum = ((Room) draftNode).getHeight();
-        }
-        else {
-            widthNum = ((RoomElement)draftNode).getWidth();
-            heightNum = ((RoomElement)draftNode).getHeight();
-        }
-
-        if (widthNum == 0) {
-            widthField = new JSpinner(new SpinnerNumberModel(500, 50, Integer.MAX_VALUE, 5));
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            panel.add(widthField, gbc);
-            heightField = new JSpinner(new SpinnerNumberModel(500, 50, Integer.MAX_VALUE, 5));
-            gbc.gridx = 1;
-            gbc.gridy = 1;
-            panel.add(heightField, gbc);
-        }
-        else {
-            widthField = new JSpinner(new SpinnerNumberModel(widthNum, 50, Integer.MAX_VALUE, 5));
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            panel.add(widthField, gbc);
-            heightField = new JSpinner(new SpinnerNumberModel(heightNum, 50, Integer.MAX_VALUE, 5));
-            gbc.gridx = 1;
-            gbc.gridy = 1;
-            panel.add(heightField, gbc);
+        } else {
+            widthNum = ((RoomElement) draftNode).getWidth();
+            heightNum = ((RoomElement) draftNode).getHeight();
         }
 
+        if (draftNode instanceof RoomElement) {
+            JLabel nameLabel = new JLabel("Name:");
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.WEST;
+            panel.add(nameLabel, gbc);
+
+            nameField = new JTextField(((RoomElement) draftNode).getIme(), 15);
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            panel.add(nameField, gbc);
+        }
+
+        JLabel width = new JLabel("Width:");
+        gbc.gridx = 0;
+        gbc.gridy = (draftNode instanceof RoomElement) ? 1 : 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(width, gbc);
+
+        widthField = new JSpinner(new SpinnerNumberModel(widthNum == 0 ? 500 : widthNum, 50, Integer.MAX_VALUE, 5));
+        gbc.gridx = 1;
+        gbc.gridy = (draftNode instanceof RoomElement) ? 1 : 0;
+        panel.add(widthField, gbc);
+
+        JLabel height = new JLabel("Height:");
+        gbc.gridx = 0;
+        gbc.gridy = (draftNode instanceof RoomElement) ? 2 : 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(height, gbc);
+
+        heightField = new JSpinner(new SpinnerNumberModel(heightNum == 0 ? 500 : heightNum, 50, Integer.MAX_VALUE, 5));
+        gbc.gridx = 1;
+        gbc.gridy = (draftNode instanceof RoomElement) ? 2 : 1;
+        panel.add(heightField, gbc);
 
         confirmButton = new JButton("Confirm");
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = (draftNode instanceof RoomElement) ? 3 : 2;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.weightx = 0;
         panel.add(confirmButton, gbc);
@@ -97,11 +99,16 @@ public class CreateRoomFrame extends JFrame {
             try {
                 int width = Integer.parseInt(widthField.getValue().toString());
                 int height = Integer.parseInt(heightField.getValue().toString());
+
                 if (draftNode instanceof RoomElement) {
-                    ((RoomElement) draftNode).setSize(width, height);
+                    RoomElement roomElement = (RoomElement) draftNode;
+                    roomElement.setSize(width, height);
+
+                    if (nameField != null && !nameField.getText().trim().isEmpty()) {
+                        roomElement.setIme(nameField.getText().trim());
+                    }
                 } else if (draftNode instanceof Room) {
                     ((Room) draftNode).setSize(width, height);
-
                 }
                 dispose();
             } catch (NumberFormatException exception) {
