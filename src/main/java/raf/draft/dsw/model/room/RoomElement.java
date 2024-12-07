@@ -6,6 +6,8 @@ import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
 
+import java.awt.*;
+
 @Getter
 @Setter
 public abstract class RoomElement extends DraftNode implements Prototype {
@@ -28,9 +30,15 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     public RoomElement(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
-
-    public RoomElement(RoomElement roomElement) {
+    public RoomElement(RoomElement roomElement){
         super(roomElement.getIme(), roomElement.getParent());
+        this.setWidth(roomElement.getWidth());
+        this.setHeight(roomElement.getHeight());
+        this.setX(roomElement.getX()+roomElement.getWidth()+10);
+        this.setY(roomElement.getY());
+        this.setScaledSize(roomElement.getScaledX(),roomElement.getScaledY());
+        this.setScaledX(roomElement.getScaledX());
+        this.setScaledY(roomElement.getScaledY());
     }
 
     @Override
@@ -43,6 +51,11 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.height = height;
     }
 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void setScaledPosition(int scaledX, int scaledY) {
         this.scaledX = scaledX;
         this.scaledY = scaledY;
@@ -52,4 +65,18 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.scaledWidth = scaledWidth;
         this.scaledHeight = scaledHeight;
     }
+
+    public boolean isPointInResizeArea(Point point, int threshold) {
+        int resizeX = this.scaledX + this.scaledWidth - threshold;
+        int resizeY = this.scaledY + this.scaledHeight - threshold;
+
+        return point.x >= resizeX && point.x <= (resizeX + threshold)
+                && point.y >= resizeY && point.y <= (resizeY + threshold);
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
+
 }

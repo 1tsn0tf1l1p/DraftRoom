@@ -23,7 +23,7 @@ public class ResizeStateAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
-            roomView.changeState(new ResizeState());
+            roomView.changeState(new ResizeState(roomView));
         } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }

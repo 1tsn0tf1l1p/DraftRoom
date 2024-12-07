@@ -1,14 +1,41 @@
 package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.view.room.Painter;
+import raf.draft.dsw.view.room.RoomView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class DeleteState implements RoomState {
+
+    private RoomView roomView;
+
+    public DeleteState(RoomView roomView) {
+        this.roomView = roomView;
+        deleteSelected();
+    }
+
+    private void deleteSelected() {
+        for (Painter painter : roomView.getPainters()) {
+            if (painter.isSelected()) {
+                roomView.getRoom().removeChild(painter.getElement());
+                roomView.getPainters().remove(painter);
+                roomView.repaint();
+            }
+        }
+    }
+
     @Override
     public void handleMouseClick(MouseEvent e) {
-
+        for (Painter painter : roomView.getPainters()){
+            if (painter.elementAt(painter.getElement(), e.getPoint())) {
+                roomView.getRoom().removeChild(painter.getElement());
+                roomView.getPainters().remove(painter);
+            }
+            roomView.repaint();
+        }
     }
 
     @Override
@@ -17,7 +44,22 @@ public class DeleteState implements RoomState {
     }
 
     @Override
+    public void handleMousePressed(MouseEvent e) {
+
+    }
+
+    @Override
     public void handleKeyPress(KeyEvent e) {
+
+    }
+
+    @Override
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
+
+    }
+
+    @Override
+    public void handleMouseRelease(MouseEvent e) {
 
     }
 

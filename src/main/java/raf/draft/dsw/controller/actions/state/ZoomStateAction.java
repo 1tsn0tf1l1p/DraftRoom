@@ -14,7 +14,7 @@ public class ZoomStateAction extends AbstractRoomAction {
 
     public ZoomStateAction() {
         putValue(NAME, "Zoom State");
-        putValue(SMALL_ICON, "/images/resizeState.png");
+        putValue(SMALL_ICON, loadIcon("/images/zoomState.png"));
         putValue(SHORT_DESCRIPTION, "Put the program in the Zoom state.");
     }
 
@@ -22,7 +22,7 @@ public class ZoomStateAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
-            roomView.changeState(new ZoomState());
+            roomView.changeState(new ZoomState(roomView));
         } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }

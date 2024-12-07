@@ -24,7 +24,7 @@ public class CopyPasteRoomStateAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
-             roomView.changeState(new CopyPasteRoomState());
+             roomView.changeState(new CopyPasteRoomState(roomView));
         }
         else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");

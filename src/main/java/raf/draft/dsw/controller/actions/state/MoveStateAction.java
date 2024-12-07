@@ -23,7 +23,7 @@ public class MoveStateAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
-            roomView.changeState(new MoveState());
+            roomView.changeState(new MoveState(roomView));
         } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }

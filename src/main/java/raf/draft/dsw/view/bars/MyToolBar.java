@@ -27,9 +27,10 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getDeleteStateAction());
         add(actionManager.getEditStateAction());
         add(actionManager.getResizeStateAction());
-        add(actionManager.getRotateStateAction());
+        add(actionManager.getRotateLeftStateAction());
+        add(actionManager.getRotateRightStateAction());
         add(actionManager.getCopyPasteRoomStateAction());
-        //add(actionManager.getZoomStateAction());
+        add(actionManager.getZoomStateAction());
 
         add(Box.createHorizontalGlue());
         add(actionManager.getAboutUsAction());

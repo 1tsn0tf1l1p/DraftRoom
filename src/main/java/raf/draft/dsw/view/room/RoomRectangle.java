@@ -9,34 +9,32 @@ import java.util.List;
 
 public class RoomRectangle extends JComponent {
     private Room room;
+    private RoomView roomView;
     private List<Painter> painters;
 
-    public RoomRectangle(Room room, List<Painter> painters) {
+    public RoomRectangle(Room room, RoomView roomView, List<Painter> painters) {
         this.room = room;
         this.painters = painters;
+        this.roomView = roomView;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Check if the room has a valid width
         if (room.getWidth() != 0) {
             Graphics2D g2d = (Graphics2D) g;
 
-            // Get the dimensions of the panel
+            double zoomFactor = roomView.getZoomFactor();
+            g2d.scale(zoomFactor, zoomFactor);
+
             int panelWidth = getWidth();
             int panelHeight = getHeight();
-
-            // Calculate the aspect ratio of the room
             float roomAspectRatio = (float) room.getWidth() / room.getHeight();
-
-            // Set padding and calculate available dimensions
             int padding = 20;
+
             int availableWidth = panelWidth - 2 * padding;
             int availableHeight = panelHeight - 2 * padding;
-
-            // Determine rectangle dimensions while maintaining aspect ratio
             int rectWidth = availableWidth;
             int rectHeight = (int) (rectWidth / roomAspectRatio);
 
@@ -47,19 +45,17 @@ public class RoomRectangle extends JComponent {
 
             g2d.setColor(Color.LIGHT_GRAY);
             g2d.fillRect(padding, padding, rectWidth, rectHeight);
-
             g2d.setColor(Color.BLACK);
             g2d.drawRect(padding, padding, rectWidth, rectHeight);
 
+            double scaleX = rectWidth / (double) room.getWidth();
+            double scaleY = rectHeight / (double) room.getHeight();
+
             for (Painter painter : painters) {
                 if (painter.getElement() != null) {
-                    RoomElement element = (RoomElement) painter.getElement();
-
-                    double scaleX = rectWidth / (double) room.getWidth();
-                    double scaleY = rectHeight / (double) room.getHeight();
-
-                    int scaledX = padding + (int) (element.getX() * scaleX);
-                    int scaledY = padding + (int) (element.getY() * scaleY);
+                    RoomElement element = painter.getElement();
+                    int scaledX = (int) (element.getX() * scaleX) + padding;
+                    int scaledY = (int) (element.getY() * scaleY) + padding;
                     int scaledWidth = (int) (element.getWidth() * scaleX);
                     int scaledHeight = (int) (element.getHeight() * scaleY);
 
@@ -70,5 +66,10 @@ public class RoomRectangle extends JComponent {
                 }
             }
         }
+
     }
+
+
+
+
 }

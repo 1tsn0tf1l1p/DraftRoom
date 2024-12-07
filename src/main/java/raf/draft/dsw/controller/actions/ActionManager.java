@@ -20,7 +20,8 @@ public class ActionManager {
     private AbstractRoomAction editStateAction;
     private AbstractRoomAction moveStateAction;
     private AbstractRoomAction resizeStateAction;
-    private AbstractRoomAction rotateStateAction;
+    private AbstractRoomAction rotateLeftStateAction;
+    private AbstractRoomAction rotateRightStateAction;
     private AbstractRoomAction selectStateAction;
     private AbstractRoomAction zoomStateAction;
 
@@ -38,7 +39,8 @@ public class ActionManager {
         this.editStateAction = new EditStateAction();
         this.moveStateAction = new MoveStateAction();
         this.resizeStateAction = new ResizeStateAction();
-        this.rotateStateAction = new RotateStateAction();
+        this.rotateLeftStateAction = new RotateLeftStateAction();
+        this.rotateRightStateAction = new RotateRightStateAction();
         this.selectStateAction = new SelectStateAction();
         this.zoomStateAction = new ZoomStateAction();
     }

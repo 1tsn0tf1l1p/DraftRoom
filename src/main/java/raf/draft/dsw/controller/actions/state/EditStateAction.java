@@ -21,7 +21,7 @@ public class EditStateAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
-            roomView.changeState(new EditState());
+            roomView.changeState(new EditState(roomView));
         }
         else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");

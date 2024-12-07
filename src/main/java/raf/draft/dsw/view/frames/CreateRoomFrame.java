@@ -1,5 +1,7 @@
 package raf.draft.dsw.view.frames;
 
+import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
@@ -9,7 +11,9 @@ import raf.draft.dsw.model.structures.Room;
 import javax.swing.*;
 import java.awt.*;
 
-public class CreateRoomFrame  extends JFrame {
+@Getter
+@Setter
+public class CreateRoomFrame extends JFrame {
     private JSpinner widthField;
     private JSpinner heightField;
     private JButton confirmButton;
@@ -25,7 +29,7 @@ public class CreateRoomFrame  extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setTitle("Room Dimensions");
+        setTitle(draftNode.getIme());
         setSize(400, 200);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -45,15 +49,38 @@ public class CreateRoomFrame  extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(height, gbc);
 
-        widthField = new JSpinner(new SpinnerNumberModel(500, 100, Integer.MAX_VALUE, 5));
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        panel.add(widthField, gbc);
+        int widthNum;
+        int heightNum;
+        if (draftNode instanceof Room) {
+            widthNum = ((Room) draftNode).getWidth();
+            heightNum = ((Room) draftNode).getHeight();
+        }
+        else {
+            widthNum = ((RoomElement)draftNode).getWidth();
+            heightNum = ((RoomElement)draftNode).getHeight();
+        }
 
-        heightField = new JSpinner(new SpinnerNumberModel(500, 100, Integer.MAX_VALUE, 5));
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        panel.add(heightField, gbc);
+        if (widthNum == 0) {
+            widthField = new JSpinner(new SpinnerNumberModel(500, 50, Integer.MAX_VALUE, 5));
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            panel.add(widthField, gbc);
+            heightField = new JSpinner(new SpinnerNumberModel(500, 50, Integer.MAX_VALUE, 5));
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            panel.add(heightField, gbc);
+        }
+        else {
+            widthField = new JSpinner(new SpinnerNumberModel(widthNum, 50, Integer.MAX_VALUE, 5));
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            panel.add(widthField, gbc);
+            heightField = new JSpinner(new SpinnerNumberModel(heightNum, 50, Integer.MAX_VALUE, 5));
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            panel.add(heightField, gbc);
+        }
+
 
         confirmButton = new JButton("Confirm");
         gbc.gridx = 1;

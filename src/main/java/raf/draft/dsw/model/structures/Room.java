@@ -2,9 +2,11 @@ package raf.draft.dsw.model.structures;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.observer.IPublisher;
 import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.room.RoomElement;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -52,4 +54,17 @@ public class Room extends DraftNodeComposite implements IPublisher {
         this.width = width;
         this.height = height;
     }
+
+    public void moveRoom(int deltaX, int deltaY) {
+        for (DraftNode child : this.getChildren()) {
+            if (child instanceof RoomElement) {
+                RoomElement element = (RoomElement) child;
+                element.setX(element.getX() + deltaX);
+                element.setY(element.getY() + deltaY);
+            }
+        }
+        notifySubscribers(this); // Obaveštavanje pretplatnika o promenama
+    }
+
+
 }
