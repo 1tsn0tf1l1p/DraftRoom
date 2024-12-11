@@ -92,7 +92,7 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
 
-        notifySubscribers(null);
+        //notifySubscribers(null);
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }

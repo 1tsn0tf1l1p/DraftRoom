@@ -66,10 +66,5 @@ public class RoomRectangle extends JComponent {
                 }
             }
         }
-
     }
-
-
-
-
 }

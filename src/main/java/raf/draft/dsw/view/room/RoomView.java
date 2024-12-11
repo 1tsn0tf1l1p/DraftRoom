@@ -36,6 +36,7 @@ public class RoomView extends JPanel {
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
+        System.out.println("New roomview");
         this.room = room;
         this.painters = new CopyOnWriteArrayList<>();
         selectedItem = "bed";

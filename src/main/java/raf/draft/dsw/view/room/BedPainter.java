@@ -36,31 +36,9 @@ public class BedPainter extends Painter {
 
         g2d.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
 
-        g2d.drawRect(scaledX + 5, scaledY + 5, scaledWidth - 10, scaledHeight / 10);
+        g2d.drawRect(scaledX +scaledWidth/6,  scaledY + scaledHeight/10, 2*scaledWidth/3, scaledHeight / 10);
 
         g2d.dispose();
     }
-
-
-
-    @Override
-    public boolean elementAt(RoomElement element, Point pos) {
-        int elementLeft = element.getScaledX();
-        int elementTop = element.getScaledY();
-        int elementRight = elementLeft + element.getScaledWidth();
-        int elementBottom = elementTop + element.getScaledHeight();
-        return pos.x >= elementLeft && pos.x < elementRight && pos.y >= elementTop && pos.y < elementBottom;
-    }
-
-    @Override
-    public Rectangle2D getBounds() {
-        int scaledX = element.getScaledX();
-        int scaledY = element.getScaledY();
-        int scaledWidth = element.getScaledWidth();
-        int scaledHeight = element.getScaledHeight();
-
-        return new Rectangle2D.Double(scaledX, scaledY, scaledWidth, scaledHeight);
-    }
-
 
 }

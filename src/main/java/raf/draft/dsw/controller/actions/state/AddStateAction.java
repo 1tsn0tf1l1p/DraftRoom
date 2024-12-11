@@ -20,10 +20,10 @@ public class AddStateAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainFrame.getInstance().getPanel().setVisibilityAddPanel(true);
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new AddState(roomView));
+            MainFrame.getInstance().getPanel().setVisibilityAddPanel(true);
         }
         else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");

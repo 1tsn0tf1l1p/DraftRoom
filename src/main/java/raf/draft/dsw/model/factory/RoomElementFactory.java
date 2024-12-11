@@ -3,9 +3,7 @@ package raf.draft.dsw.model.factory;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.room.*;
 import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.view.room.BedPainter;
-import raf.draft.dsw.view.room.Painter;
-import raf.draft.dsw.view.room.TablePainter;
+import raf.draft.dsw.view.room.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -57,6 +55,24 @@ public class RoomElementFactory {
         }
         if (element instanceof Table){
             return new TablePainter((RoomElement) element);
+        }
+        if (element instanceof Sink){
+            return new SinkPainter((RoomElement) element);
+        }
+        if (element instanceof Doors){
+            return new DoorPainter((RoomElement) element);
+        }
+        if (element instanceof Wardrobe){
+            return new WardrobePainter((RoomElement) element);
+        }
+        if (element instanceof WashingMachine){
+            return new WashingMachinePainter((RoomElement) element);
+        }
+        if (element instanceof Boiler){
+            return new BoilerPainter((RoomElement) element);
+        }
+        if (element instanceof Bathtub){
+            return new BathtubPainter((RoomElement) element);
         }
         return null;
     }

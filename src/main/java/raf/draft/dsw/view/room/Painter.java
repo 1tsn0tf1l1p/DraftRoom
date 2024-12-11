@@ -19,9 +19,22 @@ public abstract class Painter {
 
     public abstract void paint(Graphics2D g, RoomElement element);
 
-    public abstract boolean elementAt(RoomElement element, Point pos);
+    public boolean elementAt(RoomElement element, Point pos) {
+        int elementLeft = element.getScaledX();
+        int elementTop = element.getScaledY();
+        int elementRight = elementLeft + element.getScaledWidth();
+        int elementBottom = elementTop + element.getScaledHeight();
+        return pos.x >= elementLeft && pos.x < elementRight && pos.y >= elementTop && pos.y < elementBottom;
+    }
 
-    public abstract Rectangle2D getBounds();
+    public Rectangle2D getBounds() {
+        int scaledX = element.getScaledX();
+        int scaledY = element.getScaledY();
+        int scaledWidth = element.getScaledWidth();
+        int scaledHeight = element.getScaledHeight();
+
+        return new Rectangle2D.Double(scaledX, scaledY, scaledWidth, scaledHeight);
+    }
 
     public void drawSelection(Graphics2D g) {
         if (selected) {

@@ -5,8 +5,8 @@ import raf.draft.dsw.model.room.RoomElement;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class TablePainter extends Painter{
-    public TablePainter(RoomElement element) {
+public class BathtubPainter extends Painter {
+    public BathtubPainter(RoomElement element) {
         super(element);
     }
 
@@ -29,13 +29,9 @@ public class TablePainter extends Painter{
             g2d.setColor(Color.BLACK);
         }
 
-        g2d.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
+        g2d.drawRoundRect(scaledX, scaledY, scaledWidth, scaledHeight,scaledX/5,scaledHeight/5);
 
-        int platesize = Math.min(scaledWidth/5,scaledHeight/5);
-        g2d.drawOval(scaledX+5, scaledY+5, platesize, platesize);
-        g2d.drawOval(scaledX+ scaledWidth- platesize -5,  scaledY+5, platesize, platesize);
-        g2d.drawOval(scaledX+5,  scaledY+scaledHeight-platesize-5, platesize, platesize);
-        g2d.drawOval(scaledX+ scaledWidth- platesize -5,  scaledY+scaledHeight-platesize-5, platesize, platesize);
+        g2d.drawRoundRect(scaledX+scaledWidth/5, scaledY + scaledHeight/8, 3*scaledWidth/5, 3*scaledHeight/4, 3*scaledWidth/10,3*scaledHeight/8);
 
         g2d.dispose();
     }
