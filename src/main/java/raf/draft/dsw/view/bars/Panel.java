@@ -72,7 +72,7 @@ public class Panel extends JPanel implements ISubscriber {
         rightPanel.add(addComponents,BorderLayout.EAST);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
-        splitPane.setBackground(Color.WHITE);
+        splitPane.setBackground(Color.GRAY);
         this.setLayout(new BorderLayout());
         this.add(splitPane, BorderLayout.CENTER);
     }
@@ -119,4 +119,5 @@ public class Panel extends JPanel implements ISubscriber {
     public void setVisibilityAddPanel(Boolean bool){
         addComponents.setVisible(bool);
     }
+
 }

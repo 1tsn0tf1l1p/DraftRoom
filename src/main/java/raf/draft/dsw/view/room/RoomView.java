@@ -41,9 +41,12 @@ public class RoomView extends JPanel {
         selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(room, originalSize);
-
-        currentState = new EditRoomState(this);
-
+        if (room.getWidth()==0) {
+            currentState = new EditRoomState(this);
+        }
+        else{
+            currentState = new SelectState(this);
+        }
         setLayout(new BorderLayout());
 
         JLayeredPane layeredPane = new JLayeredPane();
@@ -128,7 +131,8 @@ public class RoomView extends JPanel {
         if (room.getWidth() != 0) {
             this.currentState = state;
         } else {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "You must initialize the room first!");
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING,
+                    "You must initialize the room first!");
         }
     }
 
@@ -139,20 +143,11 @@ public class RoomView extends JPanel {
                 painters.add(painter);
             }
         }
-        /*
-        roomRectangle.revalidate();
-        roomRectangle.repaint();
-        this.revalidate();
-        this.repaint();
-
-         */
     }
 
 
     private void handleMouseClick(MouseEvent e) {
         currentState.handleMouseClick(e);
-        //roomRectangle.repaint();
-        //this.repaint();
     }
 
     private void handleMousePress(MouseEvent e) {

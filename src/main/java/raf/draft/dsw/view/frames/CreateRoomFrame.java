@@ -10,6 +10,9 @@ import raf.draft.dsw.model.structures.Room;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 @Getter
 @Setter
@@ -96,25 +99,50 @@ public class CreateRoomFrame extends JFrame {
 
     private void actions() {
         confirmButton.addActionListener(_ -> {
-            try {
-                int width = Integer.parseInt(widthField.getValue().toString());
-                int height = Integer.parseInt(heightField.getValue().toString());
+            createElement();
+        });
+        this.addKeyListener(new KeyListener() {
 
-                if (draftNode instanceof RoomElement) {
-                    RoomElement roomElement = (RoomElement) draftNode;
-                    roomElement.setSize(width, height);
+            @Override
+            public void keyTyped(KeyEvent e) {
 
-                    if (nameField != null && !nameField.getText().trim().isEmpty()) {
-                        roomElement.setIme(nameField.getText().trim());
-                    }
-                } else if (draftNode instanceof Room) {
-                    ((Room) draftNode).setSize(width, height);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("test");
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    createElement();
                 }
-                dispose();
-            } catch (NumberFormatException exception) {
-                ApplicationFramework.getInstance().getMessageGenerator()
-                        .createMessage(MessageType.ERROR, "Invalid width or height input.");
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
             }
         });
+
     }
+    private void createElement(){
+        try {
+            int width = Integer.parseInt(widthField.getValue().toString());
+            int height = Integer.parseInt(heightField.getValue().toString());
+
+            if (draftNode instanceof RoomElement) {
+                RoomElement roomElement = (RoomElement) draftNode;
+                roomElement.setSize(width, height);
+
+                if (nameField != null && !nameField.getText().trim().isEmpty()) {
+                    roomElement.setIme(nameField.getText().trim());
+                }
+            } else if (draftNode instanceof Room) {
+                ((Room) draftNode).setSize(width, height);
+            }
+            dispose();
+        } catch (NumberFormatException exception) {
+            ApplicationFramework.getInstance().getMessageGenerator()
+                    .createMessage(MessageType.ERROR, "Invalid width or height input.");
+        }
+    }
+
 }

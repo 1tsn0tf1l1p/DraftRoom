@@ -11,10 +11,8 @@ import java.awt.geom.Rectangle2D;
 @Getter
 @Setter
 public class BedPainter extends Painter {
-    private Dimension originalSize;
-    public BedPainter(RoomElement element, Dimension originalSize) {
+    public BedPainter(RoomElement element) {
         super(element);
-        this.originalSize = originalSize;
     }
 
     @Override

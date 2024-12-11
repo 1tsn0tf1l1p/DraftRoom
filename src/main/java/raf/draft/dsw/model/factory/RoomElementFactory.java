@@ -5,6 +5,7 @@ import raf.draft.dsw.model.room.*;
 import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.room.BedPainter;
 import raf.draft.dsw.view.room.Painter;
+import raf.draft.dsw.view.room.TablePainter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -52,7 +53,10 @@ public class RoomElementFactory {
     }
     public Painter createPainter(DraftNode element){
         if (element instanceof Bed){
-            return new BedPainter((RoomElement) element, originalSize);
+            return new BedPainter((RoomElement) element);
+        }
+        if (element instanceof Table){
+            return new TablePainter((RoomElement) element);
         }
         return null;
     }

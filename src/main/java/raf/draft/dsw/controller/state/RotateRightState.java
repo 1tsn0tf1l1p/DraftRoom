@@ -15,6 +15,7 @@ public class RotateRightState implements RoomState {
 
     public RotateRightState(RoomView roomView) {
         this.roomView = roomView;
+        rotateSelectedItems();
     }
 
     @Override

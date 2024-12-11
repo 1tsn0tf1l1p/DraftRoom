@@ -25,7 +25,7 @@ public class AddStateToolBar extends JToolBar {
         add(new AddNodeStateAction("sink","/images/sink.png"));
         add(new AddNodeStateAction("bathtub","/images/bathtub.png"));
         add(new AddNodeStateAction("boiler","/images/boiler.png"));
-        add(new AddNodeStateAction("washingmachine","/images/washingMachine.png"));
+        add(new AddNodeStateAction("washingMachine","/images/washingMachine.png"));
         add(new AddNodeStateAction("toiletBowl","/images/toiletBowl.png"));
         add(Box.createVerticalGlue());
     }
