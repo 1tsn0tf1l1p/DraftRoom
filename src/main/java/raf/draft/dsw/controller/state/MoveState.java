@@ -79,7 +79,7 @@ public class MoveState implements RoomState {
                 element.setY((int) (originalY + deltaY));
 
                 boolean snapped = snapToEdge(element);
-                boolean intersects = checkIntersection(element);
+                boolean intersects = checkIntersection(element,10);
 
                 if (snapped || intersects) {
                     element.setX(originalX);
@@ -106,20 +106,20 @@ public class MoveState implements RoomState {
         int roomHeight = roomView.getRoom().getHeight();
 
         boolean snapped = false;
-
-        if (element.getX() < 0) {
-            element.setX(0);
+        int padding = 10;
+        if (element.getX() < padding) {
+            element.setX(10);
             snapped = true;
         }
-        if (element.getY() < 0) {
-            element.setY(0);
+        if (element.getY() < padding) {
+            element.setY(10);
             snapped = true;
         }
-        if (element.getX() + element.getWidth() > roomWidth) {
+        if (element.getX() + element.getWidth() > roomWidth-padding) {
             element.setX(roomWidth - element.getWidth());
             snapped = true;
         }
-        if (element.getY() + element.getHeight() > roomHeight) {
+        if (element.getY() + element.getHeight() > roomHeight-padding) {
             element.setY(roomHeight - element.getHeight());
             snapped = true;
         }
@@ -129,7 +129,7 @@ public class MoveState implements RoomState {
 
 
 
-    private boolean checkIntersection(RoomElement element) {
+    private boolean checkIntersection(RoomElement element, int padding) {
         Rectangle elementBounds = element.getBounds();
 
         for (Painter otherPainter : roomView.getPainters()) {
@@ -139,11 +139,18 @@ public class MoveState implements RoomState {
                 continue;
             }
 
-            if (elementBounds.intersects(otherElement.getBounds())) {
+            Rectangle otherBounds = otherElement.getBounds();
+
+            int dx = Math.max(0, Math.max(otherBounds.x - (elementBounds.x + elementBounds.width), elementBounds.x - (otherBounds.x + otherBounds.width)));
+            int dy = Math.max(0, Math.max(otherBounds.y - (elementBounds.y + elementBounds.height), elementBounds.y - (otherBounds.y + otherBounds.height)));
+
+            if (Math.sqrt(dx * dx + dy * dy) <= padding) {
                 return true;
             }
         }
         return false;
+
+
     }
 
 

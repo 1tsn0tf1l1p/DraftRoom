@@ -11,11 +11,10 @@ import java.net.Socket;
 
 public class RoomElementFactory {
     Room room;
-    Dimension originalSize;
 
-    public RoomElementFactory(Room room, Dimension originalSize) {
+
+    public RoomElementFactory(Room room) {
         this.room = room;
-        this.originalSize = originalSize;
     }
 
     public RoomElement create(String type, MouseEvent e) {

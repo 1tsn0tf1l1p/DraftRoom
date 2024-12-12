@@ -41,7 +41,7 @@ public class RoomView extends JPanel {
         this.painters = new CopyOnWriteArrayList<>();
         selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
-        factory = new RoomElementFactory(room, originalSize);
+        factory = new RoomElementFactory(room);
         if (room.getWidth()==0) {
             currentState = new EditRoomState(this);
         }

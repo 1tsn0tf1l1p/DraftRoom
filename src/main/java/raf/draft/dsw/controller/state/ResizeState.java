@@ -29,7 +29,31 @@ public class ResizeState implements RoomState {
     @Override
     public void handleMouseClick(MouseEvent e) {
     }
+    private boolean snapToEdge(RoomElement element) {
+        int roomWidth = roomView.getRoom().getWidth();
+        int roomHeight = roomView.getRoom().getHeight();
 
+        boolean snapped = false;
+        int padding = 10;
+        if (element.getX() < padding) {
+            element.setX(10);
+            snapped = true;
+        }
+        if (element.getY() < padding) {
+            element.setY(10);
+            snapped = true;
+        }
+        if (element.getX() + element.getWidth() > roomWidth-padding) {
+            element.setX(roomWidth - element.getWidth());
+            snapped = true;
+        }
+        if (element.getY() + element.getHeight() > roomHeight-padding) {
+            element.setY(roomHeight - element.getHeight());
+            snapped = true;
+        }
+
+        return snapped;
+    }
     @Override
     public void handleMousePressed(MouseEvent e) {
         Point scaledPoint = unscalePoint(e.getPoint());
@@ -37,6 +61,7 @@ public class ResizeState implements RoomState {
         for (Painter painter : roomView.getPainters()) {
             RoomElement element = painter.getElement();
             if (element != null && isWithinResizeArea(element, scaledPoint)) {
+
                 selectedElement = element;
                 isResizing = true;
 
@@ -54,6 +79,7 @@ public class ResizeState implements RoomState {
     @Override
     public void handleMouseDrag(MouseEvent e) {
         if (isResizing && selectedElement != null) {
+
             Point scaledPoint = unscalePoint(e.getPoint());
 
             int deltaX = scaledPoint.x - initialX;
@@ -64,9 +90,20 @@ public class ResizeState implements RoomState {
 
             newWidth = Math.max(newWidth, 10);
             newHeight = Math.max(newHeight, 10);
-
+            int prevWidth = selectedElement.getWidth();
+            int prevHeight = selectedElement.getHeight();
+            int prevX = selectedElement.getX();
+            int prevY = selectedElement.getY();
             selectedElement.setSize(newWidth, newHeight);
 
+            boolean checkInt = checkIntersection(selectedElement,10);
+            boolean snap = snapToEdge(selectedElement);
+
+            if (checkInt || snap){
+                selectedElement.setSize(prevWidth,prevHeight);
+                selectedElement.setX(prevX);
+                selectedElement.setY(prevY);
+            }
             roomView.repaint();
         }
     }
@@ -123,4 +160,29 @@ public class ResizeState implements RoomState {
         double zoomFactor = roomView.getZoomFactor();
         return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
+    private boolean checkIntersection(RoomElement element, int padding) {
+        Rectangle elementBounds = element.getBounds();
+
+        for (Painter otherPainter : roomView.getPainters()) {
+            RoomElement otherElement = otherPainter.getElement();
+
+            if (element == otherElement) {
+                continue;
+            }
+
+            Rectangle otherBounds = otherElement.getBounds();
+
+            int dx = Math.max(0, Math.max(otherBounds.x - (elementBounds.x + elementBounds.width), elementBounds.x - (otherBounds.x + otherBounds.width)));
+            int dy = Math.max(0, Math.max(otherBounds.y - (elementBounds.y + elementBounds.height), elementBounds.y - (otherBounds.y + otherBounds.height)));
+
+            if (Math.sqrt(dx * dx + dy * dy) <= padding) {
+                return true;
+            }
+        }
+        return false;
+
+
+    }
+
+
 }
