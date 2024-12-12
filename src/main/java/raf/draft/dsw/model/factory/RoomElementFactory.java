@@ -74,6 +74,9 @@ public class RoomElementFactory {
         if (element instanceof Bathtub){
             return new BathtubPainter((RoomElement) element);
         }
+        if (element instanceof ToiletBowl){
+            return new ToiletBowlPainter((RoomElement) element);
+        }
         return null;
     }
 }

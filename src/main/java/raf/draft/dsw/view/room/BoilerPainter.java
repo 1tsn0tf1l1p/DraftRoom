@@ -3,7 +3,6 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class BoilerPainter extends Painter {
     public BoilerPainter(RoomElement element) {

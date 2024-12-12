@@ -1,7 +1,6 @@
 package raf.draft.dsw.controller.actions.state;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
-
 import raf.draft.dsw.controller.state.EditRoomState;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
