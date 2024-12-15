@@ -42,7 +42,7 @@ public class TabCloseButton extends JPanel {
             }
             if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.remove(tab);
-                if(tabbedPane.getTabCount() == 0) {
+                if (tabbedPane.getTabCount() == 0) {
                     MainFrame.getInstance().getTabContainer().getTabbedPane().notifySubscribers("delete");
                 }
             }

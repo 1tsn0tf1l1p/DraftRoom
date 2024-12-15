@@ -23,6 +23,7 @@ public class SelectState implements RoomState {
         Point unscaledPoint = unscalePoint(e.getPoint());
         for (Painter painter : roomView.getPainters()) {
             painter.setSelected(painter.elementAt(painter.getElement(), unscaledPoint));
+            System.out.println(painter.isSelected());
         }
         roomView.repaint();
     }
@@ -61,7 +62,7 @@ public class SelectState implements RoomState {
             for (Painter painter : roomView.getPainters()) {
                 Rectangle2D painterBounds = painter.getBounds();
 
-                if (painterBounds != null && selectionBox.contains(painterBounds)) {
+                if (painterBounds != null && selectionBox.intersects(painterBounds)) {
                     painter.setSelected(true);
                 } else {
                     painter.setSelected(false);
@@ -73,7 +74,6 @@ public class SelectState implements RoomState {
         startPoint = null;
         roomView.repaint();
     }
-
 
 
     @Override

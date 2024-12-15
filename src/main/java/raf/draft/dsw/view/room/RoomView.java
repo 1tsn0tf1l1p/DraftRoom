@@ -31,17 +31,22 @@ public class RoomView extends JPanel {
     private RoomState currentState;
     private Dimension originalSize;
     private Rectangle selectionBox;
+    private String selectedItem;
 
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
+        System.out.println("New roomview");
         this.room = room;
         this.painters = new CopyOnWriteArrayList<>();
+        selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
-        factory = new RoomElementFactory(room, originalSize);
-
-        currentState = new EditRoomState(this);
-
+        factory = new RoomElementFactory(room);
+        if (room.getWidth() == 0) {
+            currentState = new EditRoomState(this);
+        } else {
+            currentState = new SelectState(this);
+        }
         setLayout(new BorderLayout());
 
         JLayeredPane layeredPane = new JLayeredPane();
@@ -86,6 +91,7 @@ public class RoomView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleMouseClick(e);
+                repaint();
             }
         });
 
@@ -125,17 +131,20 @@ public class RoomView extends JPanel {
         if (room.getWidth() != 0) {
             this.currentState = state;
         } else {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "You must initialize the room first!");
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING,
+                    "You must initialize the room first!");
         }
     }
 
     private void addChildren() {
         for (DraftNode element : room.getChildren()) {
             Painter painter = factory.createPainter(element);
-            painters.add(painter);
+            if (!painters.contains(painter)) { // Prevent duplicate painters
+                painters.add(painter);
+            }
         }
-        roomRectangle.repaint();
     }
+
 
     private void handleMouseClick(MouseEvent e) {
         currentState.handleMouseClick(e);
@@ -170,7 +179,7 @@ public class RoomView extends JPanel {
 
 
     private void handleMouseRelease(MouseEvent e) {
-        repaint();
         currentState.handleMouseRelease(e);
+        repaint();
     }
 }

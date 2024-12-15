@@ -2,8 +2,9 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.structures.Room;
 
-public class WashingMachine extends RoomElement{
+public class WashingMachine extends RoomElement {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -13,8 +14,13 @@ public class WashingMachine extends RoomElement{
     public WashingMachine(String ime, DraftNodeComposite parent) {
         super(ime, parent);
     }
+
     public WashingMachine(WashingMachine vesMasina) {
         super(vesMasina.getIme(), vesMasina.getParent());
+    }
+
+    public WashingMachine(String newWashingMachine, Room room, int x, int y) {
+        super(newWashingMachine, room, x, y);
     }
 
     @Override

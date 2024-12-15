@@ -1,7 +1,6 @@
 package raf.draft.dsw.controller.actions.state;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
-import raf.draft.dsw.controller.state.AddState;
 import raf.draft.dsw.controller.state.MoveState;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
@@ -24,6 +23,7 @@ public class MoveStateAction extends AbstractRoomAction {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new MoveState(roomView));
+            MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
         } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }

@@ -20,7 +20,6 @@ public class AddRoomNodeAction extends AbstractRoomAction {
         putValue(SMALL_ICON, loadIcon("/images/addApartment.png"));
         putValue(NAME, "Add Room");
         putValue(SHORT_DESCRIPTION, "Add room to a Project or Building");
-
     }
 
     @Override
@@ -30,7 +29,7 @@ public class AddRoomNodeAction extends AbstractRoomAction {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node is selected.");
         } else {
             if (selectedItem.getNode() instanceof Project || selectedItem.getNode() instanceof Building) {
-                tree.addChild(selectedItem, true);
+                tree.addChild(selectedItem, true, null);
             } else {
                 ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot instance Room object outside of Project");
             }

@@ -18,7 +18,7 @@ public abstract class DraftNodeComposite extends DraftNode {
      * Constructs a DraftNodeComposite with the specified name and parent.
      * Initializes the list of child nodes.
      *
-     * @param ime the name of the node
+     * @param ime    the name of the node
      * @param parent the parent node
      */
     public DraftNodeComposite(String ime, DraftNodeComposite parent) {

@@ -2,8 +2,9 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.structures.Room;
 
-public class Bathtub extends RoomElement{
+public class Bathtub extends RoomElement {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -16,6 +17,10 @@ public class Bathtub extends RoomElement{
 
     public Bathtub(Bathtub kada) {
         super(kada.getIme(), kada.getParent());
+    }
+
+    public Bathtub(String newBathtub, Room room, int x, int y) {
+        super(newBathtub, room, x, y);
     }
 
     @Override

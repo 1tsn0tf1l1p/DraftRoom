@@ -2,6 +2,7 @@ package raf.draft.dsw.model.tree;
 
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.observer.IPublisher;
+import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ public interface DraftTree extends IPublisher {
      * @param parent the parent node to add the child to
      * @param isRoom flag indicating if the child is a room
      */
-    void addChild(TreeItem parent, boolean isRoom);
+    void addChild(TreeItem parent, boolean isRoom, RoomElement roomElement);
 
     /**
      * Removes the specified child node.

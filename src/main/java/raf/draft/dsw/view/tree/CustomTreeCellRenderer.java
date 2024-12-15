@@ -1,6 +1,7 @@
 package raf.draft.dsw.view.tree;
 
 import raf.draft.dsw.model.nodes.DraftNode;
+import raf.draft.dsw.model.room.*;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
@@ -54,15 +55,34 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
             iconPath = "/images/building.png";
         } else if (node instanceof Room) {
             iconPath = "/images/room.png";
+        } else if (node instanceof Bed) {
+            iconPath = "/images/bed.png";
+        } else if (node instanceof Doors) {
+            iconPath = "/images/door.png";
+        } else if (node instanceof Boiler) {
+            iconPath = "/images/boiler.png";
+        } else if (node instanceof Bathtub) {
+            iconPath = "/images/bathtub.png";
+        } else if (node instanceof Sink) {
+            iconPath = "/images/sink.png";
+        } else if (node instanceof Table) {
+            iconPath = "/images/table.png";
+        } else if (node instanceof ToiletBowl) {
+            iconPath = "/images/toiletBowl.png";
+        } else if (node instanceof Wardrobe) {
+            iconPath = "/images/wardrobe.png";
+        } else if (node instanceof WashingMachine) {
+            iconPath = "/images/washingMachine.png";
         }
 
         if (iconPath != null) {
             URL imageURL = getClass().getResource(iconPath);
             if (imageURL != null) {
-                return new ImageIcon(imageURL);
+                ImageIcon originalIcon = new ImageIcon(imageURL);
+                Image scaledImage = originalIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+                return new ImageIcon(scaledImage);
             }
         }
-
         return null;
     }
 

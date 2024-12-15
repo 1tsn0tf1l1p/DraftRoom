@@ -1,11 +1,13 @@
 package raf.draft.dsw.view.bars;
 
+import lombok.Getter;
 import raf.draft.dsw.controller.actions.ActionManager;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
+@Getter
 public class MyToolBar extends JToolBar {
     private ActionManager actionManager;
 
@@ -35,5 +37,6 @@ public class MyToolBar extends JToolBar {
         add(Box.createHorizontalGlue());
         add(actionManager.getAboutUsAction());
         add(actionManager.getExitAction());
+
     }
 }

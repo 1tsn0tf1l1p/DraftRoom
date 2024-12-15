@@ -2,6 +2,7 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.structures.Room;
 
 public class ToiletBowl extends RoomElement {
     /**
@@ -16,6 +17,10 @@ public class ToiletBowl extends RoomElement {
 
     public ToiletBowl(ToiletBowl wcSolja) {
         super(wcSolja.getIme(), wcSolja.getParent());
+    }
+
+    public ToiletBowl(String newToiletBowl, Room room, int x, int y) {
+        super(newToiletBowl, room, x, y);
     }
 
     @Override

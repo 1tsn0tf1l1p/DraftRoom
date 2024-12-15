@@ -15,6 +15,7 @@ public class RotateLeftState implements RoomState {
 
     public RotateLeftState(RoomView roomView) {
         this.roomView = roomView;
+        rotateSelectedItems();
     }
 
     @Override
@@ -65,14 +66,6 @@ public class RotateLeftState implements RoomState {
                 int currentRotation = element.getRotateRatio();
                 int newRotation = (currentRotation - 90) % 360;
                 element.setRotateRatio(newRotation);
-
-                int originalWidth = element.getWidth();
-                element.setWidth(element.getHeight());
-                element.setHeight(originalWidth);
-
-                int scaledWidth = element.getScaledWidth();
-                element.setScaledWidth(element.getScaledHeight());
-                element.setScaledHeight(scaledWidth);
 
                 System.out.println("Rotated element '" + element.getIme() + "' to: " + newRotation + " degrees");
             }

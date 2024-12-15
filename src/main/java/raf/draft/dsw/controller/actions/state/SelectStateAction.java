@@ -23,6 +23,7 @@ public class SelectStateAction extends AbstractRoomAction {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new SelectState(roomView));
+            MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
         } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }

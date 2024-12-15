@@ -2,8 +2,9 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.structures.Room;
 
-public class Boiler extends RoomElement{
+public class Boiler extends RoomElement {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -16,6 +17,10 @@ public class Boiler extends RoomElement{
 
     public Boiler(Boiler bojler) {
         super(bojler.getIme(), bojler.getParent());
+    }
+
+    public Boiler(String newBoiler, Room room, int x, int y) {
+        super(newBoiler, room, x, y);
     }
 
     @Override

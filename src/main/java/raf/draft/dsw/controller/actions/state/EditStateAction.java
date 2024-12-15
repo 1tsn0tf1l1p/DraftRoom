@@ -17,13 +17,14 @@ public class EditStateAction extends AbstractRoomAction {
         putValue(NAME, "Edit State");
         putValue(SHORT_DESCRIPTION, "Put the program into edit state.");
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();
         if (roomView != null) {
             roomView.changeState(new EditState(roomView));
-        }
-        else {
+            MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
+        } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }
     }
