@@ -48,16 +48,24 @@ public class AddState implements RoomState {
 
         Painter painter = factory.createPainter(newElement);
         roomView.getPainters().add(painter);
+
         roomView.getRoom().addChild(newElement);
+
         CreateRoomFrame createRoomFrame = new CreateRoomFrame(newElement);
         createRoomFrame.setVisible(true);
 
         createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                roomView.repaint();
-                TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
-                tree.addChild(treeItem, false, newElement);
+                if (createRoomFrame.isConfirmed()) {
+                    roomView.repaint();
+                    TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
+                    tree.addChild(treeItem, false, newElement);
+                } else {
+                    roomView.getPainters().remove(painter);
+                    roomView.getRoom().removeChild(newElement);
+                    roomView.repaint();
+                }
             }
         });
     }

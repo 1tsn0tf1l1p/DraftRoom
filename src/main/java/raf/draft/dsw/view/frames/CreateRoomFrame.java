@@ -10,7 +10,6 @@ import raf.draft.dsw.model.structures.Room;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -22,6 +21,8 @@ public class CreateRoomFrame extends JFrame {
     private JTextField nameField;
     private JButton confirmButton;
     private DraftNode draftNode;
+
+    private boolean confirmed = false;
 
     public CreateRoomFrame(DraftNode draftNode) {
         this.draftNode = draftNode;
@@ -101,28 +102,23 @@ public class CreateRoomFrame extends JFrame {
         confirmButton.addActionListener(_ -> {
             createElement();
         });
-        this.addKeyListener(new KeyListener() {
 
+        this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("test");
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     createElement();
                 }
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
-
             }
         });
-
     }
+
     private void createElement(){
         try {
             int width = Integer.parseInt(widthField.getValue().toString());
@@ -138,11 +134,12 @@ public class CreateRoomFrame extends JFrame {
             } else if (draftNode instanceof Room) {
                 ((Room) draftNode).setSize(width, height);
             }
+
+            confirmed = true;
             dispose();
         } catch (NumberFormatException exception) {
             ApplicationFramework.getInstance().getMessageGenerator()
                     .createMessage(MessageType.ERROR, "Invalid width or height input.");
         }
     }
-
 }
