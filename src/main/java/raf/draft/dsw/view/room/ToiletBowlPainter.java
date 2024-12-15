@@ -22,7 +22,7 @@ public class ToiletBowlPainter extends Painter {
 
         int centerX = scaledX + scaledWidth / 2;
         int centerY = scaledY + scaledHeight / 2;
-        g2d.rotate(Math.toRadians(element.getRotateRatio()), centerX, centerY);
+        super.paint(g2d,element);
 
         if (selected) {
             g2d.setColor(Color.BLUE);

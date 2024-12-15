@@ -10,7 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MoveState implements RoomState {
@@ -104,25 +107,33 @@ public class MoveState implements RoomState {
     private boolean snapToEdge(RoomElement element) {
         int roomWidth = roomView.getRoom().getWidth();
         int roomHeight = roomView.getRoom().getHeight();
-
-        boolean snapped = false;
         int padding = 10;
-        if (element.getX() < padding) {
-            element.setX(10);
-            snapped = true;
-        }
-        if (element.getY() < padding) {
-            element.setY(10);
-            snapped = true;
-        }
-        if (element.getX() + element.getWidth() > roomWidth-padding) {
-            element.setX(roomWidth - element.getWidth());
-            snapped = true;
-        }
-        if (element.getY() + element.getHeight() > roomHeight-padding) {
-            element.setY(roomHeight - element.getHeight());
-            snapped = true;
-        }
+        boolean snapped = false;
+
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(element.getRotateRatio()),
+                element.getX() + element.getWidth() / 2.0,
+                element.getY() + element.getHeight() / 2.0);
+
+        Point2D[] points = {
+                transform.transform(new Point2D.Double(element.getX(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX(), element.getY() + element.getHeight()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY() + element.getHeight()), null)
+        };
+
+        double minX = Arrays.stream(points).mapToDouble(Point2D::getX).min().orElse(0);
+        double maxX = Arrays.stream(points).mapToDouble(Point2D::getX).max().orElse(0);
+        double minY = Arrays.stream(points).mapToDouble(Point2D::getY).min().orElse(0);
+        double maxY = Arrays.stream(points).mapToDouble(Point2D::getY).max().orElse(0);
+
+        int rotatedWidth = (int) (maxX - minX);
+        int rotatedHeight = (int) (maxY - minY);
+
+        if (minX < padding) { element.setX(padding); snapped = true; }
+        if (minY < padding) { element.setY(padding); snapped = true; }
+        if (maxX > roomWidth - padding) { element.setX(roomWidth - rotatedWidth); snapped = true; }
+        if (maxY > roomHeight - padding) { element.setY(roomHeight - rotatedHeight); snapped = true; }
 
         return snapped;
     }
@@ -130,28 +141,48 @@ public class MoveState implements RoomState {
 
 
     private boolean checkIntersection(RoomElement element, int padding) {
-        Rectangle elementBounds = element.getBounds();
+        Rectangle rotatedBounds = getRotatedBounds(element);
 
         for (Painter otherPainter : roomView.getPainters()) {
             RoomElement otherElement = otherPainter.getElement();
+            if (element == otherElement) continue;
 
-            if (element == otherElement) {
-                continue;
-            }
+            Rectangle otherRotatedBounds = getRotatedBounds(otherElement);
 
-            Rectangle otherBounds = otherElement.getBounds();
-
-            int dx = Math.max(0, Math.max(otherBounds.x - (elementBounds.x + elementBounds.width), elementBounds.x - (otherBounds.x + otherBounds.width)));
-            int dy = Math.max(0, Math.max(otherBounds.y - (elementBounds.y + elementBounds.height), elementBounds.y - (otherBounds.y + otherBounds.height)));
-
-            if (Math.sqrt(dx * dx + dy * dy) <= padding) {
+            if (rotatedBounds.intersects(new Rectangle(
+                    otherRotatedBounds.x - padding,
+                    otherRotatedBounds.y - padding,
+                    otherRotatedBounds.width + 2 * padding,
+                    otherRotatedBounds.height + 2 * padding
+            ))) {
                 return true;
             }
         }
+
         return false;
-
-
     }
+
+    private Rectangle getRotatedBounds(RoomElement element) {
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(element.getRotateRatio()),
+                element.getX() + element.getWidth() / 2.0,
+                element.getY() + element.getHeight() / 2.0);
+
+        Point2D[] points = {
+                transform.transform(new Point2D.Double(element.getX(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX(), element.getY() + element.getHeight()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY() + element.getHeight()), null)
+        };
+
+        double minX = Arrays.stream(points).mapToDouble(Point2D::getX).min().orElse(0);
+        double maxX = Arrays.stream(points).mapToDouble(Point2D::getX).max().orElse(0);
+        double minY = Arrays.stream(points).mapToDouble(Point2D::getY).min().orElse(0);
+        double maxY = Arrays.stream(points).mapToDouble(Point2D::getY).max().orElse(0);
+
+        return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
+    }
+
 
 
     private Painter findNearestPainter(Point cursorPoint) {

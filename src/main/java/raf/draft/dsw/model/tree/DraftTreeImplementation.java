@@ -92,7 +92,6 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
 
-        //notifySubscribers(null);
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
@@ -138,7 +137,6 @@ public class DraftTreeImplementation implements DraftTree {
         }
         parent.remove(node);
         node.getNode().getParent().removeChild(node.getNode());
-        notifySubscribers("");
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }

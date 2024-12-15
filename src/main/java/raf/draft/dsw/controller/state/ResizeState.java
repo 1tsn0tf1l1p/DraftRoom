@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 public class ResizeState implements RoomState {
     private RoomView roomView;
@@ -29,31 +32,7 @@ public class ResizeState implements RoomState {
     @Override
     public void handleMouseClick(MouseEvent e) {
     }
-    private boolean snapToEdge(RoomElement element) {
-        int roomWidth = roomView.getRoom().getWidth();
-        int roomHeight = roomView.getRoom().getHeight();
 
-        boolean snapped = false;
-        int padding = 10;
-        if (element.getX() < padding) {
-            element.setX(10);
-            snapped = true;
-        }
-        if (element.getY() < padding) {
-            element.setY(10);
-            snapped = true;
-        }
-        if (element.getX() + element.getWidth() > roomWidth-padding) {
-            element.setX(roomWidth - element.getWidth());
-            snapped = true;
-        }
-        if (element.getY() + element.getHeight() > roomHeight-padding) {
-            element.setY(roomHeight - element.getHeight());
-            snapped = true;
-        }
-
-        return snapped;
-    }
     @Override
     public void handleMousePressed(MouseEvent e) {
         Point scaledPoint = unscalePoint(e.getPoint());
@@ -61,7 +40,6 @@ public class ResizeState implements RoomState {
         for (Painter painter : roomView.getPainters()) {
             RoomElement element = painter.getElement();
             if (element != null && isWithinResizeArea(element, scaledPoint)) {
-
                 selectedElement = element;
                 isResizing = true;
 
@@ -70,7 +48,6 @@ public class ResizeState implements RoomState {
 
                 initialX = scaledPoint.x;
                 initialY = scaledPoint.y;
-
                 break;
             }
         }
@@ -79,34 +56,62 @@ public class ResizeState implements RoomState {
     @Override
     public void handleMouseDrag(MouseEvent e) {
         if (isResizing && selectedElement != null) {
-
             Point scaledPoint = unscalePoint(e.getPoint());
 
-            int deltaX = scaledPoint.x - initialX;
-            int deltaY = scaledPoint.y - initialY;
+            int deltaXGlobal = scaledPoint.x - initialX;
+            int deltaYGlobal = scaledPoint.y - initialY;
 
-            int newWidth = initialWidth + deltaX;
-            int newHeight = initialHeight + deltaY;
+            Point2D localDelta = convertDeltaToLocal(deltaXGlobal, deltaYGlobal, selectedElement);
+
+            int newWidth, newHeight;
+            int angle = selectedElement.getRotateRatio() % 360;
+
+            if (angle < 0) {
+                angle += 360;
+            }
+
+            if (angle == 270) {
+                newHeight = initialWidth - (int) localDelta.getX();
+                newWidth = initialHeight + (int) localDelta.getY();
+            }
+            else if (angle == 90) {
+                newWidth = initialWidth - (int) localDelta.getY();
+                newHeight = initialHeight + (int) localDelta.getX();
+            }
+            else if(angle == 180) {
+                newWidth = initialWidth - (int) localDelta.getX();
+                newHeight = initialHeight - (int) localDelta.getY();
+            }
+            else {
+                newWidth = initialWidth + (int) localDelta.getX();
+                newHeight = initialHeight + (int) localDelta.getY();
+            }
 
             newWidth = Math.max(newWidth, 10);
             newHeight = Math.max(newHeight, 10);
+
             int prevWidth = selectedElement.getWidth();
             int prevHeight = selectedElement.getHeight();
             int prevX = selectedElement.getX();
             int prevY = selectedElement.getY();
             selectedElement.setSize(newWidth, newHeight);
 
-            boolean checkInt = checkIntersection(selectedElement,10);
+            boolean checkInt = checkIntersection(selectedElement, 10);
             boolean snap = snapToEdge(selectedElement);
 
-            if (checkInt || snap){
-                selectedElement.setSize(prevWidth,prevHeight);
+            if (checkInt || snap) {
+                selectedElement.setSize(prevWidth, prevHeight);
                 selectedElement.setX(prevX);
                 selectedElement.setY(prevY);
             }
+
             roomView.repaint();
         }
     }
+
+
+
+
 
     @Override
     public void handleKeyPress(KeyEvent e) {
@@ -135,31 +140,79 @@ public class ResizeState implements RoomState {
     }
 
     private boolean isWithinResizeArea(RoomElement element, Point point) {
-        int x = element.getScaledX();
-        int y = element.getScaledY();
-        int width = element.getScaledWidth();
-        int height = element.getScaledHeight();
+        double angle = Math.toRadians(element.getRotateRatio());
+        double w = element.getScaledWidth();
+        double h = element.getScaledHeight();
 
-        double zoomFactor = roomView.getZoomFactor();
-        int scaledThreshold = (int) (RESIZE_THRESHOLD / zoomFactor);
+        Point2D.Double topLeft = new Point2D.Double(0, 0);
+        Point2D.Double topRight = new Point2D.Double(w, 0);
+        Point2D.Double bottomLeft = new Point2D.Double(0, h);
+        Point2D.Double bottomRight = new Point2D.Double(w, h);
 
-        int resizeAreaWidth = scaledThreshold * 2;
-        int resizeAreaHeight = scaledThreshold * 2;
+        AffineTransform transform = new AffineTransform();
+        transform.translate(element.getScaledX() + w / 2.0, element.getScaledY() + h / 2.0);
+        transform.rotate(angle);
+        transform.translate(-w / 2.0, -h / 2.0);
 
-        Rectangle resizeArea = new Rectangle(
-                x + width - resizeAreaWidth,
-                y + height - resizeAreaHeight,
-                resizeAreaWidth,
-                resizeAreaHeight
-        );
+        Point2D topLeftGlobal = transform.transform(topLeft, null);
+        Point2D topRightGlobal = transform.transform(topRight, null);
+        Point2D bottomLeftGlobal = transform.transform(bottomLeft, null);
+        Point2D bottomRightGlobal = transform.transform(bottomRight, null);
 
-        return resizeArea.contains(point);
+        Point2D visualBottomRight = bottomRightGlobal;
+        for (Point2D corner : Arrays.asList(topLeftGlobal, topRightGlobal, bottomLeftGlobal, bottomRightGlobal)) {
+            if (corner.getY() > visualBottomRight.getY() ||
+                    (corner.getY() == visualBottomRight.getY() && corner.getX() > visualBottomRight.getX())) {
+                visualBottomRight = corner;
+            }
+        }
+
+        double dx = point.getX() - visualBottomRight.getX();
+        double dy = point.getY() - visualBottomRight.getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        return distance <= RESIZE_THRESHOLD;
     }
 
     private Point unscalePoint(Point point) {
         double zoomFactor = roomView.getZoomFactor();
         return new Point((int) (point.x / zoomFactor), (int) (point.y / zoomFactor));
     }
+
+    private boolean snapToEdge(RoomElement element) {
+        int roomWidth = roomView.getRoom().getWidth();
+        int roomHeight = roomView.getRoom().getHeight();
+        int padding = 10;
+        boolean snapped = false;
+
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(element.getRotateRatio()),
+                element.getX() + element.getWidth() / 2.0,
+                element.getY() + element.getHeight() / 2.0);
+
+        Point2D[] points = {
+                transform.transform(new Point2D.Double(element.getX(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY()), null),
+                transform.transform(new Point2D.Double(element.getX(), element.getY() + element.getHeight()), null),
+                transform.transform(new Point2D.Double(element.getX() + element.getWidth(), element.getY() + element.getHeight()), null)
+        };
+
+        double minX = Arrays.stream(points).mapToDouble(Point2D::getX).min().orElse(0);
+        double maxX = Arrays.stream(points).mapToDouble(Point2D::getX).max().orElse(0);
+        double minY = Arrays.stream(points).mapToDouble(Point2D::getY).min().orElse(0);
+        double maxY = Arrays.stream(points).mapToDouble(Point2D::getY).max().orElse(0);
+
+        int rotatedWidth = (int) (maxX - minX);
+        int rotatedHeight = (int) (maxY - minY);
+
+        if (minX < padding) { element.setX(padding); snapped = true; }
+        if (minY < padding) { element.setY(padding); snapped = true; }
+        if (maxX > roomWidth - padding) { element.setX(roomWidth - rotatedWidth); snapped = true; }
+        if (maxY > roomHeight - padding) { element.setY(roomHeight - rotatedHeight); snapped = true; }
+
+        return snapped;
+    }
+
     private boolean checkIntersection(RoomElement element, int padding) {
         Rectangle elementBounds = element.getBounds();
 
@@ -172,17 +225,27 @@ public class ResizeState implements RoomState {
 
             Rectangle otherBounds = otherElement.getBounds();
 
-            int dx = Math.max(0, Math.max(otherBounds.x - (elementBounds.x + elementBounds.width), elementBounds.x - (otherBounds.x + otherBounds.width)));
-            int dy = Math.max(0, Math.max(otherBounds.y - (elementBounds.y + elementBounds.height), elementBounds.y - (otherBounds.y + otherBounds.height)));
+            int dx = Math.max(0, Math.max(otherBounds.x - (elementBounds.x + elementBounds.width),
+                    elementBounds.x - (otherBounds.x + otherBounds.width)));
+            int dy = Math.max(0, Math.max(otherBounds.y - (elementBounds.y + elementBounds.height),
+                    elementBounds.y - (otherBounds.y + otherBounds.height)));
 
             if (Math.sqrt(dx * dx + dy * dy) <= padding) {
                 return true;
             }
         }
         return false;
-
-
     }
 
+    private Point2D convertDeltaToLocal(int deltaXGlobal, int deltaYGlobal, RoomElement element) {
+        double angle = Math.toRadians(element.getRotateRatio());
 
+        double cosA = Math.cos(-angle);
+        double sinA = Math.sin(-angle);
+
+        double localDX = deltaXGlobal * cosA - deltaYGlobal * sinA;
+        double localDY = deltaXGlobal * sinA + deltaYGlobal * cosA;
+
+        return new Point2D.Double(localDX, localDY);
+    }
 }

@@ -5,6 +5,7 @@ import lombok.Setter;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 @Getter
@@ -17,7 +18,19 @@ public abstract class Painter {
         this.element = element;
     }
 
-    public abstract void paint(Graphics2D g, RoomElement element);
+    public void paint(Graphics2D g, RoomElement element){
+        int scaledX = element.getScaledX();
+        int scaledY = element.getScaledY();
+        int scaledWidth = element.getScaledWidth();
+        int scaledHeight = element.getScaledHeight();
+        AffineTransform transform = new AffineTransform();
+
+        int centerX = scaledX + scaledWidth / 2;
+        int centerY = scaledY + scaledHeight / 2;
+
+        transform.rotate(Math.toRadians(element.getRotateRatio()), centerX, centerY);
+        g.transform(transform);
+    };
 
     public boolean elementAt(RoomElement element, Point pos) {
         int elementLeft = element.getScaledX();
