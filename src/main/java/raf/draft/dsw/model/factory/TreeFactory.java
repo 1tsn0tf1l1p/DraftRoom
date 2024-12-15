@@ -23,7 +23,6 @@ public class TreeFactory {
     public Project createProject(DraftNodeComposite parent) {
         String path = "~/Documents";
         String author = "";
-        int cx = 1;
         Project project = new Project("New Project 1", parent, author, path);
         createName(project, parent);
         return project;

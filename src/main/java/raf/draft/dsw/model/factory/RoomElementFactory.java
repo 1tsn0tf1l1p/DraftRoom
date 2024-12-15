@@ -18,32 +18,33 @@ public class RoomElementFactory {
     }
 
     public RoomElement create(String type, MouseEvent e) {
+        String name = findNextName(type);
         if(type.equalsIgnoreCase("Bed")) {
-            return new Bed("New Bed", room, e.getX(), e.getY());
+            return new Bed(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("bathtub")) {
-            return new Bathtub("New Bathtub", room, e.getX(), e.getY());
+            return new Bathtub(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("boiler")) {
-            return new Boiler("New Boiler", room, e.getX(), e.getY());
+            return new Boiler(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("doors")) {
-            return new Doors("New Doors", room, e.getX(), e.getY());
+            return new Doors(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("sink")) {
-            return new Sink("New Sink", room, e.getX(), e.getY());
+            return new Sink(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("table")) {
-            return new Table("New Table", room, e.getX(), e.getY());
+            return new Table(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("toiletBowl")) {
-            return new ToiletBowl("New Toilet bowl", room, e.getX(), e.getY());
+            return new ToiletBowl(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("wardrobe")) {
-            return new Wardrobe("New Wardrobe", room, e.getX(), e.getY());
+            return new Wardrobe(name, room, e.getX(), e.getY());
         }
         if(type.equalsIgnoreCase("washingmachine")) {
-            return new WashingMachine("New Washing machine", room, e.getX(), e.getY());
+            return new WashingMachine(name, room, e.getX(), e.getY());
         }
 
         return null;
@@ -78,4 +79,29 @@ public class RoomElementFactory {
         }
         return null;
     }
+
+    private String findNextName(String type) {
+        int counter = 1;
+        String name;
+
+        while (true) {
+            name = "New " + type + " " + counter;
+            boolean exists = false;
+            for (DraftNode node : room.getChildren()) {
+                if (node.getIme().equalsIgnoreCase(name)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                break;
+            }
+            counter++;
+        }
+
+        return name;
+    }
+
+
 }
