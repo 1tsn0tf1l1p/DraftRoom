@@ -3,7 +3,6 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class WardrobePainter extends Painter {
     public WardrobePainter(RoomElement element) {
@@ -21,7 +20,7 @@ public class WardrobePainter extends Painter {
 
         int centerX = scaledX + scaledWidth / 2;
         int centerY = scaledY + scaledHeight / 2;
-        super.paint(g2d,element);
+        super.paint(g2d, element);
 
         if (selected) {
             g2d.setColor(Color.BLUE);
@@ -30,12 +29,12 @@ public class WardrobePainter extends Painter {
         }
 
         g2d.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
-        g2d.drawLine(scaledX+scaledWidth/2, scaledY, scaledX+scaledWidth/2, scaledY+scaledHeight);
+        g2d.drawLine(scaledX + scaledWidth / 2, scaledY, scaledX + scaledWidth / 2, scaledY + scaledHeight);
 
-        int circleSize = scaledWidth/8;
+        int circleSize = scaledWidth / 8;
 
-        g2d.drawOval(scaledX+scaledWidth/3 - circleSize/2, centerY-circleSize/2, circleSize, circleSize);
-        g2d.drawOval(scaledX+2*scaledWidth/3 - circleSize/2, centerY-circleSize/2, circleSize, circleSize);
+        g2d.drawOval(scaledX + scaledWidth / 3 - circleSize / 2, centerY - circleSize / 2, circleSize, circleSize);
+        g2d.drawOval(scaledX + 2 * scaledWidth / 3 - circleSize / 2, centerY - circleSize / 2, circleSize, circleSize);
 
         g2d.dispose();
     }

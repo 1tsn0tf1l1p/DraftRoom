@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class EditRoomStateAction extends AbstractRoomAction {
     private RoomView roomView;
+
     @Override
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();

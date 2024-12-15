@@ -3,7 +3,6 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class DoorPainter extends Painter {
     public DoorPainter(RoomElement element) {
@@ -19,15 +18,15 @@ public class DoorPainter extends Painter {
 
         Graphics2D g2d = (Graphics2D) g.create();
 
-        super.paint(g2d,element);
+        super.paint(g2d, element);
         if (selected) {
             g2d.setColor(Color.BLUE);
         } else {
             g2d.setColor(Color.BLACK);
         }
-        g2d.drawArc(scaledX+scaledWidth/2,scaledY,scaledWidth,scaledHeight*2,90,90);
+        g2d.drawArc(scaledX + scaledWidth / 2, scaledY, scaledWidth, scaledHeight * 2, 90, 90);
 
-        g2d.drawLine(scaledX+scaledWidth,scaledY,scaledX+scaledWidth,scaledY+ scaledHeight);
+        g2d.drawLine(scaledX + scaledWidth, scaledY, scaledX + scaledWidth, scaledY + scaledHeight);
         g2d.dispose();
     }
 }

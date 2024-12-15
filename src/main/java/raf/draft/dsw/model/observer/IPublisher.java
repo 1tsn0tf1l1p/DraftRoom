@@ -21,7 +21,7 @@ public interface IPublisher {
     /**
      * Notifies all subscribers with the given message.
      *
-     * @param t the message to be sent to subscribers
+     * @param t   the message to be sent to subscribers
      * @param <T> the type of the message
      */
     <T> void notifySubscribers(T t);

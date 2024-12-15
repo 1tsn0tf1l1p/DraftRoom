@@ -18,7 +18,8 @@ public class Room extends DraftNodeComposite implements IPublisher {
     private List<ISubscriber> subscribers;
     private int width;
     private int height;
-    private int x,y;
+    private int x, y;
+
     public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         subscribers = new CopyOnWriteArrayList<>();

@@ -5,10 +5,9 @@ import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -82,7 +81,7 @@ public class MoveState implements RoomState {
                 element.setY((int) (originalY + deltaY));
 
                 boolean snapped = snapToEdge(element);
-                boolean intersects = checkIntersection(element,10);
+                boolean intersects = checkIntersection(element, 10);
 
                 if (snapped || intersects) {
                     element.setX(originalX);
@@ -100,8 +99,6 @@ public class MoveState implements RoomState {
             }
         }
     }
-
-
 
 
     private boolean snapToEdge(RoomElement element) {
@@ -130,14 +127,25 @@ public class MoveState implements RoomState {
         int rotatedWidth = (int) (maxX - minX);
         int rotatedHeight = (int) (maxY - minY);
 
-        if (minX < padding) { element.setX(padding); snapped = true; }
-        if (minY < padding) { element.setY(padding); snapped = true; }
-        if (maxX > roomWidth - padding) { element.setX(roomWidth - rotatedWidth); snapped = true; }
-        if (maxY > roomHeight - padding) { element.setY(roomHeight - rotatedHeight); snapped = true; }
+        if (minX < padding) {
+            element.setX(padding);
+            snapped = true;
+        }
+        if (minY < padding) {
+            element.setY(padding);
+            snapped = true;
+        }
+        if (maxX > roomWidth - padding) {
+            element.setX(roomWidth - rotatedWidth);
+            snapped = true;
+        }
+        if (maxY > roomHeight - padding) {
+            element.setY(roomHeight - rotatedHeight);
+            snapped = true;
+        }
 
         return snapped;
     }
-
 
 
     private boolean checkIntersection(RoomElement element, int padding) {
@@ -180,9 +188,8 @@ public class MoveState implements RoomState {
         double minY = Arrays.stream(points).mapToDouble(Point2D::getY).min().orElse(0);
         double maxY = Arrays.stream(points).mapToDouble(Point2D::getY).max().orElse(0);
 
-        return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
+        return new Rectangle((int) minX, (int) minY, (int) (maxX - minX), (int) (maxY - minY));
     }
-
 
 
     private Painter findNearestPainter(Point cursorPoint) {

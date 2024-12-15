@@ -1,18 +1,17 @@
 package raf.draft.dsw.controller.state;
 
+import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.view.room.RoomView;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-import raf.draft.dsw.model.state.RoomState;
-import raf.draft.dsw.view.room.RoomView;
-
 public class ZoomState implements RoomState {
-    private final RoomView roomView;
-    private double zoomFactor = 1.0;
-
     private static final double MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 3.0;
+    private final RoomView roomView;
+    private double zoomFactor = 1.0;
 
     public ZoomState(RoomView roomView) {
         this.roomView = roomView;

@@ -6,7 +6,6 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
-import raf.draft.dsw.view.frames.MainFrame;
 
 import java.awt.event.ActionEvent;
 

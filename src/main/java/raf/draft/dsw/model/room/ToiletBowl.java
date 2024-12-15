@@ -20,7 +20,7 @@ public class ToiletBowl extends RoomElement {
     }
 
     public ToiletBowl(String newToiletBowl, Room room, int x, int y) {
-        super(newToiletBowl,room,x,y);
+        super(newToiletBowl, room, x, y);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package raf.draft.dsw.model.core;
 
 import lombok.Getter;
-import raf.draft.dsw.controller.actions.ActionManager;
 import raf.draft.dsw.controller.tab.TabbedPaneController;
 import raf.draft.dsw.model.factory.LoggerFactory;
 import raf.draft.dsw.model.messagegenerator.MessageGenerator;

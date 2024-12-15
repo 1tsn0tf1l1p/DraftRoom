@@ -3,7 +3,6 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class SinkPainter extends Painter {
 
@@ -22,19 +21,19 @@ public class SinkPainter extends Painter {
 
         int centerX = scaledX + scaledWidth / 2;
         int centerY = scaledY + scaledHeight / 2;
-        super.paint(g2d,element);
+        super.paint(g2d, element);
 
         if (selected) {
             g2d.setColor(Color.BLUE);
         } else {
             g2d.setColor(Color.BLACK);
         }
-        g2d.drawLine(scaledX, scaledY,scaledX+scaledWidth, scaledY);
-        g2d.drawLine(scaledX, scaledY, centerX,scaledY+ scaledHeight);
-        g2d.drawLine(scaledX+scaledWidth, scaledY, centerX, scaledY+ scaledHeight);
+        g2d.drawLine(scaledX, scaledY, scaledX + scaledWidth, scaledY);
+        g2d.drawLine(scaledX, scaledY, centerX, scaledY + scaledHeight);
+        g2d.drawLine(scaledX + scaledWidth, scaledY, centerX, scaledY + scaledHeight);
 
-        int circleSize = Math.min(scaledWidth/4, scaledHeight/4);
-        g2d.drawOval(centerX-circleSize/2, centerY - circleSize, circleSize, circleSize);
+        int circleSize = Math.min(scaledWidth / 4, scaledHeight / 4);
+        g2d.drawOval(centerX - circleSize / 2, centerY - circleSize, circleSize, circleSize);
         g2d.dispose();
     }
 

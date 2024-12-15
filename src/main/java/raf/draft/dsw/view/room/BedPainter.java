@@ -5,7 +5,6 @@ import lombok.Setter;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 @Getter
 @Setter
@@ -23,7 +22,7 @@ public class BedPainter extends Painter {
         int scaledHeight = element.getScaledHeight();
 
         Graphics2D g2d = (Graphics2D) g.create();
-        super.paint(g2d,element);
+        super.paint(g2d, element);
         if (selected) {
             g2d.setColor(Color.BLUE);
         } else {

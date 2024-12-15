@@ -24,8 +24,7 @@ public class DeleteStateAction extends AbstractRoomAction {
         if (roomView != null) {
             roomView.changeState(new DeleteState(roomView));
             MainFrame.getInstance().getPanel().setVisibilityAddPanel(false);
-        }
-        else {
+        } else {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
         }
     }

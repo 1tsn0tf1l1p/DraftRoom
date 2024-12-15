@@ -11,8 +11,9 @@ public class Bed extends RoomElement {
      * @param parent the parent node
      */
     public Bed(String ime, DraftNodeComposite parent, int x, int y) {
-        super(ime, parent,x,y);
+        super(ime, parent, x, y);
     }
+
     public Bed(Bed bed) {
         super(bed);
 

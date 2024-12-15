@@ -18,7 +18,7 @@ public abstract class Painter {
         this.element = element;
     }
 
-    public void paint(Graphics2D g, RoomElement element){
+    public void paint(Graphics2D g, RoomElement element) {
         int scaledX = element.getScaledX();
         int scaledY = element.getScaledY();
         int scaledWidth = element.getScaledWidth();
@@ -30,7 +30,9 @@ public abstract class Painter {
 
         transform.rotate(Math.toRadians(element.getRotateRatio()), centerX, centerY);
         g.transform(transform);
-    };
+    }
+
+    ;
 
     public boolean elementAt(RoomElement element, Point pos) {
         int elementLeft = element.getScaledX();

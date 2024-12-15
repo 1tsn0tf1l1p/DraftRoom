@@ -107,19 +107,21 @@ public class CreateRoomFrame extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     createElement();
                 }
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
             }
         });
     }
 
-    private void createElement(){
+    private void createElement() {
         try {
             int width = Integer.parseInt(widthField.getValue().toString());
             int height = Integer.parseInt(heightField.getValue().toString());

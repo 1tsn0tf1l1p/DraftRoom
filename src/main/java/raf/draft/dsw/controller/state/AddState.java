@@ -2,7 +2,6 @@ package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
-import raf.draft.dsw.model.messagegenerator.MessageGenerator;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.state.RoomState;
@@ -19,7 +18,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
-import java.util.List;
 
 public class AddState implements RoomState {
     private Dimension originalSize;
@@ -67,8 +65,8 @@ public class AddState implements RoomState {
             @Override
             public void windowClosed(java.awt.event.WindowEvent wEvent) {
                 if (createRoomFrame.isConfirmed()) {
-                    if (checkIntersection(newElement,10) || snapToEdge(newElement)) {
-                        ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING,"Invalid element position!");
+                    if (checkIntersection(newElement, 10) || snapToEdge(newElement)) {
+                        ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "Invalid element position!");
                         roomView.getPainters().remove(painter);
                         roomView.getRoom().removeChild(newElement);
                         roomView.repaint();
@@ -169,10 +167,22 @@ public class AddState implements RoomState {
         int rotatedWidth = (int) (maxX - minX);
         int rotatedHeight = (int) (maxY - minY);
 
-        if (minX < padding) { element.setX(padding); snapped = true; }
-        if (minY < padding) { element.setY(padding); snapped = true; }
-        if (maxX > roomWidth - padding) { element.setX(roomWidth - rotatedWidth); snapped = true; }
-        if (maxY > roomHeight - padding) { element.setY(roomHeight - rotatedHeight); snapped = true; }
+        if (minX < padding) {
+            element.setX(padding);
+            snapped = true;
+        }
+        if (minY < padding) {
+            element.setY(padding);
+            snapped = true;
+        }
+        if (maxX > roomWidth - padding) {
+            element.setX(roomWidth - rotatedWidth);
+            snapped = true;
+        }
+        if (maxY > roomHeight - padding) {
+            element.setY(roomHeight - rotatedHeight);
+            snapped = true;
+        }
 
         return snapped;
     }
@@ -221,23 +231,36 @@ public class AddState implements RoomState {
         double minY = Arrays.stream(points).mapToDouble(Point2D::getY).min().orElse(0);
         double maxY = Arrays.stream(points).mapToDouble(Point2D::getY).max().orElse(0);
 
-        return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
+        return new Rectangle((int) minX, (int) minY, (int) (maxX - minX), (int) (maxY - minY));
     }
 
     @Override
-    public void handleMouseDrag(MouseEvent e) {}
+    public void handleMouseDrag(MouseEvent e) {
+    }
+
     @Override
-    public void handleMousePressed(MouseEvent e) {}
+    public void handleMousePressed(MouseEvent e) {
+    }
+
     @Override
-    public void handleKeyPress(KeyEvent e) {}
+    public void handleKeyPress(KeyEvent e) {
+    }
+
     @Override
-    public void handleMouseWheelMoved(MouseWheelEvent e) {}
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
+    }
+
     @Override
-    public void handleMouseRelease(MouseEvent e) {}
+    public void handleMouseRelease(MouseEvent e) {
+    }
+
     @Override
-    public void enterState() {}
+    public void enterState() {
+    }
+
     @Override
-    public void exitState() {}
+    public void exitState() {
+    }
 
     private Point unscalePoint(Point point) {
         double zoomFactor = roomView.getZoomFactor();

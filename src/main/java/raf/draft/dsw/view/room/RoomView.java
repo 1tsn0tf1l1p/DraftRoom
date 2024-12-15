@@ -42,10 +42,9 @@ public class RoomView extends JPanel {
         selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(room);
-        if (room.getWidth()==0) {
+        if (room.getWidth() == 0) {
             currentState = new EditRoomState(this);
-        }
-        else{
+        } else {
             currentState = new SelectState(this);
         }
         setLayout(new BorderLayout());

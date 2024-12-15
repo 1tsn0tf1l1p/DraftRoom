@@ -7,7 +7,8 @@ import java.awt.event.ActionEvent;
 
 public class AddNodeStateAction extends AbstractRoomAction {
     private String name;
-    public AddNodeStateAction(String name,String path){
+
+    public AddNodeStateAction(String name, String path) {
         this.name = name;
         putValue(SMALL_ICON, loadIcon(path));
         putValue(NAME, "Add " + name);

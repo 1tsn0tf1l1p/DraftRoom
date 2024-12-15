@@ -127,11 +127,10 @@ public class DraftTreeImplementation implements DraftTree {
     }
 
 
-
     @Override
     public void removeChild(TreeItem node) {
         TreeItem parent = (TreeItem) node.getParent();
-        if(parent == null) {
+        if (parent == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No node selected.");
             return;
         }

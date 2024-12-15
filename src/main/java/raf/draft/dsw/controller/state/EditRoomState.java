@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelEvent;
 
 public class EditRoomState implements RoomState {
     private RoomView roomView;
+
     public EditRoomState(RoomView roomView) {
         this.roomView = roomView;
     }
@@ -22,7 +23,7 @@ public class EditRoomState implements RoomState {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
                 roomView.getRoomRectangle().repaint();
-                if (roomView.getRoom().getWidth()!=0) roomView.changeState(new SelectState(roomView));
+                if (roomView.getRoom().getWidth() != 0) roomView.changeState(new SelectState(roomView));
             }
         });
 

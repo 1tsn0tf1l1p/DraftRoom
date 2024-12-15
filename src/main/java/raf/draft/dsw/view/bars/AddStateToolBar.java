@@ -18,15 +18,15 @@ public class AddStateToolBar extends JToolBar {
     private void addButtons() {
 
         add(Box.createVerticalGlue());
-        add(new AddNodeStateAction("bed","/images/bed.png"));
-        add(new AddNodeStateAction("doors","/images/door.png"));
-        add(new AddNodeStateAction("table","/images/table.png"));
-        add(new AddNodeStateAction("wardrobe","/images/wardrobe.png"));
-        add(new AddNodeStateAction("sink","/images/sink.png"));
-        add(new AddNodeStateAction("bathtub","/images/bathtub.png"));
-        add(new AddNodeStateAction("boiler","/images/boiler.png"));
-        add(new AddNodeStateAction("washingMachine","/images/washingMachine.png"));
-        add(new AddNodeStateAction("toiletBowl","/images/toiletBowl.png"));
+        add(new AddNodeStateAction("bed", "/images/bed.png"));
+        add(new AddNodeStateAction("doors", "/images/door.png"));
+        add(new AddNodeStateAction("table", "/images/table.png"));
+        add(new AddNodeStateAction("wardrobe", "/images/wardrobe.png"));
+        add(new AddNodeStateAction("sink", "/images/sink.png"));
+        add(new AddNodeStateAction("bathtub", "/images/bathtub.png"));
+        add(new AddNodeStateAction("boiler", "/images/boiler.png"));
+        add(new AddNodeStateAction("washingMachine", "/images/washingMachine.png"));
+        add(new AddNodeStateAction("toiletBowl", "/images/toiletBowl.png"));
         add(Box.createVerticalGlue());
     }
 }

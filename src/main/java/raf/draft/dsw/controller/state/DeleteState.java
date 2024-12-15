@@ -36,7 +36,7 @@ public class DeleteState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
-        for (Painter painter : roomView.getPainters()){
+        for (Painter painter : roomView.getPainters()) {
             if (painter.elementAt(painter.getElement(), e.getPoint())) {
                 TreeItem item = treeImplementation.returnTreeItemForRoom(painter.getElement());
                 treeImplementation.removeChild(item);

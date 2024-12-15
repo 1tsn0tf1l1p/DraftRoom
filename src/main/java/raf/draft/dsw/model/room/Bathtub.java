@@ -4,7 +4,7 @@ import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
 import raf.draft.dsw.model.structures.Room;
 
-public class Bathtub extends RoomElement{
+public class Bathtub extends RoomElement {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -20,7 +20,7 @@ public class Bathtub extends RoomElement{
     }
 
     public Bathtub(String newBathtub, Room room, int x, int y) {
-        super(newBathtub,room,x,y);
+        super(newBathtub, room, x, y);
     }
 
     @Override

@@ -4,7 +4,7 @@ import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.prototype.Prototype;
 import raf.draft.dsw.model.structures.Room;
 
-public class Sink extends RoomElement{
+public class Sink extends RoomElement {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
@@ -20,7 +20,7 @@ public class Sink extends RoomElement{
     }
 
     public Sink(String newSink, Room room, int x, int y) {
-        super(newSink,room,x,y);
+        super(newSink, room, x, y);
     }
 
     @Override

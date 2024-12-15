@@ -1,11 +1,9 @@
 package raf.draft.dsw.view.bars;
 
 import lombok.Getter;
-import raf.draft.dsw.controller.state.AddState;
 import raf.draft.dsw.model.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
-import raf.draft.dsw.view.frames.MainFrame;
 import raf.draft.dsw.view.room.RoomView;
 import raf.draft.dsw.view.tab.TabView;
 
@@ -25,6 +23,7 @@ public class Panel extends JPanel implements ISubscriber {
     private JPanel rightPanel;
     private RoomView roomView;
     private JToolBar addComponents;
+
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
         this.tabContainer = tabContainer;
@@ -69,7 +68,7 @@ public class Panel extends JPanel implements ISubscriber {
         rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
-        rightPanel.add(addComponents,BorderLayout.EAST);
+        rightPanel.add(addComponents, BorderLayout.EAST);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
         splitPane.setBackground(Color.GRAY);
@@ -89,7 +88,7 @@ public class Panel extends JPanel implements ISubscriber {
         }
 
         if (selectedTab != null) {
-            roomView = new RoomView(((TabView)selectedTab).getRoom());
+            roomView = new RoomView(((TabView) selectedTab).getRoom());
             rightPanel.add(roomView, BorderLayout.CENTER);
         }
 
@@ -116,7 +115,8 @@ public class Panel extends JPanel implements ISubscriber {
         rightPanel.revalidate();
         rightPanel.repaint();
     }
-    public void setVisibilityAddPanel(Boolean bool){
+
+    public void setVisibilityAddPanel(Boolean bool) {
         addComponents.setVisible(bool);
     }
 

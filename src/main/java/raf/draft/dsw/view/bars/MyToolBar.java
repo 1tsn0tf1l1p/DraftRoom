@@ -2,8 +2,6 @@ package raf.draft.dsw.view.bars;
 
 import lombok.Getter;
 import raf.draft.dsw.controller.actions.ActionManager;
-import raf.draft.dsw.model.core.ApplicationFramework;
-import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

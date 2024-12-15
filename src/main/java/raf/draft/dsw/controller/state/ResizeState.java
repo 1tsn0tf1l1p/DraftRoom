@@ -14,11 +14,10 @@ import java.awt.geom.Point2D;
 import java.util.Arrays;
 
 public class ResizeState implements RoomState {
+    private final int RESIZE_THRESHOLD = 10;
     private RoomView roomView;
     private RoomElement selectedElement;
     private boolean isResizing;
-    private final int RESIZE_THRESHOLD = 10;
-
     private int initialX;
     private int initialY;
     private int initialWidth;
@@ -73,16 +72,13 @@ public class ResizeState implements RoomState {
             if (angle == 270) {
                 newHeight = initialWidth - (int) localDelta.getX();
                 newWidth = initialHeight + (int) localDelta.getY();
-            }
-            else if (angle == 90) {
+            } else if (angle == 90) {
                 newWidth = initialWidth - (int) localDelta.getY();
                 newHeight = initialHeight + (int) localDelta.getX();
-            }
-            else if(angle == 180) {
+            } else if (angle == 180) {
                 newWidth = initialWidth - (int) localDelta.getX();
                 newHeight = initialHeight - (int) localDelta.getY();
-            }
-            else {
+            } else {
                 newWidth = initialWidth + (int) localDelta.getX();
                 newHeight = initialHeight + (int) localDelta.getY();
             }
@@ -108,9 +104,6 @@ public class ResizeState implements RoomState {
             roomView.repaint();
         }
     }
-
-
-
 
 
     @Override
@@ -205,10 +198,22 @@ public class ResizeState implements RoomState {
         int rotatedWidth = (int) (maxX - minX);
         int rotatedHeight = (int) (maxY - minY);
 
-        if (minX < padding) { element.setX(padding); snapped = true; }
-        if (minY < padding) { element.setY(padding); snapped = true; }
-        if (maxX > roomWidth - padding) { element.setX(roomWidth - rotatedWidth); snapped = true; }
-        if (maxY > roomHeight - padding) { element.setY(roomHeight - rotatedHeight); snapped = true; }
+        if (minX < padding) {
+            element.setX(padding);
+            snapped = true;
+        }
+        if (minY < padding) {
+            element.setY(padding);
+            snapped = true;
+        }
+        if (maxX > roomWidth - padding) {
+            element.setX(roomWidth - rotatedWidth);
+            snapped = true;
+        }
+        if (maxY > roomHeight - padding) {
+            element.setY(roomHeight - rotatedHeight);
+            snapped = true;
+        }
 
         return snapped;
     }

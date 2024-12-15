@@ -11,11 +11,13 @@ import java.awt.event.ActionEvent;
 
 public class RotateRightStateAction extends AbstractRoomAction {
     private RoomView roomView;
+
     public RotateRightStateAction() {
         putValue(SMALL_ICON, loadIcon("/images/rotateRightState.png"));
         putValue(NAME, "Rotate Right State");
         putValue(SHORT_DESCRIPTION, "Put the program into right rotate state.");
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         roomView = MainFrame.getInstance().getPanel().getRoomView();

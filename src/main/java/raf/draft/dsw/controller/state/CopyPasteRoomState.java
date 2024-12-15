@@ -15,14 +15,15 @@ import java.awt.event.MouseWheelEvent;
 public class CopyPasteRoomState implements RoomState {
     private RoomView roomView;
     private DraftTreeImplementation treeImplementation;
-    public CopyPasteRoomState(RoomView roomView){
+
+    public CopyPasteRoomState(RoomView roomView) {
         this.roomView = roomView;
         this.treeImplementation = ApplicationFramework.getInstance().getTree();
     }
 
     @Override
     public void handleMouseClick(MouseEvent e) {
-        for (Painter painter : roomView.getPainters()){
+        for (Painter painter : roomView.getPainters()) {
             if (painter.elementAt(painter.getElement(), e.getPoint())) {
                 RoomElement roomElement = (RoomElement) painter.getElement().clone();
                 Painter newPainter = roomView.getFactory().createPainter(roomElement);

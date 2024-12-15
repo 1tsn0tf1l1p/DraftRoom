@@ -16,7 +16,7 @@ public abstract class DraftNode {
     /**
      * Constructs a DraftNode with the specified name and parent.
      *
-     * @param ime the name of the node
+     * @param ime    the name of the node
      * @param parent the parent node
      */
     public DraftNode(String ime, DraftNodeComposite parent) {

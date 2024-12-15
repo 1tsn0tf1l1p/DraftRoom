@@ -76,7 +76,6 @@ public class SelectState implements RoomState {
     }
 
 
-
     @Override
     public void handleMousePressed(MouseEvent e) {
         startPoint = unscalePoint(e.getPoint());

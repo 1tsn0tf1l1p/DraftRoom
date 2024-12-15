@@ -3,7 +3,6 @@ package raf.draft.dsw.view.room;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class WashingMachinePainter extends Painter {
     public WashingMachinePainter(RoomElement element) {
@@ -21,7 +20,7 @@ public class WashingMachinePainter extends Painter {
 
         int centerX = scaledX + scaledWidth / 2;
         int centerY = scaledY + scaledHeight / 2;
-        super.paint(g2d,element);
+        super.paint(g2d, element);
 
         if (selected) {
             g2d.setColor(Color.BLUE);
@@ -30,8 +29,8 @@ public class WashingMachinePainter extends Painter {
         }
 
         g2d.drawRect(scaledX, scaledY, scaledWidth, scaledHeight);
-        int circleSize = Math.min(3* scaledWidth / 5, 3* scaledHeight / 5);
-        g2d.drawOval(centerX -circleSize/2, centerY- circleSize/2, circleSize, circleSize);
+        int circleSize = Math.min(3 * scaledWidth / 5, 3 * scaledHeight / 5);
+        g2d.drawOval(centerX - circleSize / 2, centerY - circleSize / 2, circleSize, circleSize);
         g2d.dispose();
     }
 }
