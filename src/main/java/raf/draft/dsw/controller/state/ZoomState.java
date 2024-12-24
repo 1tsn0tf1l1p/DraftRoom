@@ -54,11 +54,9 @@ public class ZoomState implements RoomState {
 
     @Override
     public void enterState() {
-        System.out.println("Entered ZoomState");
     }
 
     @Override
     public void exitState() {
-        System.out.println("Exited ZoomState");
     }
 }

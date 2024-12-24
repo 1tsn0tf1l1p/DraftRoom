@@ -48,12 +48,10 @@ public class RotateLeftState implements RoomState {
 
     @Override
     public void enterState() {
-        System.out.println("Entered RotateLeftState");
     }
 
     @Override
     public void exitState() {
-        System.out.println("Exited RotateLeftState");
     }
 
     private void rotateSelectedItems() {
@@ -66,8 +64,6 @@ public class RotateLeftState implements RoomState {
                 int currentRotation = element.getRotateRatio();
                 int newRotation = (currentRotation - 90) % 360;
                 element.setRotateRatio(newRotation);
-
-                System.out.println("Rotated element '" + element.getIme() + "' to: " + newRotation + " degrees");
             }
         }
 

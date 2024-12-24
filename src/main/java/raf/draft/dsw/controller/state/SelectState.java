@@ -23,7 +23,6 @@ public class SelectState implements RoomState {
         Point unscaledPoint = unscalePoint(e.getPoint());
         for (Painter painter : roomView.getPainters()) {
             painter.setSelected(painter.elementAt(painter.getElement(), unscaledPoint));
-            System.out.println(painter.isSelected());
         }
         roomView.repaint();
     }

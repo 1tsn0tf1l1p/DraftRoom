@@ -48,12 +48,10 @@ public class RotateRightState implements RoomState {
 
     @Override
     public void enterState() {
-        System.out.println("Entered RotateLeftState");
     }
 
     @Override
     public void exitState() {
-        System.out.println("Exited RotateLeftState");
     }
 
     private void rotateSelectedItems() {
@@ -75,7 +73,6 @@ public class RotateRightState implements RoomState {
                 element.setScaledWidth(element.getScaledHeight());
                 element.setScaledHeight(scaledWidth);
 
-                System.out.println("Rotated element '" + element.getIme() + "' to: " + newRotation + " degrees");
             }
         }
 

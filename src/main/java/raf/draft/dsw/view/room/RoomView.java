@@ -36,7 +36,6 @@ public class RoomView extends JPanel {
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
-        System.out.println("New roomview");
         this.room = room;
         this.painters = new CopyOnWriteArrayList<>();
         selectedItem = "bed";
@@ -159,7 +158,6 @@ public class RoomView extends JPanel {
             if (selectionBox == null) {
                 Point startPoint = new Point((int) (e.getX() / zoomFactor), (int) (e.getY() / zoomFactor));
                 selectionBox = new Rectangle(startPoint);
-                System.out.println("Initialized selectionBox at: " + selectionBox);
             }
 
             Point currentPoint = new Point((int) (e.getX() / zoomFactor), (int) (e.getY() / zoomFactor));
@@ -170,7 +168,6 @@ public class RoomView extends JPanel {
             int height = Math.abs(selectionBox.y - currentPoint.y);
 
             selectionBox.setBounds(x, y, width, height);
-            System.out.println("Updated selectionBox to: " + selectionBox);
 
         }
 
