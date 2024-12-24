@@ -1,7 +1,7 @@
 package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.core.ApplicationFramework;
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.room.Painter;

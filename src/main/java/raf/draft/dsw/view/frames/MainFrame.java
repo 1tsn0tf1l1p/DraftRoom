@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.view.bars.MyMenuBar;
 import raf.draft.dsw.view.bars.MyToolBar;
 import raf.draft.dsw.view.bars.Panel;

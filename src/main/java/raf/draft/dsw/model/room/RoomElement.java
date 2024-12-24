@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.patterns.prototype.Prototype;
 
 import java.awt.*;
 

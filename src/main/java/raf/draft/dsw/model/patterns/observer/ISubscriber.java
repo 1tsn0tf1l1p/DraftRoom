@@ -1,4 +1,4 @@
-package raf.draft.dsw.model.observer;
+package raf.draft.dsw.model.patterns.observer;
 
 /**
  * The ISubscriber interface provides a method to update the subscriber with a given message.

@@ -9,7 +9,7 @@ import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.structures.Room;
 
 import javax.swing.*;

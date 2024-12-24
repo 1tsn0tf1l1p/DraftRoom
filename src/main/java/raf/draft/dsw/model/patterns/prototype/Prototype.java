@@ -1,4 +1,4 @@
-package raf.draft.dsw.model.prototype;
+package raf.draft.dsw.model.patterns.prototype;
 
 /**
  * The `Prototype` interface defines a contract for creating copies of objects

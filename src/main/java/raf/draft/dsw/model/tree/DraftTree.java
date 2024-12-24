@@ -1,7 +1,7 @@
 package raf.draft.dsw.model.tree;
 
 import raf.draft.dsw.model.nodes.DraftNode;
-import raf.draft.dsw.model.observer.IPublisher;
+import raf.draft.dsw.model.patterns.observer.IPublisher;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 

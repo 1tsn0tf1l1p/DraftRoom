@@ -1,7 +1,7 @@
 package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.patterns.prototype.Prototype;
 import raf.draft.dsw.model.structures.Room;
 
 public class WashingMachine extends RoomElement {

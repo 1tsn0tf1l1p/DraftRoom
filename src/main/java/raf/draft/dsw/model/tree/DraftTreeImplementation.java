@@ -7,7 +7,7 @@ import raf.draft.dsw.model.factory.TreeFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;

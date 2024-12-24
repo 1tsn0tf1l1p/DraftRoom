@@ -1,4 +1,4 @@
-package raf.draft.dsw.model.observer;
+package raf.draft.dsw.model.patterns.observer;
 
 /**
  * The IPublisher interface provides methods to manage subscribers and notify them with updates.

@@ -1,6 +1,6 @@
 package raf.draft.dsw.controller.state;
 
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.RoomView;
 

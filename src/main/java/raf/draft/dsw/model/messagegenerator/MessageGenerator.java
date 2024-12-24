@@ -1,8 +1,8 @@
 package raf.draft.dsw.model.messagegenerator;
 
 import lombok.Getter;
-import raf.draft.dsw.model.observer.IPublisher;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.IPublisher;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

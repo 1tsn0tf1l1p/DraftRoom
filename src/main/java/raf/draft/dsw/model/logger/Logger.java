@@ -1,6 +1,6 @@
 package raf.draft.dsw.model.logger;
 
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 
 /**
  * The Logger interface extends the ISubscriber interface.
