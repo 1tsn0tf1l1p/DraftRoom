@@ -35,6 +35,8 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getZoomStateAction());
 
         add(Box.createHorizontalGlue());
+        add(actionManager.getUndoAction());
+        add(actionManager.getRedoAction());
         add(actionManager.getAboutUsAction());
         add(actionManager.getExitAction());
 

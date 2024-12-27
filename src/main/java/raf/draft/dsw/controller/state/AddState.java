@@ -56,7 +56,6 @@ public class AddState implements RoomState {
         }
 
         AddCommand addCommand = new AddCommand(roomView, newElement);
-        roomView.getCommandManager().addCommand(addCommand);
 
         CreateRoomFrame createRoomFrame = new CreateRoomFrame(newElement);
         createRoomFrame.setVisible(true);
@@ -68,13 +67,12 @@ public class AddState implements RoomState {
                     if (checkIntersection(newElement, 10) || snapToEdge(newElement)) {
                         ApplicationFramework.getInstance().getMessageGenerator()
                                 .createMessage(MessageType.WARNING, "Invalid element position!");
-                        roomView.getCommandManager().undoCommand();
                         return;
                     }
+                    roomView.getCommandManager().addCommand(addCommand);
                     roomView.repaint();
-                    TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
-                    tree.addChild(treeItem, false, newElement);
                 } else {
+                    roomView.getCommandManager().addCommand(addCommand);
                     roomView.getCommandManager().undoCommand();
                 }
             }
