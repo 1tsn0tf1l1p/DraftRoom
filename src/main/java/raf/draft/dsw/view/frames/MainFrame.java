@@ -33,10 +33,26 @@ public class MainFrame extends JFrame implements ISubscriber {
     private void initialize() {
         this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
         this.tabContainer = new TabContainer((TreeView) explorer);
+
         Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
-        if(Taskbar.isTaskbarSupported()) {
-            Taskbar.getTaskbar().setIconImage(appIcon);
+        String osName = System.getProperty("os.name").toLowerCase();
+        try {
+            if (Taskbar.isTaskbarSupported() && osName.contains("win")) {
+                Taskbar taskbar = Taskbar.getTaskbar();
+                if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                    taskbar.setIconImage(appIcon);
+                } else {
+                    System.out.println("The ICON_IMAGE feature is not supported on this platform.");
+                }
+            } else {
+                System.out.println("Taskbar is not supported on this platform.");
+                setIconImage(appIcon);
+            }
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Taskbar feature is not supported: " + e.getMessage());
+            setIconImage(appIcon);
         }
+
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -46,13 +62,14 @@ public class MainFrame extends JFrame implements ISubscriber {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("DraftRoom");
 
-
+        // Set menu bar and toolbar
         MyMenuBar menu = new MyMenuBar();
         setJMenuBar(menu);
 
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
+        // Set main panel
         panel = new Panel(tabContainer, explorer);
         add(panel, BorderLayout.CENTER);
 
