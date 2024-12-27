@@ -1,6 +1,7 @@
 package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.patterns.state.RoomState;
+import raf.draft.dsw.view.commands.concrete_commands.EditCommand;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
@@ -20,14 +21,8 @@ public class EditState implements RoomState {
     public void handleMouseClick(MouseEvent e) {
         for (Painter painter : roomView.getPainters()) {
             if (painter.isSelected()) {
-                CreateRoomFrame createRoomFrame = new CreateRoomFrame(painter.getElement());
-                createRoomFrame.setVisible(true);
-                createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent e) {
-                        roomView.repaint();
-                    }
-                });
+                EditCommand editCommand = new EditCommand(roomView, painter);
+                roomView.getCommandManager().addCommand(editCommand);
             }
         }
     }
