@@ -43,6 +43,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("DraftRoom");
 
+
         MyMenuBar menu = new MyMenuBar();
         setJMenuBar(menu);
 
@@ -53,6 +54,8 @@ public class MainFrame extends JFrame implements ISubscriber {
         add(panel, BorderLayout.CENTER);
 
         this.setVisible(true);
+        Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
+        this.setIconImage(appIcon);
     }
 
     @Override

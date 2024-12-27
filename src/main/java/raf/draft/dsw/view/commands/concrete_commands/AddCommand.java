@@ -25,6 +25,7 @@ public class AddCommand implements Command {
     @Override
     public void execute() {
         roomView.getPainters().add(painter);
+        painter.setSelected(false);
         roomView.getRoom().addChild(newElement);
         TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
         tree.addChild(treeItem, false, newElement);
