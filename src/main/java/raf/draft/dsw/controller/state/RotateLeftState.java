@@ -2,6 +2,7 @@ package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
+import raf.draft.dsw.view.commands.concrete_commands.RotateLeftCommand;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -54,19 +55,9 @@ public class RotateLeftState implements RoomState {
     public void exitState() {
     }
 
+
     private void rotateSelectedItems() {
-        List<Painter> painters = roomView.getPainters();
-
-        for (Painter painter : painters) {
-            if (painter.isSelected()) {
-                RoomElement element = (RoomElement) painter.getElement();
-
-                int currentRotation = element.getRotateRatio();
-                int newRotation = (currentRotation - 90) % 360;
-                element.setRotateRatio(newRotation);
-            }
-        }
-
-        roomView.repaint();
+        RotateLeftCommand rotateLeftCommand = new RotateLeftCommand(roomView);
+        roomView.getCommandManager().addCommand(rotateLeftCommand);
     }
 }
