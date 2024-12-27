@@ -32,8 +32,7 @@ public class ResizeCommand implements Command {
             int[] newSize = entry.getValue();
 
             element.setSize(newSize[0], newSize[1]);
-            element.setX(newSize[2]);
-            element.setY(newSize[3]);
+
         }
 
         roomView.repaint();
@@ -46,8 +45,7 @@ public class ResizeCommand implements Command {
             int[] initialSize = entry.getValue();
 
             element.setSize(initialSize[0], initialSize[1]);
-            element.setX(initialSize[2]);
-            element.setY(initialSize[3]);
+
         }
 
         roomView.repaint();

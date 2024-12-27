@@ -16,7 +16,6 @@ public class EditCommand implements Command {
         this.roomView = roomView;
         this.painter = painter;
 
-        // Clone the current state of the element
         this.previousState = (RoomElement) painter.getElement().clone();
         this.newState = null;
     }
@@ -25,25 +24,31 @@ public class EditCommand implements Command {
     public void execute() {
 
         this.previousState = (RoomElement) painter.getElement().clone();
-        
-        CreateRoomFrame createRoomFrame = new CreateRoomFrame(painter.getElement());
-        createRoomFrame.setVisible(true);
+        if (newState != null) {
+            painter.getElement().setWidth(newState.getWidth());
+            painter.getElement().setHeight(newState.getHeight());
+            painter.getElement().setRotateRatio(newState.getRotateRatio());
 
-        createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                newState = (RoomElement) painter.getElement().clone();
-                roomView.repaint();
-            }
-        });
+            roomView.repaint();
+        }
+        else {
+            CreateRoomFrame createRoomFrame = new CreateRoomFrame(painter.getElement());
+            createRoomFrame.setVisible(true);
+
+            createRoomFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    newState = (RoomElement) painter.getElement().clone();
+                    roomView.repaint();
+                }
+            });
+        }
 
     }
 
     @Override
     public void unExecute() {
         if (previousState != null) {
-            painter.getElement().setX(previousState.getX());
-            painter.getElement().setY(previousState.getY());
             painter.getElement().setWidth(previousState.getWidth());
             painter.getElement().setHeight(previousState.getHeight());
             painter.getElement().setRotateRatio(previousState.getRotateRatio());

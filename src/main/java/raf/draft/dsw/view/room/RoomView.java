@@ -118,11 +118,11 @@ public class RoomView extends JPanel {
             if (event instanceof KeyEvent e) {
                 if (e.isControlDown()) {
                     if (e.getKeyCode() == KeyEvent.VK_Z) {
-                        if (commandManager.canUndo()) {
+                        if (commandManager.canUndo() && e.getID()==KeyEvent.KEY_RELEASED) {
                             commandManager.undoCommand();
                             repaint();
                         }
-                    } else if (e.getKeyCode() == KeyEvent.VK_Y) {
+                    } else if (e.getKeyCode() == KeyEvent.VK_Y &&  e.getID()==KeyEvent.KEY_RELEASED) {
                         if (commandManager.canRedo()) {
                             commandManager.redoCommand();
                             repaint();

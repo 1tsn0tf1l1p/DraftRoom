@@ -219,14 +219,12 @@ public class MoveState implements RoomState {
     @Override
     public void handleMousePressed(MouseEvent e) {
         handleMouseClick(e);
-        System.out.println("PRETISO");
         initialPositions = new HashMap<>();
         if (!selectedPainters.isEmpty()) {
 
             for (Painter painter : selectedPainters) {
                 RoomElement element = painter.getElement();
                 initialPositions.put(element, new int[]{element.getX(), element.getY()});
-                System.out.println(element.getX() + "," + element.getY());
             }
         }
 

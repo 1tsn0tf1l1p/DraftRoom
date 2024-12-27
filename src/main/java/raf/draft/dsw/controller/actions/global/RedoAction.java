@@ -1,6 +1,8 @@
 package raf.draft.dsw.controller.actions.global;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
+import raf.draft.dsw.model.core.ApplicationFramework;
+import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.view.commands.CommandManager;
 import raf.draft.dsw.view.frames.MainFrame;
 import raf.draft.dsw.view.room.RoomView;
@@ -17,7 +19,13 @@ public class RedoAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        commandManager = MainFrame.getInstance().getPanel().getRoomView().getCommandManager();
-        commandManager.redoCommand();
+        RoomView roomView = MainFrame.getInstance().getPanel().getRoomView();
+
+        if (roomView != null) {
+            commandManager = MainFrame.getInstance().getPanel().getRoomView().getCommandManager();
+            commandManager.redoCommand();
+        } else {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room initialized.");
+        }
     }
 }
