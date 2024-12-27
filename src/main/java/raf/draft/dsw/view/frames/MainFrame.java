@@ -35,17 +35,15 @@ public class MainFrame extends JFrame implements ISubscriber {
         this.tabContainer = new TabContainer((TreeView) explorer);
 
         Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
-        String osName = System.getProperty("os.name").toLowerCase();
         try {
-            if (Taskbar.isTaskbarSupported() && osName.contains("win")) {
+            if (Taskbar.isTaskbarSupported()) {
                 Taskbar taskbar = Taskbar.getTaskbar();
                 if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
                     taskbar.setIconImage(appIcon);
                 } else {
-                    System.out.println("The ICON_IMAGE feature is not supported on this platform.");
+                    setIconImage(appIcon);
                 }
             } else {
-                System.out.println("Taskbar is not supported on this platform.");
                 setIconImage(appIcon);
             }
         } catch (UnsupportedOperationException e) {
