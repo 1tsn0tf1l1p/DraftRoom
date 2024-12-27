@@ -21,6 +21,7 @@ public class MoveState implements RoomState {
     private List<Painter> selectedPainters;
     private double previousMouseX;
     private double previousMouseY;
+    Map<RoomElement, int[]> initialPositions = new HashMap<>();
 
     public MoveState(RoomView roomView) {
         this.roomView = roomView;
@@ -218,6 +219,17 @@ public class MoveState implements RoomState {
     @Override
     public void handleMousePressed(MouseEvent e) {
         handleMouseClick(e);
+        System.out.println("PRETISO");
+        initialPositions = new HashMap<>();
+        if (!selectedPainters.isEmpty()) {
+
+            for (Painter painter : selectedPainters) {
+                RoomElement element = painter.getElement();
+                initialPositions.put(element, new int[]{element.getX(), element.getY()});
+                System.out.println(element.getX() + "," + element.getY());
+            }
+        }
+
     }
 
     @Override
@@ -231,22 +243,18 @@ public class MoveState implements RoomState {
     @Override
     public void handleMouseRelease(MouseEvent e) {
         if (!selectedPainters.isEmpty()) {
-            Map<RoomElement, int[]> initialPositions = new HashMap<>();
+
             List<RoomElement> movedElements = new ArrayList<>();
 
-            // Collect initial positions of selected elements
             for (Painter painter : selectedPainters) {
                 RoomElement element = painter.getElement();
-                initialPositions.put(element, new int[]{element.getX(), element.getY()});
                 movedElements.add(element);
             }
 
-            // Create and execute the MoveCommand
             MoveCommand moveCommand = new MoveCommand(roomView, movedElements, initialPositions);
             roomView.getCommandManager().addCommand(moveCommand);
         }
 
-        // Reset state
         selectedPainters.clear();
         previousMouseX = -1;
         previousMouseY = -1;

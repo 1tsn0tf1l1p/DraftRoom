@@ -103,7 +103,7 @@ public class RoomView extends JPanel {
 
         this.addMouseWheelListener(e -> {
             if (currentState instanceof ZoomState) {
-                ((ZoomState) currentState).handleMouseWheelMoved(e);
+                currentState.handleMouseWheelMoved(e);
             }
         });
 
@@ -114,22 +114,18 @@ public class RoomView extends JPanel {
                 repaint();
             }
         });
-        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-            @Override
-            public void eventDispatched(AWTEvent event) {
-                if (event instanceof KeyEvent) {
-                    KeyEvent e = (KeyEvent) event;
-                    if (e.isControlDown()) {
-                        if (e.getKeyCode() == KeyEvent.VK_Z) {
-                            if (commandManager.canUndo()) {
-                                commandManager.undoCommand();
-                                repaint();
-                            }
-                        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
-                            if (commandManager.canRedo()) {
-                                commandManager.redoCommand();
-                                repaint();
-                            }
+        Toolkit.getDefaultToolkit().addAWTEventListener(event -> {
+            if (event instanceof KeyEvent e) {
+                if (e.isControlDown()) {
+                    if (e.getKeyCode() == KeyEvent.VK_Z) {
+                        if (commandManager.canUndo()) {
+                            commandManager.undoCommand();
+                            repaint();
+                        }
+                    } else if (e.getKeyCode() == KeyEvent.VK_Y) {
+                        if (commandManager.canRedo()) {
+                            commandManager.redoCommand();
+                            repaint();
                         }
                     }
                 }
