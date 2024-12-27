@@ -15,9 +15,7 @@ import raf.draft.dsw.view.commands.CommandManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -34,7 +32,6 @@ public class RoomView extends JPanel {
     private Rectangle selectionBox;
     private String selectedItem;
     private CommandManager commandManager;
-
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
@@ -117,6 +114,29 @@ public class RoomView extends JPanel {
                 repaint();
             }
         });
+        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+            @Override
+            public void eventDispatched(AWTEvent event) {
+                if (event instanceof KeyEvent) {
+                    KeyEvent e = (KeyEvent) event;
+                    if (e.isControlDown()) {
+                        if (e.getKeyCode() == KeyEvent.VK_Z) {
+                            if (commandManager.canUndo()) {
+                                commandManager.undoCommand();
+                                repaint();
+                            }
+                        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
+                            if (commandManager.canRedo()) {
+                                commandManager.redoCommand();
+                                repaint();
+                            }
+                        }
+                    }
+                }
+            }
+        }, AWTEvent.KEY_EVENT_MASK);
+
+
     }
 
     private void adjustSizes(JLayeredPane layeredPane) {
