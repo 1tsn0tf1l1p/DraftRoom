@@ -33,7 +33,10 @@ public class MainFrame extends JFrame implements ISubscriber {
     private void initialize() {
         this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
         this.tabContainer = new TabContainer((TreeView) explorer);
-
+        Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
+        if(Taskbar.isTaskbarSupported()) {
+            Taskbar.getTaskbar().setIconImage(appIcon);
+        }
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -54,8 +57,6 @@ public class MainFrame extends JFrame implements ISubscriber {
         add(panel, BorderLayout.CENTER);
 
         this.setVisible(true);
-        Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
-        this.setIconImage(appIcon);
     }
 
     @Override
