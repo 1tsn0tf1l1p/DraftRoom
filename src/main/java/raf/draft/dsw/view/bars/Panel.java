@@ -1,9 +1,11 @@
 package raf.draft.dsw.view.bars;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
+import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.room.RoomView;
 import raf.draft.dsw.view.tab.TabView;
 
@@ -11,8 +13,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
+@Setter
 public class Panel extends JPanel implements ISubscriber {
     private JTree projectExplorer;
     private TabContainer tabContainer;
@@ -23,6 +28,8 @@ public class Panel extends JPanel implements ISubscriber {
     private JPanel rightPanel;
     private RoomView roomView;
     private JToolBar addComponents;
+
+    private Map<Room, RoomView> roomViewCache = new HashMap<>();
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -88,7 +95,15 @@ public class Panel extends JPanel implements ISubscriber {
         }
 
         if (selectedTab != null) {
-            roomView = new RoomView(((TabView) selectedTab).getRoom());
+            Room selectedRoom = ((TabView) selectedTab).getRoom();
+
+            roomView = roomViewCache.getOrDefault(selectedRoom, null);
+
+            if (roomView == null) {
+                roomView = new RoomView(selectedRoom);
+                roomViewCache.put(selectedRoom, roomView);
+            }
+
             rightPanel.add(roomView, BorderLayout.CENTER);
         }
 
@@ -119,5 +134,4 @@ public class Panel extends JPanel implements ISubscriber {
     public void setVisibilityAddPanel(Boolean bool) {
         addComponents.setVisible(bool);
     }
-
 }

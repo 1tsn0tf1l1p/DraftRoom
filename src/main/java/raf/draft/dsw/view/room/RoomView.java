@@ -117,8 +117,6 @@ public class RoomView extends JPanel {
                 repaint();
             }
         });
-
-        addChildren();
     }
 
     private void adjustSizes(JLayeredPane layeredPane) {
@@ -141,7 +139,7 @@ public class RoomView extends JPanel {
     private void addChildren() {
         for (DraftNode element : room.getChildren()) {
             Painter painter = factory.createPainter(element);
-            if (!painters.contains(painter)) { // Prevent duplicate painters
+            if (!painters.contains(painter)) {
                 painters.add(painter);
             }
         }

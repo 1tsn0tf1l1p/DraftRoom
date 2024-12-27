@@ -66,19 +66,16 @@ public class AddState implements RoomState {
             public void windowClosed(java.awt.event.WindowEvent wEvent) {
                 if (createRoomFrame.isConfirmed()) {
                     if (checkIntersection(newElement, 10) || snapToEdge(newElement)) {
-                        ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "Invalid element position!");
-                        //roomView.getPainters().remove(painter);
-                        roomView.getRoom().removeChild(newElement);
-                        roomView.repaint();
+                        ApplicationFramework.getInstance().getMessageGenerator()
+                                .createMessage(MessageType.WARNING, "Invalid element position!");
+                        roomView.getCommandManager().undoCommand();
                         return;
                     }
                     roomView.repaint();
                     TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
                     tree.addChild(treeItem, false, newElement);
                 } else {
-                    //roomView.getPainters().remove(painter);
-                    roomView.getRoom().removeChild(newElement);
-                    roomView.repaint();
+                    roomView.getCommandManager().undoCommand();
                 }
             }
         });
