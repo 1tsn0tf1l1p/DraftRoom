@@ -60,14 +60,12 @@ public class MainFrame extends JFrame implements ISubscriber {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("DraftRoom");
 
-        // Set menu bar and toolbar
         MyMenuBar menu = new MyMenuBar();
         setJMenuBar(menu);
 
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        // Set main panel
         panel = new Panel(tabContainer, explorer);
         add(panel, BorderLayout.CENTER);
 
