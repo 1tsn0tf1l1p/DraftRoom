@@ -7,6 +7,7 @@ import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.commands.concrete_commands.AddCommand;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
@@ -54,9 +55,8 @@ public class AddState implements RoomState {
             return;
         }
 
-        Painter painter = factory.createPainter(newElement);
-        roomView.getPainters().add(painter);
-        roomView.getRoom().addChild(newElement);
+        AddCommand addCommand = new AddCommand(roomView, newElement);
+        roomView.getCommandManager().addCommand(addCommand);
 
         CreateRoomFrame createRoomFrame = new CreateRoomFrame(newElement);
         createRoomFrame.setVisible(true);
@@ -67,7 +67,7 @@ public class AddState implements RoomState {
                 if (createRoomFrame.isConfirmed()) {
                     if (checkIntersection(newElement, 10) || snapToEdge(newElement)) {
                         ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "Invalid element position!");
-                        roomView.getPainters().remove(painter);
+                        //roomView.getPainters().remove(painter);
                         roomView.getRoom().removeChild(newElement);
                         roomView.repaint();
                         return;
@@ -76,7 +76,7 @@ public class AddState implements RoomState {
                     TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
                     tree.addChild(treeItem, false, newElement);
                 } else {
-                    roomView.getPainters().remove(painter);
+                    //roomView.getPainters().remove(painter);
                     roomView.getRoom().removeChild(newElement);
                     roomView.repaint();
                 }

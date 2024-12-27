@@ -11,6 +11,7 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.view.commands.CommandManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,12 +33,14 @@ public class RoomView extends JPanel {
     private Dimension originalSize;
     private Rectangle selectionBox;
     private String selectedItem;
+    private CommandManager commandManager;
 
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
         this.room = room;
         this.painters = new CopyOnWriteArrayList<>();
+        this.commandManager = new CommandManager();
         selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(room);
