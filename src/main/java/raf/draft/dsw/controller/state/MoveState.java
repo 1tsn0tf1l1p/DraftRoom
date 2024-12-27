@@ -2,6 +2,7 @@ package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
+import raf.draft.dsw.view.commands.concrete_commands.MoveCommand;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -11,8 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class MoveState implements RoomState {
@@ -230,6 +230,23 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
+        if (!selectedPainters.isEmpty()) {
+            Map<RoomElement, int[]> initialPositions = new HashMap<>();
+            List<RoomElement> movedElements = new ArrayList<>();
+
+            // Collect initial positions of selected elements
+            for (Painter painter : selectedPainters) {
+                RoomElement element = painter.getElement();
+                initialPositions.put(element, new int[]{element.getX(), element.getY()});
+                movedElements.add(element);
+            }
+
+            // Create and execute the MoveCommand
+            MoveCommand moveCommand = new MoveCommand(roomView, movedElements, initialPositions);
+            roomView.getCommandManager().addCommand(moveCommand);
+        }
+
+        // Reset state
         selectedPainters.clear();
         previousMouseX = -1;
         previousMouseY = -1;
