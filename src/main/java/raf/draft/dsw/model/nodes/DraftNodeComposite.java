@@ -1,5 +1,6 @@
 package raf.draft.dsw.model.nodes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Getter
 public abstract class DraftNodeComposite extends DraftNode {
-
+    @JsonProperty("children")
     private List<DraftNode> children;
 
     /**
@@ -42,5 +43,9 @@ public abstract class DraftNodeComposite extends DraftNode {
      */
     public void removeChild(DraftNode child) {
         children.remove(child);
+    }
+
+    public DraftNodeComposite() {
+        this.children = new ArrayList<>();
     }
 }

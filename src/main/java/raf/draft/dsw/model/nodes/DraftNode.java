@@ -1,5 +1,7 @@
 package raf.draft.dsw.model.nodes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -10,7 +12,11 @@ import java.util.Objects;
  */
 @Getter
 public abstract class DraftNode {
+
+    @JsonProperty("name")
     private String ime;
+
+    @JsonIgnore
     private DraftNodeComposite parent;
 
     /**
@@ -22,6 +28,12 @@ public abstract class DraftNode {
     public DraftNode(String ime, DraftNodeComposite parent) {
         this.ime = ime;
         this.parent = parent;
+    }
+
+    /**
+     * Default constructor for Jackson (required for deserialization).
+     */
+    public DraftNode() {
     }
 
     /**
@@ -40,6 +52,11 @@ public abstract class DraftNode {
      */
     public void setParent(DraftNodeComposite parent) {
         this.parent = parent;
+    }
+
+    @JsonProperty("parent")
+    public String getParentName() {
+        return parent != null ? parent.getIme() : null;
     }
 
     @Override

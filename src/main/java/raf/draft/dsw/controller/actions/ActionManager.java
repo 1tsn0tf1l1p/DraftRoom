@@ -15,6 +15,7 @@ public class ActionManager {
     private AbstractRoomAction renameNodeAction;
     private AbstractRoomAction undoAction;
     private AbstractRoomAction redoAction;
+    private AbstractRoomAction saveAction;
 
     private AbstractRoomAction addStateAction;
     private AbstractRoomAction copyPasteRoomStateAction;
@@ -36,6 +37,7 @@ public class ActionManager {
         this.renameNodeAction = new RenameNodeAction();
         this.undoAction = new UndoAction();
         this.redoAction = new RedoAction();
+        this.saveAction = new SaveAction();
 
         this.addStateAction = new AddStateAction();
         this.copyPasteRoomStateAction = new CopyPasteRoomStateAction();

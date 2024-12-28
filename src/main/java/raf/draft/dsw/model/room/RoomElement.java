@@ -1,5 +1,7 @@
 package raf.draft.dsw.model.room;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
@@ -22,49 +24,27 @@ import java.awt.*;
 @Setter
 public abstract class RoomElement extends DraftNode implements Prototype {
 
-    /**
-     * The X-coordinate of the element's position.
-     */
+    @JsonProperty("x")
     private int x;
 
-    /**
-     * The Y-coordinate of the element's position.
-     */
+    @JsonProperty("y")
     private int y;
 
-    /**
-     * The width of the element.
-     */
+    @JsonProperty("width")
     private int width;
 
-    /**
-     * The height of the element.
-     */
+    @JsonProperty("height")
     private int height;
 
-    /**
-     * The rotation angle of the element, represented as a ratio.
-     */
+    @JsonProperty("rotateRatio")
     private int rotateRatio;
 
-    /**
-     * The X-coordinate of the element's scaled position.
-     */
     private int scaledX;
 
-    /**
-     * The Y-coordinate of the element's scaled position.
-     */
     private int scaledY;
 
-    /**
-     * The scaled width of the element.
-     */
     private int scaledWidth;
 
-    /**
-     * The scaled height of the element.
-     */
     private int scaledHeight;
 
     /**
@@ -78,6 +58,11 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     }
 
     /**
+     * Default constructor for Jackson (required for deserialization).
+     */
+    public RoomElement() {}
+
+    /**
      * Constructs a `RoomElement` by copying the properties of another `RoomElement`.
      * Adjusts the position of the new element to avoid overlapping with the original.
      *
@@ -89,7 +74,7 @@ public abstract class RoomElement extends DraftNode implements Prototype {
         this.setHeight(roomElement.getHeight());
         this.setX(roomElement.getX() + roomElement.getWidth() + 10);
         this.setY(roomElement.getY() + 10);
-        this.setScaledSize(roomElement.getScaledX(), roomElement.getScaledY());
+        this.setScaledSize(roomElement.getScaledWidth(), roomElement.getScaledHeight());
         this.setScaledX(roomElement.getScaledX());
         this.setScaledY(roomElement.getScaledY());
     }
@@ -184,6 +169,7 @@ public abstract class RoomElement extends DraftNode implements Prototype {
      *
      * @return a `Rectangle` representing the bounds of the element.
      */
+    @JsonIgnore
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }

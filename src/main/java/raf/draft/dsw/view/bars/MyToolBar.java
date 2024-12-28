@@ -21,6 +21,7 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getAddRoomNodeAction());
         add(actionManager.getDeleteNodeAction());
         add(actionManager.getRenameNodeAction());
+        add(actionManager.getSaveAction());
         add(Box.createHorizontalGlue());
 
         add(actionManager.getSelectStateAction());
