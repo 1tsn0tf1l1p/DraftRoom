@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class Serializer {
     private final ObjectMapper objectMapper;
+    private final String customExtension = ".dr";
 
     public Serializer() {
         objectMapper = new ObjectMapper();
@@ -21,10 +22,18 @@ public class Serializer {
     }
 
     public void save(Object data, File file) throws IOException {
-        objectMapper.writeValue(file, data);
+        File fileWithExtension = ensureCustomExtension(file);
+        objectMapper.writeValue(fileWithExtension, data);
     }
 
     public <T> T load(File file, Class<T> clazz) throws IOException {
         return objectMapper.readValue(file, clazz);
+    }
+
+    private File ensureCustomExtension(File file) {
+        if (!file.getName().endsWith(customExtension)) {
+            return new File(file.getAbsolutePath() + customExtension);
+        }
+        return file;
     }
 }
