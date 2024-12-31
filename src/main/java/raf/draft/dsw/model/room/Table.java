@@ -15,6 +15,9 @@ public class Table extends RoomElement {
         super(ime, parent);
     }
 
+    public Table() {
+    }
+
     public Table(Table sto) {
         super(sto.getIme(), sto.getParent());
     }

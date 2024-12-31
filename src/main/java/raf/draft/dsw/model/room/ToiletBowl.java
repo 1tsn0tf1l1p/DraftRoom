@@ -15,6 +15,9 @@ public class ToiletBowl extends RoomElement {
         super(ime, parent);
     }
 
+    public ToiletBowl() {
+    }
+
     public ToiletBowl(ToiletBowl wcSolja) {
         super(wcSolja.getIme(), wcSolja.getParent());
     }

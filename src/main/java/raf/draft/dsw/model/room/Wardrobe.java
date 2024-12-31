@@ -15,6 +15,9 @@ public class Wardrobe extends RoomElement {
         super(ime, parent);
     }
 
+    public Wardrobe() {
+    }
+
     public Wardrobe(Wardrobe ormar) {
         super(ormar.getIme(), ormar.getParent());
     }

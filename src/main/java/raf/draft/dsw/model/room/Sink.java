@@ -15,6 +15,9 @@ public class Sink extends RoomElement {
         super(ime, parent);
     }
 
+    public Sink() {
+    }
+
     public Sink(Sink lavabo) {
         super(lavabo.getIme(), lavabo.getParent());
     }

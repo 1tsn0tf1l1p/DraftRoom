@@ -15,6 +15,9 @@ public class WashingMachine extends RoomElement {
         super(ime, parent);
     }
 
+    public WashingMachine() {
+    }
+
     public WashingMachine(WashingMachine vesMasina) {
         super(vesMasina.getIme(), vesMasina.getParent());
     }

@@ -15,6 +15,9 @@ public class Doors extends RoomElement {
         super(ime, parent);
     }
 
+    public Doors() {
+    }
+
     public Doors(Doors vrata) {
         super(vrata.getIme(), vrata.getParent());
     }

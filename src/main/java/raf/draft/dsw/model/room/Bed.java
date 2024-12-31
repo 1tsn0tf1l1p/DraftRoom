@@ -16,9 +16,10 @@ public class Bed extends RoomElement {
 
     public Bed(Bed bed) {
         super(bed);
-
     }
 
+    public Bed() {
+    }
 
     @Override
     public Prototype clone() {

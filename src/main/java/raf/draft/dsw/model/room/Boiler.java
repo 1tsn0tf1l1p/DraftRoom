@@ -19,6 +19,9 @@ public class Boiler extends RoomElement {
         super(bojler.getIme(), bojler.getParent());
     }
 
+    public Boiler() {
+    }
+
     public Boiler(String newBoiler, Room room, int x, int y) {
         super(newBoiler, room, x, y);
     }

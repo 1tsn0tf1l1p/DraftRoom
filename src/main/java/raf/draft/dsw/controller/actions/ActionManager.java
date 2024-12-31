@@ -16,6 +16,7 @@ public class ActionManager {
     private AbstractRoomAction undoAction;
     private AbstractRoomAction redoAction;
     private AbstractRoomAction saveAction;
+    private AbstractRoomAction loadAction;
 
     private AbstractRoomAction addStateAction;
     private AbstractRoomAction copyPasteRoomStateAction;
@@ -38,6 +39,7 @@ public class ActionManager {
         this.undoAction = new UndoAction();
         this.redoAction = new RedoAction();
         this.saveAction = new SaveAction();
+        this.loadAction = new LoadAction();
 
         this.addStateAction = new AddStateAction();
         this.copyPasteRoomStateAction = new CopyPasteRoomStateAction();

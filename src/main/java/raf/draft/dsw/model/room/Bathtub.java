@@ -19,6 +19,9 @@ public class Bathtub extends RoomElement {
         super(kada.getIme(), kada.getParent());
     }
 
+    public Bathtub() {
+    }
+
     public Bathtub(String newBathtub, Room room, int x, int y) {
         super(newBathtub, room, x, y);
     }
