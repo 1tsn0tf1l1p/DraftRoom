@@ -10,6 +10,7 @@ import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class SaveAction extends AbstractRoomAction {
     private Serializer serializer;
     public SaveAction() {
         putValue(NAME, "Save");
+        putValue(SMALL_ICON, loadIcon("/images/save.png"));
         this.serializer = new Serializer();
     }
 
@@ -34,6 +36,9 @@ public class SaveAction extends AbstractRoomAction {
         String filePath = selectedProject.getPath();
         if (true) {
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("DraftRoom files (*.dr)", "dr");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setSelectedFile(new File(selectedProject.getIme() + ".dr"));
             fileChooser.setDialogTitle("Save Project As");
             int userSelection = fileChooser.showSaveDialog(null);
 
