@@ -15,10 +15,12 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class Panel extends JPanel implements ISubscriber {
+
     private JTree projectExplorer;
     private TabContainer tabContainer;
     private JLabel projectLbl;
@@ -29,7 +31,7 @@ public class Panel extends JPanel implements ISubscriber {
     private RoomView roomView;
     private JToolBar addComponents;
 
-    private Map<Room, RoomView> roomViewCache = new HashMap<>();
+    private Map<UUID, RoomView> roomViewCache = new HashMap<>(); // Cache keyed by Room UUID
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -97,11 +99,11 @@ public class Panel extends JPanel implements ISubscriber {
         if (selectedTab != null) {
             Room selectedRoom = ((TabView) selectedTab).getRoom();
 
-            roomView = roomViewCache.getOrDefault(selectedRoom, null);
+            roomView = roomViewCache.getOrDefault(selectedRoom.getId(), null);
 
             if (roomView == null) {
                 roomView = new RoomView(selectedRoom);
-                roomViewCache.put(selectedRoom, roomView);
+                roomViewCache.put(selectedRoom.getId(), roomView);
             }
 
             rightPanel.add(roomView, BorderLayout.CENTER);

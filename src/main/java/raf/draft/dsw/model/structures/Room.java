@@ -11,6 +11,7 @@ import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.room.RoomElement;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -32,8 +33,12 @@ public class Room extends DraftNodeComposite implements IPublisher {
 
     @JsonProperty("y")
     private int y;
+
     @JsonIgnore
     private List<ISubscriber> subscribers;
+
+    @JsonIgnore
+    private UUID id;
 
     /**
      * Constructs a `Room` with the specified name and parent node.
@@ -44,15 +49,16 @@ public class Room extends DraftNodeComposite implements IPublisher {
     public Room(String ime, DraftNodeComposite parent) {
         super(ime, parent);
         this.subscribers = new CopyOnWriteArrayList<>();
+        this.id = UUID.randomUUID();
         this.width = 0;
         this.height = 0;
         this.x = 0;
         this.y = 0;
     }
 
-    // Default constructor for Jackson
     public Room() {
         this.subscribers = new CopyOnWriteArrayList<>();
+        this.id = UUID.randomUUID();
         this.width = 0;
         this.height = 0;
         this.x = 0;
@@ -129,5 +135,29 @@ public class Room extends DraftNodeComposite implements IPublisher {
             }
         }
         notifySubscribers(this);
+    }
+
+    /**
+     * Overrides the equals method to compare Rooms based on their unique ID.
+     *
+     * @param obj the object to compare with.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Room room = (Room) obj;
+        return id.equals(room.id);
+    }
+
+    /**
+     * Overrides the hashCode method to generate a hash based on the unique ID.
+     *
+     * @return the hash code of the Room.
+     */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }
