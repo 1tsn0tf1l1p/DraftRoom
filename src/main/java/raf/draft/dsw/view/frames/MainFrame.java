@@ -18,7 +18,7 @@ import java.awt.*;
 @Setter
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
-    private JTree explorer;
+    private JTree tree;
     private TabContainer tabContainer;
     private Panel panel;
 
@@ -31,8 +31,8 @@ public class MainFrame extends JFrame implements ISubscriber {
     }
 
     private void initialize() {
-        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
-        this.tabContainer = new TabContainer((TreeView) explorer);
+        this.tree = ApplicationFramework.getInstance().getTree().getTreeView();
+        this.tabContainer = new TabContainer((TreeView) tree);
 
         Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
         try {
@@ -66,7 +66,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        panel = new Panel(tabContainer, explorer);
+        panel = new Panel(tabContainer, tree);
         add(panel, BorderLayout.CENTER);
 
         this.setVisible(true);

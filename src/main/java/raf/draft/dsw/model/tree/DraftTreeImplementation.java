@@ -38,6 +38,7 @@ public class DraftTreeImplementation implements DraftTree {
     @Override
     public JTree generateTree(ProjectExplorer projectExplorer) {
         TreeItem root = new TreeItem(projectExplorer);
+        populateTree(root, projectExplorer);
         treeModel = new DefaultTreeModel(root);
         treeView = new TreeView(treeModel);
 
@@ -138,6 +139,17 @@ public class DraftTreeImplementation implements DraftTree {
         node.getNode().getParent().removeChild(node.getNode());
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    private void populateTree(TreeItem parent, DraftNodeComposite node) {
+        for (DraftNode child : node.getChildren()) {
+            TreeItem childItem = new TreeItem(child);
+            parent.add(childItem);
+
+            if (child instanceof DraftNodeComposite) {
+                populateTree(childItem, (DraftNodeComposite) child);
+            }
+        }
     }
 
     @Override

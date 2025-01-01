@@ -26,15 +26,21 @@ public class ApplicationFramework {
     }
 
     private void initialize() {
-        explorerImplementation = new DraftRoomExplorerImplementation();
-        tree = explorerImplementation.getTreeImplementation();
-        projectExplorer = explorerImplementation.getRoot();
-        if (tree != null) {
+        if (explorerImplementation == null) {
+            explorerImplementation = new DraftRoomExplorerImplementation();
+        }
+        if (projectExplorer == null) {
+            projectExplorer = explorerImplementation.getRoot();
+        }
+        if (tree == null) {
+            tree = explorerImplementation.getTreeImplementation();
             tree.generateTree(projectExplorer);
         }
-        messageGenerator = new MessageGenerator();
-        messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
-        messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+        if (messageGenerator == null) {
+            messageGenerator = new MessageGenerator();
+            messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
+            messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+        }
     }
 
     public void postInitialize() {

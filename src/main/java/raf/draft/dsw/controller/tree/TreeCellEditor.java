@@ -41,7 +41,7 @@ public class TreeCellEditor extends DefaultTreeCellEditor implements ActionListe
     public void actionPerformed(ActionEvent e) {
         if (!(clickedOn instanceof TreeItem)) return;
         if (((TreeItem) clickedOn).getNode() instanceof ProjectExplorer) {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot rename project explorer.");
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot rename project tree.");
             cancelCellEditing();
             return;
         }

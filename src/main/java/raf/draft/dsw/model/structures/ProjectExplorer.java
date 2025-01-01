@@ -15,6 +15,7 @@ public class ProjectExplorer extends DraftNodeComposite {
         if (child instanceof Project) {
             if (!this.getChildren().contains(child)) {
                 this.getChildren().add(child);
+                child.setParent(this);
             }
         }
     }
