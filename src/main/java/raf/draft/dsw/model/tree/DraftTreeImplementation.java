@@ -151,7 +151,6 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
     }
-
     @Override
     public TreeItem getSelectedItem() {
         return (TreeItem) treeView.getLastSelectedPathComponent();

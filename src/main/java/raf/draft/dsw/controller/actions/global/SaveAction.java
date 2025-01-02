@@ -29,8 +29,9 @@ public class SaveAction extends AbstractRoomAction {
         Project selectedProject = null;
         if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
         if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
+        // TODO: tree selection
         if (selectedProject == null) {
-            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No project initialized.");
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No project selected.");
             return;
         }
         String filePath = selectedProject.getPath();
@@ -38,6 +39,7 @@ public class SaveAction extends AbstractRoomAction {
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("DraftRoom files (*.dr)", "dr");
             fileChooser.setFileFilter(filter);
+            fileChooser.setSelectedFile(new File(selectedProject.getIme() + ".dr"));
             fileChooser.setSelectedFile(new File(selectedProject.getIme() + ".dr"));
             fileChooser.setDialogTitle("Save Project As");
             int userSelection = fileChooser.showSaveDialog(null);

@@ -16,7 +16,6 @@ public class TabContainer extends JPanel {
     @JsonIgnore
     private final TabbedPane tabbedPane;
     private final TabbedPaneController tabbedPaneController;
-
     public TabContainer(TreeView tree) {
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());

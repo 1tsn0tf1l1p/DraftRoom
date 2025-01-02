@@ -1,6 +1,7 @@
 package raf.draft.dsw.model.core;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.controller.tab.TabbedPaneController;
 import raf.draft.dsw.model.factory.LoggerFactory;
 import raf.draft.dsw.model.messagegenerator.MessageGenerator;
@@ -10,6 +11,7 @@ import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.view.frames.MainFrame;
 
 @Getter
+@Setter
 public class ApplicationFramework {
     private DraftRoomExplorerImplementation explorerImplementation;
     private MessageGenerator messageGenerator;

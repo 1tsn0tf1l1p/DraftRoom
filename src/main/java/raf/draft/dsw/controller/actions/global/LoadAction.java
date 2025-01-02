@@ -2,17 +2,15 @@ package raf.draft.dsw.controller.actions.global;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.model.core.ApplicationFramework;
-import raf.draft.dsw.model.nodes.DraftNode;
-import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.repository.DraftRoomExplorerImplementation;
 import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.bars.TabContainer;
 import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -39,16 +37,16 @@ public class LoadAction extends AbstractRoomAction {
                 projectExplorer.addChild(loadedProject);
                 loadedProject.setParent(projectExplorer);
 
-                DraftTreeImplementation draftTree =
-                        (DraftTreeImplementation) ApplicationFramework.getInstance().getTree();
-                JTree newTree = draftTree.generateTree(projectExplorer);
+                DraftTreeImplementation draftTree = ApplicationFramework.getInstance().getTree();
+                ApplicationFramework.getInstance().getProjectExplorer().addChild(loadedProject);
+                TreeItem treeItem = new TreeItem(loadedProject);
+                //draftTree.addChild(projectExplorer,false,null);
 
-                MainFrame mainFrame = MainFrame.getInstance();
-                mainFrame.getPanel().remove(mainFrame.getTree());
-                mainFrame.getPanel().add(newTree, BorderLayout.WEST);
-                mainFrame.setTree(newTree);
-                mainFrame.revalidate();
-                mainFrame.repaint();
+                JPanel newLeftPanel = new JPanel();
+                newLeftPanel.add(draftTree.getTreeView());
+                MainFrame.getInstance().getPanel().getSplitPane().remove(0);
+                MainFrame.getInstance().getPanel().getSplitPane().add(newLeftPanel);
+                ApplicationFramework.getInstance().setTree(draftTree);
 
                 System.out.println("Loaded project: " + loadedProject.getIme());
                 JOptionPane.showMessageDialog(null,

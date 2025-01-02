@@ -33,6 +33,7 @@ public class TabbedPaneController {
 
     private void handleProjectExplorerMousePress(MouseEvent e, DraftTree tree) {
         if (e.getClickCount() == 2) {
+
             TreeItem treeItem = tree.getSelectedItem();
             if (treeItem.getNode() instanceof Project) {
                 refreshProjectAndTabs((Project) treeItem.getNode());

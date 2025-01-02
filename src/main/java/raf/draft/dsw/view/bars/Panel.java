@@ -23,6 +23,8 @@ public class Panel extends JPanel implements ISubscriber {
 
     private JTree projectExplorer;
     private TabContainer tabContainer;
+    private JSplitPane splitPane;
+    private JPanel leftPanel;
     private JLabel projectLbl;
     private JLabel authorLbl;
     private JLabel pathLbl;
@@ -31,7 +33,7 @@ public class Panel extends JPanel implements ISubscriber {
     private RoomView roomView;
     private JToolBar addComponents;
 
-    private Map<UUID, RoomView> roomViewCache = new HashMap<>(); // Cache keyed by Room UUID
+    private Map<UUID, RoomView> roomViewCache = new HashMap<>();
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -51,7 +53,7 @@ public class Panel extends JPanel implements ISubscriber {
     }
 
     private void init() {
-        JPanel leftPanel = new JPanel();
+        leftPanel = new JPanel();
         leftPanel.add(projectExplorer);
         leftPanel.setBackground(Color.LIGHT_GRAY);
 
@@ -78,7 +80,7 @@ public class Panel extends JPanel implements ISubscriber {
         rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
         rightPanel.add(addComponents, BorderLayout.EAST);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
         splitPane.setBackground(Color.GRAY);
         this.setLayout(new BorderLayout());
