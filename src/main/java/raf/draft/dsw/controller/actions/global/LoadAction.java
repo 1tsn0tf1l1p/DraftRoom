@@ -20,6 +20,7 @@ public class LoadAction extends AbstractRoomAction {
 
     public LoadAction() {
         putValue(NAME, "Load Project");
+        putValue(SMALL_ICON, loadIcon("/images/load.png"));
         serializer = new Serializer();
     }
 
@@ -34,19 +35,10 @@ public class LoadAction extends AbstractRoomAction {
                 ProjectExplorer projectExplorer =
                         ApplicationFramework.getInstance().getProjectExplorer();
 
-                projectExplorer.addChild(loadedProject);
                 loadedProject.setParent(projectExplorer);
-
                 DraftTreeImplementation draftTree = ApplicationFramework.getInstance().getTree();
-                ApplicationFramework.getInstance().getProjectExplorer().addChild(loadedProject);
-                TreeItem treeItem = new TreeItem(loadedProject);
-                //draftTree.addChild(projectExplorer,false,null);
 
-                JPanel newLeftPanel = new JPanel();
-                newLeftPanel.add(draftTree.getTreeView());
-                MainFrame.getInstance().getPanel().getSplitPane().remove(0);
-                MainFrame.getInstance().getPanel().getSplitPane().add(newLeftPanel);
-                ApplicationFramework.getInstance().setTree(draftTree);
+                draftTree.loadProject(projectExplorer,loadedProject);
 
                 System.out.println("Loaded project: " + loadedProject.getIme());
                 JOptionPane.showMessageDialog(null,

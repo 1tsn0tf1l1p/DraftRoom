@@ -47,7 +47,7 @@ public class RoomView extends JPanel {
             currentState = new SelectState(this);
         }
         setLayout(new BorderLayout());
-
+        addChildren();
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setLayout(null);
         add(layeredPane, BorderLayout.CENTER);
@@ -152,7 +152,7 @@ public class RoomView extends JPanel {
         }
     }
 
-    private void addChildren() {
+    public void addChildren() {
         for (DraftNode element : room.getChildren()) {
             Painter painter = factory.createPainter(element);
             if (!painters.contains(painter)) {

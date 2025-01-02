@@ -126,6 +126,23 @@ public class DraftTreeImplementation implements DraftTree {
 
         return null;
     }
+    public void loadProject(ProjectExplorer projectExplorer, Project project) {
+        // Create a tree item for the project
+        TreeItem projectItem = new TreeItem(project);
+
+        // Add the project as a child to the ProjectExplorer
+        projectExplorer.addChild(project);
+
+        // Populate the project with its child nodes recursively
+        populateTree(projectItem, project);
+
+        // Add the project item to the tree model
+        TreeItem root = (TreeItem) treeModel.getRoot();
+        root.add(projectItem);
+
+        // Update the tree UI
+        SwingUtilities.updateComponentTreeUI(treeView);
+    }
 
 
     @Override
