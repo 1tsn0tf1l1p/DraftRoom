@@ -92,9 +92,26 @@ public class DraftTreeImplementation implements DraftTree {
                 ((DraftNodeComposite) parent.getNode()).addChild(item.getNode());
             }
         }
-
+        setProjectChanged(parent.getNode());
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    public void setProjectChanged(DraftNode node){
+        Project project = null;
+        if (node.getParent() == null) {
+            return;
+        }
+        if (node instanceof Project){
+            project= (Project) node;
+        }
+        else if (node.getParent() instanceof Project){
+            project = (Project) node.getParent();
+        }
+        else if (node.getParent().getParent() instanceof Project){
+            project = (Project) node.getParent().getParent();
+        }
+        project.setChanged(true);
     }
 
     public TreeItem returnTreeItemForRoom(DraftNode node) {
@@ -127,20 +144,15 @@ public class DraftTreeImplementation implements DraftTree {
         return null;
     }
     public void loadProject(ProjectExplorer projectExplorer, Project project) {
-        // Create a tree item for the project
         TreeItem projectItem = new TreeItem(project);
 
-        // Add the project as a child to the ProjectExplorer
         projectExplorer.addChild(project);
 
-        // Populate the project with its child nodes recursively
         populateTree(projectItem, project);
 
-        // Add the project item to the tree model
         TreeItem root = (TreeItem) treeModel.getRoot();
         root.add(projectItem);
 
-        // Update the tree UI
         SwingUtilities.updateComponentTreeUI(treeView);
     }
 

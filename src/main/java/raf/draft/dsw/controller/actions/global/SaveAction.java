@@ -4,11 +4,14 @@ import com.sun.tools.javac.Main;
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
+import raf.draft.dsw.model.patterns.observer.IPublisher;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.bars.Panel;
 import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
@@ -17,8 +20,9 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class SaveAction extends AbstractRoomAction {
+public class SaveAction extends AbstractRoomAction implements IPublisher {
     private Serializer serializer;
+    private Panel panel;
     public SaveAction() {
         putValue(NAME, "Save");
         putValue(SMALL_ICON, loadIcon("/images/save.png"));
@@ -59,11 +63,15 @@ public class SaveAction extends AbstractRoomAction {
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File newFile = fileChooser.getSelectedFile();
                 filePath = newFile.getAbsolutePath();
+                if (!filePath.endsWith(serializer.getCustomExtension())) {
+                    filePath = filePath + serializer.getCustomExtension();
+                }
                 selectedProject.setPath(filePath);
             } else {
                 return;
             }
             selectedProject.setChanged(false);
+            notifySubscribers(null);
         }
         try {
             serializer.save(selectedProject, new File(filePath));
@@ -71,5 +79,21 @@ public class SaveAction extends AbstractRoomAction {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error saving project: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public void addSubscriber(ISubscriber subscriber) {
+
+    }
+
+    @Override
+    public void removeSubscriber(ISubscriber subscriber) {
+
+    }
+
+    @Override
+    public <T> void notifySubscribers(T t) {
+        panel = MainFrame.getInstance().getPanel();
+        panel.update(t);
     }
 }

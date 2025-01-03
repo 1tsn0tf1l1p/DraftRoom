@@ -2,6 +2,7 @@ package raf.draft.dsw.model.serialization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lombok.Getter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.serialization.deserializers.ColorDeserializer;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 public class Serializer {
     private final ObjectMapper objectMapper;
+    @Getter
     private final String customExtension = ".dr";
 
     public Serializer() {
@@ -32,10 +34,8 @@ public class Serializer {
     }
 
     public <T> T load(File file, Class<T> clazz) throws IOException {
-        // Deserialize the file into the specified class
         T data = objectMapper.readValue(file, clazz);
 
-        // If the deserialized object is a DraftNodeComposite, link parent-child relationships
         if (data instanceof DraftNodeComposite) {
             linkParentChildRelationships((DraftNodeComposite) data);
         }
@@ -58,10 +58,8 @@ public class Serializer {
     private void linkParentChildRelationships(DraftNodeComposite root) {
         Map<UUID, DraftNodeComposite> nodeMap = new HashMap<>();
 
-        // Build a map of all nodes by their IDs
         buildNodeMap(root, nodeMap);
 
-        // Set the parent references
         setParentReferences(root, nodeMap);
     }
 
