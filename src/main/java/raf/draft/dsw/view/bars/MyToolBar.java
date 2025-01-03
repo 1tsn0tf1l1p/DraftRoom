@@ -24,6 +24,8 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getSaveAction());
         add(actionManager.getSaveAsAction());
         add(actionManager.getLoadAction());
+        add(actionManager.getSaveTemplateAction());
+        add(actionManager.getTemplateChooserAction());
         add(Box.createHorizontalGlue());
 
         add(actionManager.getSelectStateAction());
