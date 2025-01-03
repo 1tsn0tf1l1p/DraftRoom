@@ -18,6 +18,8 @@ public class ActionManager {
     private AbstractRoomAction saveAction;
     private AbstractRoomAction saveAsAction;
     private AbstractRoomAction loadAction;
+    private AbstractRoomAction templateChooserAction;
+    private AbstractRoomAction saveTemplateAction;
 
     private AbstractRoomAction addStateAction;
     private AbstractRoomAction copyPasteRoomStateAction;
@@ -41,6 +43,8 @@ public class ActionManager {
         this.redoAction = new RedoAction();
         this.saveAction = new SaveAction();
         this.loadAction = new LoadAction();
+        this.templateChooserAction = new TemplateChooserAction();
+        this.saveTemplateAction = new SaveTemplateAction();
         this.saveAsAction = new SaveAsAction();
         this.addStateAction = new AddStateAction();
         this.copyPasteRoomStateAction = new CopyPasteRoomStateAction();
