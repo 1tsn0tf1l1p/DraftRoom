@@ -42,6 +42,7 @@ public class RotateRightCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override

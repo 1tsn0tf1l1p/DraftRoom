@@ -10,6 +10,7 @@ import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.patterns.state.RoomState;
+import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.commands.CommandManager;
 
@@ -80,6 +81,7 @@ public class RoomView extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 handleMousePress(e);
+
             }
 
             @Override
@@ -195,5 +197,13 @@ public class RoomView extends JPanel {
     private void handleMouseRelease(MouseEvent e) {
         currentState.handleMouseRelease(e);
         repaint();
+    }
+    public void setProjectChanged(){
+        Project project;
+        if (room.getParent() instanceof Project){
+            project = (Project) room.getParent();
+        }
+        else project = (Project) room.getParent().getParent();
+        project.setChanged(true);
     }
 }

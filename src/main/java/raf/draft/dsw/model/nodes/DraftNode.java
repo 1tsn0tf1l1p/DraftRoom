@@ -1,14 +1,16 @@
 package raf.draft.dsw.model.nodes;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
+import lombok.Setter;
+import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
 import java.util.Objects;
+import java.util.UUID;
 
-/**
- * The DraftNode class is an abstract class that represents a node in a draft.
- * It contains a name and a reference to its parent node.
- */
 @Getter
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -32,11 +34,23 @@ import java.util.Objects;
 })
 public abstract class DraftNode {
 
+    /**
+     * -- SETTER --
+     *  Sets the name of the node.
+     *
+     * @param ime the new name of the node
+     */
+    @Setter
     @JsonProperty("name")
     private String ime;
 
     @JsonIgnore
     private DraftNodeComposite parent;
+
+    @JsonProperty("parentId")
+    private UUID parentId;
+
+    private UUID id = UUID.randomUUID();
 
     /**
      * Constructs a DraftNode with the specified name and parent.
@@ -47,22 +61,15 @@ public abstract class DraftNode {
     public DraftNode(String ime, DraftNodeComposite parent) {
         this.ime = ime;
         this.parent = parent;
+        if (parent != null) {
+            this.parentId = parent.getId();
+        }
     }
 
     /**
      * Default constructor for Jackson (required for deserialization).
      */
-    public DraftNode() {
-    }
-
-    /**
-     * Sets the name of the node.
-     *
-     * @param ime the new name of the node
-     */
-    public void setIme(String ime) {
-        this.ime = ime;
-    }
+    public DraftNode() {}
 
     /**
      * Sets the parent of the node.
@@ -71,13 +78,11 @@ public abstract class DraftNode {
      */
     public void setParent(DraftNodeComposite parent) {
         this.parent = parent;
+        if (parent != null) {
+            this.parentId = parent.getId();
+        }
     }
 
-    /**
-     * Provides the name of the parent node for JSON serialization.
-     *
-     * @return the name of the parent node or null if no parent exists
-     */
     @JsonProperty("parent")
     public String getParentName() {
         return parent != null ? parent.getIme() : null;

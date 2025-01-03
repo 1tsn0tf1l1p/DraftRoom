@@ -10,23 +10,24 @@ import java.awt.*;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Project extends DraftNodeComposite {
-    @Setter
     @JsonProperty("author")
     private String author;
 
-    @Setter
     @JsonProperty("path")
     private String path;
 
     @JsonProperty("color")
     private Color color;
+    private boolean changed;
 
     public Project(String ime, DraftNodeComposite parent, String author, String path) {
         super(ime, parent);
         this.color = Color.WHITE;
         this.author = author;
         this.path = path;
+        this.changed = true;
     }
 
     @Override

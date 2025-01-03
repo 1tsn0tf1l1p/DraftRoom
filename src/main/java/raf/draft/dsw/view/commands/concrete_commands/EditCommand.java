@@ -30,6 +30,7 @@ public class EditCommand implements Command {
             painter.getElement().setRotateRatio(newState.getRotateRatio());
 
             roomView.repaint();
+            roomView.setProjectChanged();
         }
         else {
             CreateRoomFrame createRoomFrame = new CreateRoomFrame(painter.getElement());
@@ -40,6 +41,7 @@ public class EditCommand implements Command {
                 public void windowClosed(java.awt.event.WindowEvent e) {
                     newState = (RoomElement) painter.getElement().clone();
                     roomView.repaint();
+                    roomView.setProjectChanged();
                 }
             });
         }

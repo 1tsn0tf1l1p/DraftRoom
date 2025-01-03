@@ -36,6 +36,7 @@ public class ResizeCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override

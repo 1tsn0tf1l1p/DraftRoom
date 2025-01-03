@@ -42,6 +42,7 @@ public class DeleteCommand implements Command {
 
         roomView.getPainters().removeAll(paintersToRemove);
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override

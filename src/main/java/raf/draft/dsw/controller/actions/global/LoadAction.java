@@ -6,10 +6,6 @@ import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
-import raf.draft.dsw.model.tree.TreeItem;
-import raf.draft.dsw.view.bars.TabContainer;
-import raf.draft.dsw.view.frames.MainFrame;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -45,6 +41,7 @@ public class LoadAction extends AbstractRoomAction {
                         "Project loaded successfully!",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
+                loadedProject.setChanged(false);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null,
                         "Error loading project: " + ex.getMessage(),
@@ -52,5 +49,6 @@ public class LoadAction extends AbstractRoomAction {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }
 }

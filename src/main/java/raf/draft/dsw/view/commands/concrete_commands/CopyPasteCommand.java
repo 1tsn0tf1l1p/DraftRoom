@@ -47,6 +47,7 @@ public class CopyPasteCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override

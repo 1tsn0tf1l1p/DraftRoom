@@ -7,6 +7,8 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.model.tree.DraftTreeImplementation;
+import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
@@ -25,17 +27,24 @@ public class SaveAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
+        TreeItem selectedItem = MainFrame.getInstance().getTree().getSelectedItem();
+
         Project selectedProject = null;
-        System.out.println(focusedRoom);
-        System.out.println(focusedRoom.getParent());
-        if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
-        if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
-        // TODO: tree selection
+        if (MainFrame.getInstance().getPanel().getRoomView() !=null){
+            Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
+            if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
+            if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
+        }
+        if (selectedItem.getNode() instanceof Project) {
+            selectedProject = (Project) selectedItem.getNode();
+        }
+
         if (selectedProject == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No project selected.");
             return;
         }
+        if (!selectedProject.isChanged()) return;
+
         String filePath = selectedProject.getPath();
         File file = new File(filePath);
         if (!file.exists()) {
@@ -54,6 +63,7 @@ public class SaveAction extends AbstractRoomAction {
             } else {
                 return;
             }
+            selectedProject.setChanged(false);
         }
         try {
             serializer.save(selectedProject, new File(filePath));

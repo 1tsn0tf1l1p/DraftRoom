@@ -30,6 +30,7 @@ public class AddCommand implements Command {
         TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
         tree.addChild(treeItem, false, newElement);
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override

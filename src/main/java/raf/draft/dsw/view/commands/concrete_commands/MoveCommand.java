@@ -34,6 +34,8 @@ public class MoveCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
+
     }
 
     @Override

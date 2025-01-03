@@ -43,6 +43,7 @@ public class RotateLeftCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 
     @Override
@@ -54,5 +55,6 @@ public class RotateLeftCommand implements Command {
         }
 
         roomView.repaint();
+        roomView.setProjectChanged();
     }
 }

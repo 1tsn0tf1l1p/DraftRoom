@@ -6,6 +6,7 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.frames.MainFrame;
 
 import javax.swing.*;
@@ -24,11 +25,18 @@ public class SaveAsAction extends AbstractRoomAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
+        TreeItem selectedItem = MainFrame.getInstance().getTree().getSelectedItem();
+
         Project selectedProject = null;
-        if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
-        if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
-        // TODO: tree selection
+        if (MainFrame.getInstance().getPanel().getRoomView() !=null){
+            Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
+            if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
+            if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
+        }
+        if (selectedItem.getNode() instanceof Project) {
+            selectedProject = (Project) selectedItem.getNode();
+        }
+
         if (selectedProject == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No project selected.");
             return;
@@ -50,7 +58,6 @@ public class SaveAsAction extends AbstractRoomAction {
         } else {
             return;
         }
-
         try {
             serializer.save(selectedProject, new File(filePath));
             JOptionPane.showMessageDialog(null, "Project saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
