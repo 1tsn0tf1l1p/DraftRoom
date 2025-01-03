@@ -3,10 +3,10 @@ package raf.draft.dsw.controller.state;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
-import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
-import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.commands.concrete_commands.AddCommand;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
@@ -54,9 +54,7 @@ public class AddState implements RoomState {
             return;
         }
 
-        Painter painter = factory.createPainter(newElement);
-        roomView.getPainters().add(painter);
-        roomView.getRoom().addChild(newElement);
+        AddCommand addCommand = new AddCommand(roomView, newElement);
 
         CreateRoomFrame createRoomFrame = new CreateRoomFrame(newElement);
         createRoomFrame.setVisible(true);
@@ -66,19 +64,15 @@ public class AddState implements RoomState {
             public void windowClosed(java.awt.event.WindowEvent wEvent) {
                 if (createRoomFrame.isConfirmed()) {
                     if (checkIntersection(newElement, 10) || snapToEdge(newElement)) {
-                        ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "Invalid element position!");
-                        roomView.getPainters().remove(painter);
-                        roomView.getRoom().removeChild(newElement);
-                        roomView.repaint();
+                        ApplicationFramework.getInstance().getMessageGenerator()
+                                .createMessage(MessageType.WARNING, "Invalid element position!");
                         return;
                     }
+                    roomView.getCommandManager().addCommand(addCommand);
                     roomView.repaint();
-                    TreeItem treeItem = tree.returnTreeItemForRoom(roomView.getRoom());
-                    tree.addChild(treeItem, false, newElement);
                 } else {
-                    roomView.getPainters().remove(painter);
-                    roomView.getRoom().removeChild(newElement);
-                    roomView.repaint();
+                    roomView.getCommandManager().addCommand(addCommand);
+                    roomView.getCommandManager().undoCommand();
                 }
             }
         });

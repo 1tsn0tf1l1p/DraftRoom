@@ -1,5 +1,6 @@
 package raf.draft.dsw.view.bars;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import raf.draft.dsw.controller.tab.TabbedPaneController;
 import raf.draft.dsw.model.core.ApplicationFramework;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 @Getter
 public class TabContainer extends JPanel {
-
+    @JsonIgnore
     private final TabbedPane tabbedPane;
     private final TabbedPaneController tabbedPaneController;
 

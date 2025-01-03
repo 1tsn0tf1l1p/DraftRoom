@@ -1,7 +1,7 @@
 package raf.draft.dsw.model.tree;
 
 import raf.draft.dsw.model.nodes.DraftNode;
-import raf.draft.dsw.model.observer.IPublisher;
+import raf.draft.dsw.model.patterns.observer.IPublisher;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 
@@ -13,9 +13,9 @@ import javax.swing.*;
  */
 public interface DraftTree extends IPublisher {
     /**
-     * Generates a JTree based on the given project explorer.
+     * Generates a JTree based on the given project tree.
      *
-     * @param projectExplorer the project explorer to generate the tree from
+     * @param projectExplorer the project tree to generate the tree from
      * @return the generated JTree
      */
     JTree generateTree(ProjectExplorer projectExplorer);

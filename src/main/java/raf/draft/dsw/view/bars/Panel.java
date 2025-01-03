@@ -1,9 +1,11 @@
 package raf.draft.dsw.view.bars;
 
 import lombok.Getter;
-import raf.draft.dsw.model.observer.ISubscriber;
+import lombok.Setter;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
+import raf.draft.dsw.model.structures.Room;
 import raf.draft.dsw.view.room.RoomView;
 import raf.draft.dsw.view.tab.TabView;
 
@@ -11,11 +13,18 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Getter
+@Setter
 public class Panel extends JPanel implements ISubscriber {
+
     private JTree projectExplorer;
     private TabContainer tabContainer;
+    private JSplitPane splitPane;
+    private JPanel leftPanel;
     private JLabel projectLbl;
     private JLabel authorLbl;
     private JLabel pathLbl;
@@ -23,6 +32,8 @@ public class Panel extends JPanel implements ISubscriber {
     private JPanel rightPanel;
     private RoomView roomView;
     private JToolBar addComponents;
+
+    private Map<UUID, RoomView> roomViewCache = new HashMap<>();
 
     public Panel(TabContainer tabContainer, JTree projectExplorer) {
         this.projectExplorer = projectExplorer;
@@ -42,7 +53,7 @@ public class Panel extends JPanel implements ISubscriber {
     }
 
     private void init() {
-        JPanel leftPanel = new JPanel();
+        leftPanel = new JPanel();
         leftPanel.add(projectExplorer);
         leftPanel.setBackground(Color.LIGHT_GRAY);
 
@@ -69,7 +80,7 @@ public class Panel extends JPanel implements ISubscriber {
         rightPanel.add(tabContainer, BorderLayout.NORTH);
         rightPanel.add(labelsPanel, BorderLayout.SOUTH);
         rightPanel.add(addComponents, BorderLayout.EAST);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.2);
         splitPane.setBackground(Color.GRAY);
         this.setLayout(new BorderLayout());
@@ -88,7 +99,15 @@ public class Panel extends JPanel implements ISubscriber {
         }
 
         if (selectedTab != null) {
-            roomView = new RoomView(((TabView) selectedTab).getRoom());
+            Room selectedRoom = ((TabView) selectedTab).getRoom();
+
+            roomView = roomViewCache.getOrDefault(selectedRoom.getId(), null);
+
+            if (roomView == null) {
+                roomView = new RoomView(selectedRoom);
+                roomViewCache.put(selectedRoom.getId(), roomView);
+            }
+
             rightPanel.add(roomView, BorderLayout.CENTER);
         }
 
@@ -119,5 +138,4 @@ public class Panel extends JPanel implements ISubscriber {
     public void setVisibilityAddPanel(Boolean bool) {
         addComponents.setVisible(bool);
     }
-
 }

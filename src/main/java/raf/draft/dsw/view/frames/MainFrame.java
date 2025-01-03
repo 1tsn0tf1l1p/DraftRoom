@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
+import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.view.bars.MyMenuBar;
 import raf.draft.dsw.view.bars.MyToolBar;
 import raf.draft.dsw.view.bars.Panel;
 import raf.draft.dsw.view.bars.TabContainer;
-import raf.draft.dsw.view.tree.TreeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ import java.awt.*;
 @Setter
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
-    private JTree explorer;
+    private DraftTreeImplementation tree;
     private TabContainer tabContainer;
     private Panel panel;
 
@@ -31,8 +31,25 @@ public class MainFrame extends JFrame implements ISubscriber {
     }
 
     private void initialize() {
-        this.explorer = ApplicationFramework.getInstance().getTree().getTreeView();
-        this.tabContainer = new TabContainer((TreeView) explorer);
+        this.tree = ApplicationFramework.getInstance().getTree();
+        this.tabContainer = new TabContainer(tree.getTreeView());
+
+        Image appIcon = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo.png"));
+        try {
+            if (Taskbar.isTaskbarSupported()) {
+                Taskbar taskbar = Taskbar.getTaskbar();
+                if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                    taskbar.setIconImage(appIcon);
+                } else {
+                    setIconImage(appIcon);
+                }
+            } else {
+                setIconImage(appIcon);
+            }
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Taskbar feature is not supported: " + e.getMessage());
+            setIconImage(appIcon);
+        }
 
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
@@ -49,7 +66,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
 
-        panel = new Panel(tabContainer, explorer);
+        panel = new Panel(tabContainer, tree.getTreeView());
         add(panel, BorderLayout.CENTER);
 
         this.setVisible(true);

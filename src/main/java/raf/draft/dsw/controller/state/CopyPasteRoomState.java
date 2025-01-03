@@ -1,10 +1,10 @@
 package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.core.ApplicationFramework;
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
-import raf.draft.dsw.model.state.RoomState;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
-import raf.draft.dsw.model.tree.TreeItem;
+import raf.draft.dsw.view.commands.concrete_commands.CopyPasteCommand;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -23,16 +23,19 @@ public class CopyPasteRoomState implements RoomState {
 
     @Override
     public void handleMouseClick(MouseEvent e) {
+        CopyPasteCommand copyPasteCommand = new CopyPasteCommand(roomView);
+
         for (Painter painter : roomView.getPainters()) {
             if (painter.elementAt(painter.getElement(), e.getPoint())) {
                 RoomElement roomElement = (RoomElement) painter.getElement().clone();
                 Painter newPainter = roomView.getFactory().createPainter(roomElement);
-                roomView.getRoom().addChild(roomElement);
-                roomView.getPainters().add(newPainter);
-                roomView.repaint();
-                TreeItem item = treeImplementation.returnTreeItemForRoom(roomView.getRoom());
-                treeImplementation.addChild(item, false, roomElement);
+
+                copyPasteCommand.addCopiedElement(roomElement, newPainter);
             }
+        }
+
+        if (!copyPasteCommand.getCopiedElements().isEmpty()) {
+            roomView.getCommandManager().addCommand(copyPasteCommand);
         }
     }
 

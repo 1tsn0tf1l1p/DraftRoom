@@ -7,7 +7,7 @@ import raf.draft.dsw.model.factory.TreeFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Project;
@@ -38,6 +38,7 @@ public class DraftTreeImplementation implements DraftTree {
     @Override
     public JTree generateTree(ProjectExplorer projectExplorer) {
         TreeItem root = new TreeItem(projectExplorer);
+        populateTree(root, projectExplorer);
         treeModel = new DefaultTreeModel(root);
         treeView = new TreeView(treeModel);
 
@@ -91,9 +92,24 @@ public class DraftTreeImplementation implements DraftTree {
                 ((DraftNodeComposite) parent.getNode()).addChild(item.getNode());
             }
         }
-
+        setProjectChanged(parent.getNode());
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    public void setProjectChanged(DraftNode node) {
+        Project project = null;
+        if (node.getParent() == null) {
+            return;
+        }
+        if (node instanceof Project) {
+            project = (Project) node;
+        } else if (node.getParent() instanceof Project) {
+            project = (Project) node.getParent();
+        } else if (node.getParent().getParent() instanceof Project) {
+            project = (Project) node.getParent().getParent();
+        }
+        project.setChanged(true);
     }
 
     public TreeItem returnTreeItemForRoom(DraftNode node) {
@@ -126,6 +142,19 @@ public class DraftTreeImplementation implements DraftTree {
         return null;
     }
 
+    public void loadProject(ProjectExplorer projectExplorer, Project project) {
+        TreeItem projectItem = new TreeItem(project);
+
+        projectExplorer.addChild(project);
+
+        populateTree(projectItem, project);
+
+        TreeItem root = (TreeItem) treeModel.getRoot();
+        root.add(projectItem);
+
+        SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
 
     @Override
     public void removeChild(TreeItem node) {
@@ -138,6 +167,17 @@ public class DraftTreeImplementation implements DraftTree {
         node.getNode().getParent().removeChild(node.getNode());
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    private void populateTree(TreeItem parent, DraftNodeComposite node) {
+        for (DraftNode child : node.getChildren()) {
+            TreeItem childItem = new TreeItem(child);
+            parent.add(childItem);
+
+            if (child instanceof DraftNodeComposite) {
+                populateTree(childItem, (DraftNodeComposite) child);
+            }
+        }
     }
 
     @Override

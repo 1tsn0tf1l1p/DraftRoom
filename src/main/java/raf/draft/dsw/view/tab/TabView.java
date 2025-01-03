@@ -1,7 +1,7 @@
 package raf.draft.dsw.view.tab;
 
 import lombok.Getter;
-import raf.draft.dsw.model.observer.ISubscriber;
+import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.structures.Building;
 import raf.draft.dsw.model.structures.Room;
 

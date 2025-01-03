@@ -1,6 +1,7 @@
 package raf.draft.dsw.model.core;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.draft.dsw.controller.tab.TabbedPaneController;
 import raf.draft.dsw.model.factory.LoggerFactory;
 import raf.draft.dsw.model.messagegenerator.MessageGenerator;
@@ -10,6 +11,7 @@ import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.view.frames.MainFrame;
 
 @Getter
+@Setter
 public class ApplicationFramework {
     private DraftRoomExplorerImplementation explorerImplementation;
     private MessageGenerator messageGenerator;
@@ -26,15 +28,21 @@ public class ApplicationFramework {
     }
 
     private void initialize() {
-        explorerImplementation = new DraftRoomExplorerImplementation();
-        tree = explorerImplementation.getTreeImplementation();
-        projectExplorer = explorerImplementation.getRoot();
-        if (tree != null) {
+        if (explorerImplementation == null) {
+            explorerImplementation = new DraftRoomExplorerImplementation();
+        }
+        if (projectExplorer == null) {
+            projectExplorer = explorerImplementation.getRoot();
+        }
+        if (tree == null) {
+            tree = explorerImplementation.getTreeImplementation();
             tree.generateTree(projectExplorer);
         }
-        messageGenerator = new MessageGenerator();
-        messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
-        messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+        if (messageGenerator == null) {
+            messageGenerator = new MessageGenerator();
+            messageGenerator.addSubscriber(LoggerFactory.create("ConsoleLogger"));
+            messageGenerator.addSubscriber(LoggerFactory.create("FileLogger"));
+        }
     }
 
     public void postInitialize() {

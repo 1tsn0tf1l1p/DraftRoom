@@ -21,6 +21,9 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getAddRoomNodeAction());
         add(actionManager.getDeleteNodeAction());
         add(actionManager.getRenameNodeAction());
+        add(actionManager.getSaveAction());
+        add(actionManager.getSaveAsAction());
+        add(actionManager.getLoadAction());
         add(Box.createHorizontalGlue());
 
         add(actionManager.getSelectStateAction());
@@ -35,6 +38,8 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getZoomStateAction());
 
         add(Box.createHorizontalGlue());
+        add(actionManager.getUndoAction());
+        add(actionManager.getRedoAction());
         add(actionManager.getAboutUsAction());
         add(actionManager.getExitAction());
 

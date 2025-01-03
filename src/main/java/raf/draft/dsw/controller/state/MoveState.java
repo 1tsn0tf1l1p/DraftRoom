@@ -1,7 +1,8 @@
 package raf.draft.dsw.controller.state;
 
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.view.commands.concrete_commands.MoveCommand;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -11,12 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.*;
 
 public class MoveState implements RoomState {
 
+    Map<RoomElement, int[]> initialPositions = new HashMap<>();
     private RoomView roomView;
     private List<Painter> selectedPainters;
     private double previousMouseX;
@@ -218,6 +219,15 @@ public class MoveState implements RoomState {
     @Override
     public void handleMousePressed(MouseEvent e) {
         handleMouseClick(e);
+        initialPositions = new HashMap<>();
+        if (!selectedPainters.isEmpty()) {
+
+            for (Painter painter : selectedPainters) {
+                RoomElement element = painter.getElement();
+                initialPositions.put(element, new int[]{element.getX(), element.getY()});
+            }
+        }
+
     }
 
     @Override
@@ -230,6 +240,19 @@ public class MoveState implements RoomState {
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
+        if (!selectedPainters.isEmpty()) {
+
+            List<RoomElement> movedElements = new ArrayList<>();
+
+            for (Painter painter : selectedPainters) {
+                RoomElement element = painter.getElement();
+                movedElements.add(element);
+            }
+
+            MoveCommand moveCommand = new MoveCommand(roomView, movedElements, initialPositions);
+            roomView.getCommandManager().addCommand(moveCommand);
+        }
+
         selectedPainters.clear();
         previousMouseX = -1;
         previousMouseY = -1;

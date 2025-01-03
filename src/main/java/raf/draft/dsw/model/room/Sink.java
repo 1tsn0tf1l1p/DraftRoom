@@ -1,7 +1,7 @@
 package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
-import raf.draft.dsw.model.prototype.Prototype;
+import raf.draft.dsw.model.patterns.prototype.Prototype;
 import raf.draft.dsw.model.structures.Room;
 
 public class Sink extends RoomElement {
@@ -13,6 +13,9 @@ public class Sink extends RoomElement {
      */
     public Sink(String ime, DraftNodeComposite parent) {
         super(ime, parent);
+    }
+
+    public Sink() {
     }
 
     public Sink(Sink lavabo) {

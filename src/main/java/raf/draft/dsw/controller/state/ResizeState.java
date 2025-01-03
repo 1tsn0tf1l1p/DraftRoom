@@ -1,7 +1,8 @@
 package raf.draft.dsw.controller.state;
 
+import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.view.commands.concrete_commands.ResizeCommand;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 
@@ -116,6 +117,19 @@ public class ResizeState implements RoomState {
 
     @Override
     public void handleMouseRelease(MouseEvent e) {
+        if (selectedElement != null && isResizing) {
+            ResizeCommand resizeCommand = new ResizeCommand(roomView);
+
+            resizeCommand.addElement(
+                    selectedElement,
+                    initialWidth, initialHeight, initialX, initialY,
+                    selectedElement.getWidth(), selectedElement.getHeight(),
+                    selectedElement.getX(), selectedElement.getY()
+            );
+
+            roomView.getCommandManager().addCommand(resizeCommand);
+        }
+
         isResizing = false;
         selectedElement = null;
     }

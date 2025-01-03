@@ -9,11 +9,14 @@ import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.factory.RoomElementFactory;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.nodes.DraftNode;
-import raf.draft.dsw.model.state.RoomState;
+import raf.draft.dsw.model.patterns.state.RoomState;
+import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
+import raf.draft.dsw.view.commands.CommandManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -32,12 +35,13 @@ public class RoomView extends JPanel {
     private Dimension originalSize;
     private Rectangle selectionBox;
     private String selectedItem;
-
+    private CommandManager commandManager;
     private JComponent selectionBoxLayer;
 
     public RoomView(Room room) {
         this.room = room;
         this.painters = new CopyOnWriteArrayList<>();
+        this.commandManager = new CommandManager();
         selectedItem = "bed";
         this.originalSize = new Dimension(800, 600);
         factory = new RoomElementFactory(room);
@@ -47,7 +51,7 @@ public class RoomView extends JPanel {
             currentState = new SelectState(this);
         }
         setLayout(new BorderLayout());
-
+        addChildren();
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setLayout(null);
         add(layeredPane, BorderLayout.CENTER);
@@ -80,6 +84,7 @@ public class RoomView extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 handleMousePress(e);
+
             }
 
             @Override
@@ -103,7 +108,7 @@ public class RoomView extends JPanel {
 
         this.addMouseWheelListener(e -> {
             if (currentState instanceof ZoomState) {
-                ((ZoomState) currentState).handleMouseWheelMoved(e);
+                currentState.handleMouseWheelMoved(e);
             }
         });
 
@@ -114,8 +119,25 @@ public class RoomView extends JPanel {
                 repaint();
             }
         });
+        Toolkit.getDefaultToolkit().addAWTEventListener(event -> {
+            if (event instanceof KeyEvent e) {
+                if (e.isControlDown()) {
+                    if (e.getKeyCode() == KeyEvent.VK_Z) {
+                        if (commandManager.canUndo() && e.getID() == KeyEvent.KEY_RELEASED) {
+                            commandManager.undoCommand();
+                            repaint();
+                        }
+                    } else if (e.getKeyCode() == KeyEvent.VK_Y && e.getID() == KeyEvent.KEY_RELEASED) {
+                        if (commandManager.canRedo()) {
+                            commandManager.redoCommand();
+                            repaint();
+                        }
+                    }
+                }
+            }
+        }, AWTEvent.KEY_EVENT_MASK);
 
-        addChildren();
+
     }
 
     private void adjustSizes(JLayeredPane layeredPane) {
@@ -135,10 +157,10 @@ public class RoomView extends JPanel {
         }
     }
 
-    private void addChildren() {
+    public void addChildren() {
         for (DraftNode element : room.getChildren()) {
             Painter painter = factory.createPainter(element);
-            if (!painters.contains(painter)) { // Prevent duplicate painters
+            if (!painters.contains(painter)) {
                 painters.add(painter);
             }
         }
@@ -178,5 +200,13 @@ public class RoomView extends JPanel {
     private void handleMouseRelease(MouseEvent e) {
         currentState.handleMouseRelease(e);
         repaint();
+    }
+
+    public void setProjectChanged() {
+        Project project;
+        if (room.getParent() instanceof Project) {
+            project = (Project) room.getParent();
+        } else project = (Project) room.getParent().getParent();
+        project.setChanged(true);
     }
 }

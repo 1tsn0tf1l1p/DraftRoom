@@ -1,5 +1,6 @@
 package raf.draft.dsw.model.structures;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import raf.draft.dsw.model.nodes.DraftNode;
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
@@ -10,21 +11,24 @@ import java.util.Random;
 
 @Getter
 public class Building extends DraftNodeComposite {
+    @JsonProperty("color")
     private Color color;
 
     public Building(String ime, DraftNodeComposite parent) {
         super(ime, parent);
-        color = new Color(new Random().nextInt(255),
+        this.color = new Color(new Random().nextInt(255),
                 new Random().nextInt(85, 170),
                 new Random().nextInt(85, 170));
+    }
+
+    // Default constructor for Jackson
+    public Building() {
     }
 
     @Override
     public void addChild(DraftNode child) {
         if (child instanceof Room) {
-            if (!this.getChildren().contains(child)) {
-                this.getChildren().add(child);
-            }
+            super.addChild(child);
         }
     }
 

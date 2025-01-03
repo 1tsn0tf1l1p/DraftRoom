@@ -1,5 +1,6 @@
 package raf.draft.dsw.model.structures;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import raf.draft.dsw.model.nodes.DraftNode;
@@ -9,26 +10,35 @@ import java.awt.*;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Project extends DraftNodeComposite {
-    @Setter
+    @JsonProperty("author")
     private String author;
-    @Setter
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("color")
     private Color color;
+    private boolean changed;
 
     public Project(String ime, DraftNodeComposite parent, String author, String path) {
         super(ime, parent);
-        color = Color.WHITE;
+        this.color = Color.WHITE;
         this.author = author;
         this.path = path;
+        this.changed = true;
+    }
+
+    // Default constructor for Jackson
+    public Project() {
+        this.color = Color.WHITE;
     }
 
     @Override
     public void addChild(DraftNode child) {
         if (child instanceof Building || child instanceof Room) {
-            if (!this.getChildren().contains(child)) {
-                this.getChildren().add(child);
-            }
+            super.addChild(child);
         }
     }
 
