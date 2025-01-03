@@ -17,32 +17,41 @@ public class RoomElementFactory {
 
     public RoomElement create(String type, MouseEvent e) {
         String name = findNextName(type);
+        int x,y;
+        if (e==null){
+            x=0;
+            y=0;
+        }
+        else {
+            x=e.getX();
+            y=e.getY();
+        }
         if (type.equalsIgnoreCase("Bed")) {
-            return new Bed(name, room, e.getX(), e.getY());
+            return new Bed(name, room, x, y);
         }
         if (type.equalsIgnoreCase("bathtub")) {
-            return new Bathtub(name, room, e.getX(), e.getY());
+            return new Bathtub(name, room, x, y);
         }
         if (type.equalsIgnoreCase("boiler")) {
-            return new Boiler(name, room, e.getX(), e.getY());
+            return new Boiler(name, room, x, y);
         }
         if (type.equalsIgnoreCase("doors")) {
-            return new Doors(name, room, e.getX(), e.getY());
+            return new Doors(name, room, x, y);
         }
         if (type.equalsIgnoreCase("sink")) {
-            return new Sink(name, room, e.getX(), e.getY());
+            return new Sink(name, room, x, y);
         }
         if (type.equalsIgnoreCase("table")) {
-            return new Table(name, room, e.getX(), e.getY());
+            return new Table(name, room, x, y);
         }
         if (type.equalsIgnoreCase("toiletBowl")) {
-            return new ToiletBowl(name, room, e.getX(), e.getY());
+            return new ToiletBowl(name, room, x, y);
         }
         if (type.equalsIgnoreCase("wardrobe")) {
-            return new Wardrobe(name, room, e.getX(), e.getY());
+            return new Wardrobe(name, room, x, y);
         }
         if (type.equalsIgnoreCase("washingmachine")) {
-            return new WashingMachine(name, room, e.getX(), e.getY());
+            return new WashingMachine(name, room, x, y);
         }
 
         return null;

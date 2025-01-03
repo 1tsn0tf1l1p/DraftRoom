@@ -20,7 +20,6 @@ public class ActionManager {
     private AbstractRoomAction loadAction;
     private AbstractRoomAction templateChooserAction;
     private AbstractRoomAction saveTemplateAction;
-
     private AbstractRoomAction addStateAction;
     private AbstractRoomAction copyPasteRoomStateAction;
     private AbstractRoomAction deleteStateAction;
@@ -31,6 +30,7 @@ public class ActionManager {
     private AbstractRoomAction rotateRightStateAction;
     private AbstractRoomAction selectStateAction;
     private AbstractRoomAction zoomStateAction;
+    private AbstractRoomAction roomOrganizerAction;
 
     public ActionManager() {
         this.exitAction = new ExitAction();
@@ -56,6 +56,7 @@ public class ActionManager {
         this.rotateRightStateAction = new RotateRightStateAction();
         this.selectStateAction = new SelectStateAction();
         this.zoomStateAction = new ZoomStateAction();
+        this.roomOrganizerAction = new RoomOrganizerAction();
     }
 
 }
