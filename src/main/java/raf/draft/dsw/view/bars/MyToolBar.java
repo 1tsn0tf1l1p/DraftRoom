@@ -21,12 +21,13 @@ public class MyToolBar extends JToolBar {
         add(actionManager.getAddRoomNodeAction());
         add(actionManager.getDeleteNodeAction());
         add(actionManager.getRenameNodeAction());
+        add(actionManager.getRoomOrganizerAction());
         add(actionManager.getSaveAction());
         add(actionManager.getSaveAsAction());
         add(actionManager.getLoadAction());
-        add(actionManager.getRoomOrganizerAction());
+        add(actionManager.getSaveTemplateAction());
+        add(actionManager.getTemplateChooserAction());
         add(Box.createHorizontalGlue());
-
         add(actionManager.getSelectStateAction());
         add(actionManager.getMoveStateAction());
         add(actionManager.getAddStateAction());

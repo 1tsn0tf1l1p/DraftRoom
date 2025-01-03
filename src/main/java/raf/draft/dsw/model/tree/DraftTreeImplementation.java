@@ -180,6 +180,28 @@ public class DraftTreeImplementation implements DraftTree {
         }
     }
 
+    public void addRoomElementsToTree(Room room) {
+        if (room == null || treeModel == null) {
+            return;
+        }
+
+        TreeItem roomItem = returnTreeItemForRoom(room);
+        if (roomItem == null) {
+            return;
+        }
+
+        for (DraftNode child : room.getChildren()) {
+            TreeItem childItem = new TreeItem(child);
+            roomItem.add(childItem);
+
+            if (child instanceof DraftNodeComposite) {
+                populateTree(childItem, (DraftNodeComposite) child);
+            }
+        }
+
+        SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
     @Override
     public TreeItem getSelectedItem() {
         return (TreeItem) treeView.getLastSelectedPathComponent();
