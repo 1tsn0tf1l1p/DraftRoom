@@ -20,6 +20,12 @@ public class SaveTemplateController {
     }
 
     public boolean saveTemplate() {
+        File folder = new File(TEMPLATE_FOLDER);
+        if (!folder.exists() && !folder.mkdirs()) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Failed to create template folder.");
+            return false;
+        }
+
         if (MainFrame.getInstance().getPanel().getRoomView() == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "No room created, create a room before saving the template!");
             return false;
