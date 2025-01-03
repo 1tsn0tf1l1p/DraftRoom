@@ -1,11 +1,35 @@
 package raf.draft.dsw.view.frames;
 
+import raf.draft.dsw.controller.templates.SaveTemplateController;
+import raf.draft.dsw.model.core.ApplicationFramework;
+import raf.draft.dsw.model.messagegenerator.MessageType;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SaveTemplateFrame extends JFrame {
+    private JButton saveButton;
+    private JTextField templateNameField;
+
     public SaveTemplateFrame() {
         init();
+        actions();
+    }
+
+    private void actions() {
+        saveButton.addActionListener(e -> {
+            String templateName = templateNameField.getText().trim();
+            if (templateName.isEmpty()) {
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Template name cannot be empty!");
+            } else {
+                SaveTemplateController controller = new SaveTemplateController(templateName);
+                boolean success = controller.saveTemplate();
+                if (success) {
+                    ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.INFO, "Template created!");
+                    dispose();
+                }
+            }
+        });
     }
 
     private void init() {
@@ -26,12 +50,12 @@ public class SaveTemplateFrame extends JFrame {
         gbc.gridy = 0;
         mainPanel.add(templateNameLabel, gbc);
 
-        JTextField templateNameField = new JTextField(20);
+        templateNameField = new JTextField(20);
         gbc.gridx = 1;
         gbc.gridy = 0;
         mainPanel.add(templateNameField, gbc);
 
-        JButton saveButton = new JButton("Save");
+        saveButton = new JButton("Save");
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
