@@ -97,18 +97,16 @@ public class DraftTreeImplementation implements DraftTree {
         SwingUtilities.updateComponentTreeUI(treeView);
     }
 
-    public void setProjectChanged(DraftNode node){
+    public void setProjectChanged(DraftNode node) {
         Project project = null;
         if (node.getParent() == null) {
             return;
         }
-        if (node instanceof Project){
-            project= (Project) node;
-        }
-        else if (node.getParent() instanceof Project){
+        if (node instanceof Project) {
+            project = (Project) node;
+        } else if (node.getParent() instanceof Project) {
             project = (Project) node.getParent();
-        }
-        else if (node.getParent().getParent() instanceof Project){
+        } else if (node.getParent().getParent() instanceof Project) {
             project = (Project) node.getParent().getParent();
         }
         project.setChanged(true);
@@ -143,6 +141,7 @@ public class DraftTreeImplementation implements DraftTree {
 
         return null;
     }
+
     public void loadProject(ProjectExplorer projectExplorer, Project project) {
         TreeItem projectItem = new TreeItem(project);
 
@@ -180,6 +179,7 @@ public class DraftTreeImplementation implements DraftTree {
             }
         }
     }
+
     @Override
     public TreeItem getSelectedItem() {
         return (TreeItem) treeView.getLastSelectedPathComponent();

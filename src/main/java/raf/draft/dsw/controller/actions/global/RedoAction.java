@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class RedoAction extends AbstractRoomAction {
     private CommandManager commandManager;
+
     public RedoAction() {
         putValue(NAME, "Redo");
         putValue(SHORT_DESCRIPTION, "Redo the last action.");

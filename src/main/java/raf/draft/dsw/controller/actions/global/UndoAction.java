@@ -1,7 +1,6 @@
 package raf.draft.dsw.controller.actions.global;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
-import raf.draft.dsw.controller.state.DeleteState;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.view.commands.CommandManager;
@@ -12,6 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class UndoAction extends AbstractRoomAction {
     CommandManager commandManager;
+
     public UndoAction() {
         putValue(NAME, "Undo");
         putValue(SHORT_DESCRIPTION, "Undo the last action.");

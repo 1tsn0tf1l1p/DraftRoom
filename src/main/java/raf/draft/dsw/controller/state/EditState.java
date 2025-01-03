@@ -2,7 +2,6 @@ package raf.draft.dsw.controller.state;
 
 import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.view.commands.concrete_commands.EditCommand;
-import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;
 import raf.draft.dsw.view.room.RoomView;
 

@@ -31,8 +31,7 @@ public class EditCommand implements Command {
 
             roomView.repaint();
             roomView.setProjectChanged();
-        }
-        else {
+        } else {
             CreateRoomFrame createRoomFrame = new CreateRoomFrame(painter.getElement());
             createRoomFrame.setVisible(true);
 

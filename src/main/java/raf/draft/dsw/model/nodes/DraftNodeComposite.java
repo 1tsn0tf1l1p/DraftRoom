@@ -27,6 +27,10 @@ public abstract class DraftNodeComposite extends DraftNode {
         this.children = new ArrayList<>();
     }
 
+    public DraftNodeComposite() {
+        this.children = new ArrayList<>();
+    }
+
     /**
      * Adds a child node to the list of children.
      *
@@ -43,9 +47,5 @@ public abstract class DraftNodeComposite extends DraftNode {
      */
     public void removeChild(DraftNode child) {
         children.remove(child);
-    }
-
-    public DraftNodeComposite() {
-        this.children = new ArrayList<>();
     }
 }

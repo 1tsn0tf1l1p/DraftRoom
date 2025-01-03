@@ -16,7 +16,10 @@ import raf.draft.dsw.view.commands.CommandManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -120,11 +123,11 @@ public class RoomView extends JPanel {
             if (event instanceof KeyEvent e) {
                 if (e.isControlDown()) {
                     if (e.getKeyCode() == KeyEvent.VK_Z) {
-                        if (commandManager.canUndo() && e.getID()==KeyEvent.KEY_RELEASED) {
+                        if (commandManager.canUndo() && e.getID() == KeyEvent.KEY_RELEASED) {
                             commandManager.undoCommand();
                             repaint();
                         }
-                    } else if (e.getKeyCode() == KeyEvent.VK_Y &&  e.getID()==KeyEvent.KEY_RELEASED) {
+                    } else if (e.getKeyCode() == KeyEvent.VK_Y && e.getID() == KeyEvent.KEY_RELEASED) {
                         if (commandManager.canRedo()) {
                             commandManager.redoCommand();
                             repaint();
@@ -198,12 +201,12 @@ public class RoomView extends JPanel {
         currentState.handleMouseRelease(e);
         repaint();
     }
-    public void setProjectChanged(){
+
+    public void setProjectChanged() {
         Project project;
-        if (room.getParent() instanceof Project){
+        if (room.getParent() instanceof Project) {
             project = (Project) room.getParent();
-        }
-        else project = (Project) room.getParent().getParent();
+        } else project = (Project) room.getParent().getParent();
         project.setChanged(true);
     }
 }

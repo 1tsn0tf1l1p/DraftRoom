@@ -12,16 +12,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class MoveState implements RoomState {
 
+    Map<RoomElement, int[]> initialPositions = new HashMap<>();
     private RoomView roomView;
     private List<Painter> selectedPainters;
     private double previousMouseX;
     private double previousMouseY;
-    Map<RoomElement, int[]> initialPositions = new HashMap<>();
 
     public MoveState(RoomView roomView) {
         this.roomView = roomView;

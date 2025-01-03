@@ -23,23 +23,30 @@ public class DeleteState implements RoomState {
     }
 
     @Override
-    public void handleMouseDrag(MouseEvent e) { }
+    public void handleMouseDrag(MouseEvent e) {
+    }
 
     @Override
-    public void handleMousePressed(MouseEvent e) { }
+    public void handleMousePressed(MouseEvent e) {
+    }
 
     @Override
-    public void handleKeyPress(KeyEvent e) { }
+    public void handleKeyPress(KeyEvent e) {
+    }
 
     @Override
-    public void handleMouseWheelMoved(MouseWheelEvent e) { }
+    public void handleMouseWheelMoved(MouseWheelEvent e) {
+    }
 
     @Override
-    public void handleMouseRelease(MouseEvent e) { }
+    public void handleMouseRelease(MouseEvent e) {
+    }
 
     @Override
-    public void enterState() { }
+    public void enterState() {
+    }
 
     @Override
-    public void exitState() { }
+    public void exitState() {
+    }
 }

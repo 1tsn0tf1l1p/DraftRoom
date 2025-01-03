@@ -60,7 +60,8 @@ public abstract class RoomElement extends DraftNode implements Prototype {
     /**
      * Default constructor for Jackson (required for deserialization).
      */
-    public RoomElement() {}
+    public RoomElement() {
+    }
 
     /**
      * Constructs a `RoomElement` by copying the properties of another `RoomElement`.

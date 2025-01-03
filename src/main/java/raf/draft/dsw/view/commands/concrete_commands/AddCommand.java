@@ -3,7 +3,6 @@ package raf.draft.dsw.view.commands.concrete_commands;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.patterns.command.Command;
 import raf.draft.dsw.model.room.RoomElement;
-import raf.draft.dsw.model.tree.DraftTree;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.room.Painter;

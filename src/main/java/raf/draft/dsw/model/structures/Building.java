@@ -21,15 +21,16 @@ public class Building extends DraftNodeComposite {
                 new Random().nextInt(85, 170));
     }
 
+    // Default constructor for Jackson
+    public Building() {
+    }
+
     @Override
     public void addChild(DraftNode child) {
         if (child instanceof Room) {
             super.addChild(child);
         }
     }
-
-    // Default constructor for Jackson
-    public Building() {}
 
     @Override
     public boolean equals(Object object) {

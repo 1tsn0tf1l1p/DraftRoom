@@ -21,6 +21,7 @@ import java.io.IOException;
 public class SaveAsAction extends AbstractRoomAction implements IPublisher {
     private Serializer serializer;
     private Panel panel;
+
     public SaveAsAction() {
         putValue(NAME, "Save");
         putValue(SMALL_ICON, loadIcon("/images/save-as.png"));
@@ -32,10 +33,11 @@ public class SaveAsAction extends AbstractRoomAction implements IPublisher {
         TreeItem selectedItem = MainFrame.getInstance().getTree().getSelectedItem();
 
         Project selectedProject = null;
-        if (MainFrame.getInstance().getPanel().getRoomView() !=null){
+        if (MainFrame.getInstance().getPanel().getRoomView() != null) {
             Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
             if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
-            if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
+            if (focusedRoom.getParent().getParent() instanceof Project)
+                selectedProject = (Project) focusedRoom.getParent().getParent();
         }
         if (selectedItem.getNode() instanceof Project) {
             selectedProject = (Project) selectedItem.getNode();

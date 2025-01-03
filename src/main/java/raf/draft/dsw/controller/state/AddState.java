@@ -6,7 +6,6 @@ import raf.draft.dsw.model.messagegenerator.MessageType;
 import raf.draft.dsw.model.patterns.state.RoomState;
 import raf.draft.dsw.model.room.RoomElement;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
-import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.commands.concrete_commands.AddCommand;
 import raf.draft.dsw.view.frames.CreateRoomFrame;
 import raf.draft.dsw.view.room.Painter;

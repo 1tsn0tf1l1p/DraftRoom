@@ -10,7 +10,6 @@ import raf.draft.dsw.view.bars.MyMenuBar;
 import raf.draft.dsw.view.bars.MyToolBar;
 import raf.draft.dsw.view.bars.Panel;
 import raf.draft.dsw.view.bars.TabContainer;
-import raf.draft.dsw.view.tree.TreeView;
 
 import javax.swing.*;
 import java.awt.*;

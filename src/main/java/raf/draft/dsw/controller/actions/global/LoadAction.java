@@ -6,6 +6,7 @@ import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.ProjectExplorer;
 import raf.draft.dsw.model.tree.DraftTreeImplementation;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -34,7 +35,7 @@ public class LoadAction extends AbstractRoomAction {
                 loadedProject.setParent(projectExplorer);
                 DraftTreeImplementation draftTree = ApplicationFramework.getInstance().getTree();
 
-                draftTree.loadProject(projectExplorer,loadedProject);
+                draftTree.loadProject(projectExplorer, loadedProject);
 
                 System.out.println("Loaded project: " + loadedProject.getIme());
                 JOptionPane.showMessageDialog(null,

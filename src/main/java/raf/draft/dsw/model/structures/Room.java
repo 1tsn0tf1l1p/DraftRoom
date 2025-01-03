@@ -90,7 +90,7 @@ public class Room extends DraftNodeComposite implements IPublisher {
     /**
      * Notifies all subscribers of changes in the room's state.
      *
-     * @param t the object containing the updated state.
+     * @param t   the object containing the updated state.
      * @param <T> the type of the update message.
      */
     @Override

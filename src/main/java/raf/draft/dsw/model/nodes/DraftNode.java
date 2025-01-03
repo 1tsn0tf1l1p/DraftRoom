@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
-import raf.draft.dsw.model.nodes.DraftNodeComposite;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -36,7 +35,7 @@ public abstract class DraftNode {
 
     /**
      * -- SETTER --
-     *  Sets the name of the node.
+     * Sets the name of the node.
      *
      * @param ime the new name of the node
      */
@@ -69,7 +68,8 @@ public abstract class DraftNode {
     /**
      * Default constructor for Jackson (required for deserialization).
      */
-    public DraftNode() {}
+    public DraftNode() {
+    }
 
     /**
      * Sets the parent of the node.

@@ -1,6 +1,5 @@
 package raf.draft.dsw.controller.actions.global;
 
-import com.sun.tools.javac.Main;
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
@@ -9,7 +8,6 @@ import raf.draft.dsw.model.patterns.observer.ISubscriber;
 import raf.draft.dsw.model.serialization.Serializer;
 import raf.draft.dsw.model.structures.Project;
 import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.model.tree.DraftTreeImplementation;
 import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.bars.Panel;
 import raf.draft.dsw.view.frames.MainFrame;
@@ -23,6 +21,7 @@ import java.io.IOException;
 public class SaveAction extends AbstractRoomAction implements IPublisher {
     private Serializer serializer;
     private Panel panel;
+
     public SaveAction() {
         putValue(NAME, "Save");
         putValue(SMALL_ICON, loadIcon("/images/save.png"));
@@ -34,10 +33,11 @@ public class SaveAction extends AbstractRoomAction implements IPublisher {
         TreeItem selectedItem = MainFrame.getInstance().getTree().getSelectedItem();
 
         Project selectedProject = null;
-        if (MainFrame.getInstance().getPanel().getRoomView() !=null){
+        if (MainFrame.getInstance().getPanel().getRoomView() != null) {
             Room focusedRoom = MainFrame.getInstance().getPanel().getRoomView().getRoom();
             if (focusedRoom.getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent();
-            if (focusedRoom.getParent().getParent() instanceof Project) selectedProject = (Project) focusedRoom.getParent().getParent();
+            if (focusedRoom.getParent().getParent() instanceof Project)
+                selectedProject = (Project) focusedRoom.getParent().getParent();
         }
         if (selectedItem.getNode() instanceof Project) {
             selectedProject = (Project) selectedItem.getNode();

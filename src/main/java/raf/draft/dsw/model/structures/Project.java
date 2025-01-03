@@ -30,16 +30,16 @@ public class Project extends DraftNodeComposite {
         this.changed = true;
     }
 
+    // Default constructor for Jackson
+    public Project() {
+        this.color = Color.WHITE;
+    }
+
     @Override
     public void addChild(DraftNode child) {
         if (child instanceof Building || child instanceof Room) {
             super.addChild(child);
         }
-    }
-
-    // Default constructor for Jackson
-    public Project() {
-        this.color = Color.WHITE;
     }
 
     @Override
