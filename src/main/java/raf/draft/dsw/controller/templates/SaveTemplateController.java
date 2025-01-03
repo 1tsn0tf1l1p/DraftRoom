@@ -11,8 +11,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class SaveTemplateController {
-    private Room room;
     private static final String TEMPLATE_FOLDER = "src/main/resources/templates/";
+    private Room room;
     private String templateName;
 
     public SaveTemplateController(String templateName) {

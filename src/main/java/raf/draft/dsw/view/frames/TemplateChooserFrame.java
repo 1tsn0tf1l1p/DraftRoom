@@ -11,15 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TemplateChooserFrame extends JFrame {
+    private static final String TEMPLATE_FOLDER = "src/main/resources/templates/";
     private JList<String> templateList;
     private JButton selectButton;
     private DefaultListModel<String> listModel;
 
-    private static final String TEMPLATE_FOLDER = "src/main/resources/templates/";
-
     public TemplateChooserFrame() {
         init();
         actions();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            TemplateChooserFrame frame = new TemplateChooserFrame();
+            frame.setVisible(true);
+        });
     }
 
     private void actions() {
@@ -88,7 +94,7 @@ public class TemplateChooserFrame extends JFrame {
 
         return templateNames;
     }
-    
+
     private static class CustomListCellRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(
@@ -109,12 +115,5 @@ public class TemplateChooserFrame extends JFrame {
 
             return label;
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            TemplateChooserFrame frame = new TemplateChooserFrame();
-            frame.setVisible(true);
-        });
     }
 }

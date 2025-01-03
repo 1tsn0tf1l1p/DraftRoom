@@ -1,8 +1,6 @@
 package raf.draft.dsw.controller.actions.global;
 
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
-import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.view.frames.MainFrame;
 import raf.draft.dsw.view.frames.SaveTemplateFrame;
 
 import java.awt.event.ActionEvent;
