@@ -4,14 +4,7 @@ import lombok.Getter;
 import raf.draft.dsw.controller.actions.AbstractRoomAction;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
-import raf.draft.dsw.model.structures.Project;
-import raf.draft.dsw.model.structures.ProjectExplorer;
-import raf.draft.dsw.model.structures.Room;
-import raf.draft.dsw.model.tree.DraftTreeImplementation;
-import raf.draft.dsw.model.tree.TreeItem;
 import raf.draft.dsw.view.frames.MainFrame;
-import raf.draft.dsw.view.frames.RenameNodeFrame;
-import raf.draft.dsw.view.frames.RenameProjectFrame;
 import raf.draft.dsw.view.frames.RoomOrganizerFrame;
 
 import javax.swing.*;
@@ -30,6 +23,12 @@ public class RoomOrganizerAction extends AbstractRoomAction {
     public void actionPerformed(ActionEvent e) {
         if (MainFrame.getInstance().getPanel().getRoomView() == null) {
             ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "No room opened.");
+            return;
+        } else if (MainFrame.getInstance().getPanel().getRoomView().getRoom().getWidth() == 0) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "You must initialize the room first!");
+            return;
+        } else if (!MainFrame.getInstance().getPanel().getRoomView().getRoom().getChildren().isEmpty()) {
+            ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "You cannot run Room Organizer on a room with elements.");
             return;
         }
         JFrame roomOrganizer = new RoomOrganizerFrame(MainFrame.getInstance().getPanel().getRoomView());

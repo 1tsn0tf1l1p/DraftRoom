@@ -36,8 +36,6 @@ public class LoadAction extends AbstractRoomAction {
                 DraftTreeImplementation draftTree = ApplicationFramework.getInstance().getTree();
 
                 draftTree.loadProject(projectExplorer, loadedProject);
-
-                System.out.println("Loaded project: " + loadedProject.getIme());
                 JOptionPane.showMessageDialog(null,
                         "Project loaded successfully!",
                         "Success",

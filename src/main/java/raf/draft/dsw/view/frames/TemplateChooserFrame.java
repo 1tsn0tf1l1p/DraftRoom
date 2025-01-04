@@ -1,5 +1,6 @@
 package raf.draft.dsw.view.frames;
 
+import raf.draft.dsw.controller.templates.DeleteSelectedTemplateController;
 import raf.draft.dsw.controller.templates.LoadSelectedTemplateController;
 import raf.draft.dsw.model.core.ApplicationFramework;
 import raf.draft.dsw.model.messagegenerator.MessageType;
@@ -14,6 +15,7 @@ public class TemplateChooserFrame extends JFrame {
     private static final String TEMPLATE_FOLDER = "src/main/resources/templates/";
     private JList<String> templateList;
     private JButton selectButton;
+    private JButton deleteButton;
     private DefaultListModel<String> listModel;
 
     public TemplateChooserFrame() {
@@ -32,12 +34,19 @@ public class TemplateChooserFrame extends JFrame {
         selectButton.addActionListener(e -> {
             String selectedTemplate = templateList.getSelectedValue();
             if (selectedTemplate == null) {
-                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.WARNING, "Please, select a template first!");
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(
+                        MessageType.WARNING,
+                        "Please, select a template first!"
+                );
             } else {
                 new LoadSelectedTemplateController(selectedTemplate).actionPerformed(e);
                 dispose();
             }
         });
+
+        deleteButton.addActionListener(
+                new DeleteSelectedTemplateController(this, templateList, listModel)
+        );
     }
 
     private void init() {
@@ -49,7 +58,7 @@ public class TemplateChooserFrame extends JFrame {
         setResizable(false);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding around all elements
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel titleLabel = new JLabel("Choose a template:");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -57,7 +66,6 @@ public class TemplateChooserFrame extends JFrame {
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         List<String> templates = loadTemplates();
-
         listModel = new DefaultListModel<>();
         templates.forEach(listModel::addElement);
 
@@ -67,12 +75,15 @@ public class TemplateChooserFrame extends JFrame {
         templateList.setCellRenderer(new CustomListCellRenderer());
 
         JScrollPane scrollPane = new JScrollPane(templateList);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Optional: Add a border around the list
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         selectButton = new JButton("Select");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Center the button
+        deleteButton = new JButton("Delete");
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(selectButton);
+        buttonPanel.add(deleteButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel, BorderLayout.CENTER);
@@ -91,7 +102,6 @@ public class TemplateChooserFrame extends JFrame {
                 }
             }
         }
-
         return templateNames;
     }
 
@@ -99,11 +109,8 @@ public class TemplateChooserFrame extends JFrame {
         @Override
         public Component getListCellRendererComponent(
                 JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
             label.setHorizontalAlignment(SwingConstants.CENTER);
-
             label.setFont(new Font("Arial", Font.PLAIN, 14));
             if (isSelected) {
                 label.setBackground(new Color(0, 120, 215));
@@ -112,7 +119,6 @@ public class TemplateChooserFrame extends JFrame {
                 label.setBackground(Color.WHITE);
                 label.setForeground(Color.BLACK);
             }
-
             return label;
         }
     }

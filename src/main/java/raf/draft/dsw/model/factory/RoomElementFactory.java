@@ -17,14 +17,13 @@ public class RoomElementFactory {
 
     public RoomElement create(String type, MouseEvent e) {
         String name = findNextName(type);
-        int x,y;
-        if (e==null){
-            x=0;
-            y=0;
-        }
-        else {
-            x=e.getX();
-            y=e.getY();
+        int x, y;
+        if (e == null) {
+            x = 0;
+            y = 0;
+        } else {
+            x = e.getX();
+            y = e.getY();
         }
         if (type.equalsIgnoreCase("Bed")) {
             return new Bed(name, room, x, y);

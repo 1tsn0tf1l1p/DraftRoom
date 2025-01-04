@@ -9,9 +9,9 @@ import raf.draft.dsw.view.room.RoomView;
 
 import javax.swing.*;
 import java.awt.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RoomOrganizerFrame extends JFrame {
     private RoomView roomView;
@@ -22,6 +22,7 @@ public class RoomOrganizerFrame extends JFrame {
     private JComboBox<String> roomElementComboBox;
     private JPanel listPanel;
     private List<Element> elementList;
+
     public RoomOrganizerFrame(RoomView roomView) {
         this.room = roomView.getRoom();
         this.roomView = roomView;
@@ -80,12 +81,12 @@ public class RoomOrganizerFrame extends JFrame {
         roomElementComboBox.addItem("Bed");
         roomElementComboBox.addItem("Bathtub");
         roomElementComboBox.addItem("Boiler");
-        roomElementComboBox.addItem("Door");
+        roomElementComboBox.addItem("Doors");
         roomElementComboBox.addItem("Sink");
         roomElementComboBox.addItem("Table");
-        roomElementComboBox.addItem("Toilet bowl");
+        roomElementComboBox.addItem("Toiletbowl");
         roomElementComboBox.addItem("Wardrobe");
-        roomElementComboBox.addItem("Washing machine");
+        roomElementComboBox.addItem("Washingmachine");
         roomElementComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, roomElementComboBox.getPreferredSize().height));
         column3.add(roomElementComboBox);
 
@@ -132,21 +133,21 @@ public class RoomOrganizerFrame extends JFrame {
             elementList.add(element);
             addElementToList(element);
         });
-        finishButton.addActionListener(_ ->{
-            int maxHeight=0,maxWidth=0;
+        finishButton.addActionListener(_ -> {
+            int maxHeight = 0, maxWidth = 0;
             for (Element element : elementList) {
-                if (element.height*element.width>maxHeight*maxWidth) {
-                    maxHeight=element.height;
-                    maxWidth=element.width;
+                if (element.height * element.width > maxHeight * maxWidth) {
+                    maxHeight = element.height;
+                    maxWidth = element.width;
                 }
             }
-            int heightRatio = room.getHeight()/maxHeight;
-            int widthRatio = room.getWidth()/maxWidth;
-            if (heightRatio*widthRatio<elementList.size()) {
-                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR,"Cannot organize group with this elements");
+            int heightRatio = room.getHeight() / maxHeight;
+            int widthRatio = room.getWidth() / maxWidth;
+            if (heightRatio * widthRatio < elementList.size()) {
+                ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "Cannot organize group with this elements");
                 return;
             }
-            createElements(heightRatio,widthRatio);
+            createElements(heightRatio, widthRatio);
             this.dispose();
         });
     }
@@ -172,69 +173,85 @@ public class RoomOrganizerFrame extends JFrame {
         listPanel.revalidate();
         listPanel.repaint();
     }
+
     private void createElements(int rows, int columns) {
-        int left = 0, top = 0, right = columns-1, bottom = rows-1;
-        int scaledWidth = roomView.getRoom().getWidth()/columns;
-        int scaledHeight = roomView.getRoom().getHeight()/rows;
-        int counter=0;
-        while(counter<columns*rows &&  !elementList.isEmpty()) {
-            for (int i=left; i<=right; i++) {
-                Element element = elementList.getFirst();
-                int xPos = i*scaledWidth;
-                int yPos = top*scaledHeight;
-                if (top>0){
-                    yPos+=(scaledHeight-element.height)/2;
+        int left = 0, top = 0, right = columns - 1, bottom = rows - 1;
+        int scaledWidth = roomView.getRoom().getWidth() / columns;
+        int scaledHeight = roomView.getRoom().getHeight() / rows;
+        int counter = 0;
+        Random random = new Random();
+        while (counter < columns * rows && !elementList.isEmpty()) {
+            for (int i = left; i <= right; i++) {
+                if (elementList.isEmpty()) break;
+                int randomInt = random.nextInt(0, elementList.size());
+                Element element = elementList.get(randomInt);
+                int xPos = i * scaledWidth;
+                int yPos = top * scaledHeight;
+                if (top > 0) {
+                    yPos += (scaledHeight - element.height) / 2;
                 }
-                if (i<right && i>left || (i==left&&i==right)) {
-                    xPos+=(scaledWidth-element.width)/2;
+                if (i < right && i > left || (i == left && i == right)) {
+                    xPos += (scaledWidth - element.width) / 2;
                 }
-                if (i==right && i!=left){
-                    xPos = room.getWidth()-element.width-top*scaledWidth;
+                if (i == right && i != left) {
+                    xPos = room.getWidth() - element.width - top * scaledWidth;
                 }
-                createElementInRoom(element.type,xPos,yPos,element.width,element.height );
+                createElementInRoom(element.type, xPos, yPos, element.width, element.height);
                 elementList.remove(element);
                 counter++;
             }
+            if (elementList.isEmpty()) break;
             top++;
-            for (int i=top; i<=bottom; i++) {
-                Element element = elementList.getFirst();
-                int xPos = room.getWidth()-element.width-left*scaledWidth;
-                int yPos = i*scaledHeight;
-                if (i==bottom){
-                    yPos=room.getHeight()-element.height-left*scaledHeight;
+            for (int i = top; i <= bottom; i++) {
+                if (elementList.isEmpty()) break;
+                int randomInt = random.nextInt(0, elementList.size());
+                Element element = elementList.get(randomInt);
+                int xPos = room.getWidth() - element.width - left * scaledWidth;
+                int yPos = i * scaledHeight;
+                if (i == bottom) {
+                    yPos = room.getHeight() - element.height - left * scaledHeight;
                 }
-                if (i>=top && i<bottom ) {
-                    yPos+=(scaledHeight-element.height)/2;
+                if (i >= top && i < bottom) {
+                    yPos += (scaledHeight - element.height) / 2;
                 }
-                createElementInRoom(element.type,xPos,yPos,element.width,element.height);
+                createElementInRoom(element.type, xPos, yPos, element.width, element.height);
 
                 elementList.remove(element);
                 counter++;
             }
+            if (elementList.isEmpty()) break;
             right--;
-            for (int i=right; i>=left; i--) {
-                Element element = elementList.getFirst();
-                int xPos = i*scaledWidth;
-                int yPos=room.getHeight()-element.height-left*scaledHeight;
-                if (i<=right && i>left){
-                    xPos+=(scaledWidth-element.width)/2;
+            for (int i = right; i >= left; i--) {
+                if (elementList.isEmpty()) break;
+                int randomInt = random.nextInt(0, elementList.size());
+                Element element = elementList.get(randomInt);
+                int xPos = i * scaledWidth;
+                int yPos = room.getHeight() - element.height - left * scaledHeight;
+                if (i <= right && i > left) {
+                    xPos += (scaledWidth - element.width) / 2;
                 }
-                createElementInRoom(element.type,xPos,yPos,element.width,element.height);
+                createElementInRoom(element.type, xPos, yPos, element.width, element.height);
 
                 elementList.remove(element);
                 counter++;
             }
+            if (elementList.isEmpty()) break;
             bottom--;
-            for (int i=bottom; i>=top; i--) {
-                Element element = elementList.getFirst();
-                int xPos = left*scaledWidth;
-                int yPos = i*scaledHeight + (scaledHeight-element.height)/2;;
-                createElementInRoom(element.type,xPos,yPos,element.width,element.height);
+            for (int i = bottom; i >= top; i--) {
+                if (elementList.isEmpty()) break;
+                int randomInt = random.nextInt(0, elementList.size());
+                Element element = elementList.get(randomInt);
+                int xPos = left * scaledWidth;
+                int yPos = i * scaledHeight + (scaledHeight - element.height) / 2;
+                ;
+                createElementInRoom(element.type, xPos, yPos, element.width, element.height);
                 elementList.remove(element);
                 counter++;
             }
+            if (elementList.isEmpty()) break;
             left++;
         }
+        ApplicationFramework.getInstance().getTree().addRoomElementsToTree(room);
     }
 
     private void createElementInRoom(String elementType, int xPosition, int yPosition, int elementWidth, int elementHeight) {
@@ -242,6 +259,7 @@ public class RoomOrganizerFrame extends JFrame {
         RoomElement element = factory.create(elementType, null);
 
         room.addChild(element);
+        element.setParent(room);
         element.setX(xPosition);
         element.setY(yPosition);
         element.setWidth(elementWidth);
@@ -250,7 +268,6 @@ public class RoomOrganizerFrame extends JFrame {
 
         roomView.addChildren();
         roomView.repaint();
-        System.out.println("Placing " + element + " at position (" + xPosition + ", " + yPosition + ")");
     }
 
 

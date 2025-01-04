@@ -148,7 +148,7 @@ public class Room extends DraftNodeComposite implements IPublisher {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Room room = (Room) obj;
-        return id.equals(room.id);
+        return id.equals(room.id) || (room.getParent() == getParent() && room.getIme().equals(getIme()));
     }
 
     /**

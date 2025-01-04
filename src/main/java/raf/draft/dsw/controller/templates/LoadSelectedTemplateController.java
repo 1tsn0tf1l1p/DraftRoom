@@ -49,9 +49,7 @@ public class LoadSelectedTemplateController implements ActionListener {
             currentRoom.setX(templateRoom.getX());
             currentRoom.setY(templateRoom.getY());
 
-            System.out.println(currentRoom.getIme());
             for (DraftNode child : templateRoom.getChildren()) {
-                System.out.println(child.getIme());
                 child.setParent(currentRoom);
                 currentRoom.addChild(child);
             }
