@@ -32,13 +32,6 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = raf.draft.dsw.model.room.WashingMachine.class, name = "washingMachine")
 })
 public abstract class DraftNode {
-
-    /**
-     * -- SETTER --
-     * Sets the name of the node.
-     *
-     * @param ime the new name of the node
-     */
     @Setter
     @JsonProperty("name")
     private String ime;
@@ -51,12 +44,6 @@ public abstract class DraftNode {
 
     private UUID id = UUID.randomUUID();
 
-    /**
-     * Constructs a DraftNode with the specified name and parent.
-     *
-     * @param ime    the name of the node
-     * @param parent the parent node
-     */
     public DraftNode(String ime, DraftNodeComposite parent) {
         this.ime = ime;
         this.parent = parent;
@@ -65,17 +52,9 @@ public abstract class DraftNode {
         }
     }
 
-    /**
-     * Default constructor for Jackson (required for deserialization).
-     */
     public DraftNode() {
     }
 
-    /**
-     * Sets the parent of the node.
-     *
-     * @param parent the new parent of the node
-     */
     public void setParent(DraftNodeComposite parent) {
         this.parent = parent;
         if (parent != null) {
