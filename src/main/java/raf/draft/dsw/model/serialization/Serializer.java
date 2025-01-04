@@ -50,11 +50,6 @@ public class Serializer {
         return file;
     }
 
-    /**
-     * Links parent-child relationships for a DraftNodeComposite after deserialization.
-     *
-     * @param root The root node of the deserialized tree.
-     */
     private void linkParentChildRelationships(DraftNodeComposite root) {
         Map<UUID, DraftNodeComposite> nodeMap = new HashMap<>();
 
@@ -63,12 +58,6 @@ public class Serializer {
         setParentReferences(root, nodeMap);
     }
 
-    /**
-     * Recursively builds a map of all nodes in the tree, indexed by their UUIDs.
-     *
-     * @param node    The current node.
-     * @param nodeMap The map to populate.
-     */
     private void buildNodeMap(DraftNodeComposite node, Map<UUID, DraftNodeComposite> nodeMap) {
         nodeMap.put(node.getId(), node);
 
@@ -79,12 +68,6 @@ public class Serializer {
         }
     }
 
-    /**
-     * Recursively sets parent references for all nodes in the tree based on their parent UUIDs.
-     *
-     * @param node    The current node.
-     * @param nodeMap The map of nodes indexed by UUIDs.
-     */
     private void setParentReferences(DraftNodeComposite node, Map<UUID, DraftNodeComposite> nodeMap) {
         for (DraftNode child : node.getChildren()) {
             if (child.getParentId() != null) {
