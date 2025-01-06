@@ -134,7 +134,7 @@ public class RoomOrganizerFrame extends JFrame {
             addElementToList(element);
         });
         finishButton.addActionListener(_ -> {
-            if (elementList.isEmpty()){
+            if (elementList.isEmpty()) {
                 ApplicationFramework.getInstance().getMessageGenerator().createMessage(MessageType.ERROR, "You need to add at least 1 room element");
                 return;
             }

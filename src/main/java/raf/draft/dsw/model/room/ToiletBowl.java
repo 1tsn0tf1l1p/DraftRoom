@@ -2,28 +2,17 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.patterns.prototype.Prototype;
-import raf.draft.dsw.model.structures.Room;
 
 public class ToiletBowl extends RoomElement {
-    /**
-     * Constructs a DraftNode with the specified name and parent.
-     *
-     * @param ime    the name of the node
-     * @param parent the parent node
-     */
-    public ToiletBowl(String ime, DraftNodeComposite parent) {
-        super(ime, parent);
+    public ToiletBowl(String ime, DraftNodeComposite parent, int x, int y) {
+        super(ime, parent, x, y);
+    }
+
+    public ToiletBowl(ToiletBowl toiletBowl) {
+        super(toiletBowl);
     }
 
     public ToiletBowl() {
-    }
-
-    public ToiletBowl(ToiletBowl wcSolja) {
-        super(wcSolja.getIme(), wcSolja.getParent());
-    }
-
-    public ToiletBowl(String newToiletBowl, Room room, int x, int y) {
-        super(newToiletBowl, room, x, y);
     }
 
     @Override
