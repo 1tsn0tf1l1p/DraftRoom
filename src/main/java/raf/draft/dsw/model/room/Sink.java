@@ -2,28 +2,17 @@ package raf.draft.dsw.model.room;
 
 import raf.draft.dsw.model.nodes.DraftNodeComposite;
 import raf.draft.dsw.model.patterns.prototype.Prototype;
-import raf.draft.dsw.model.structures.Room;
 
 public class Sink extends RoomElement {
-    /**
-     * Constructs a DraftNode with the specified name and parent.
-     *
-     * @param ime    the name of the node
-     * @param parent the parent node
-     */
-    public Sink(String ime, DraftNodeComposite parent) {
-        super(ime, parent);
+    public Sink(String ime, DraftNodeComposite parent, int x, int y) {
+        super(ime, parent, x, y);
+    }
+
+    public Sink(Sink sink) {
+        super(sink);
     }
 
     public Sink() {
-    }
-
-    public Sink(Sink lavabo) {
-        super(lavabo.getIme(), lavabo.getParent());
-    }
-
-    public Sink(String newSink, Room room, int x, int y) {
-        super(newSink, room, x, y);
     }
 
     @Override
