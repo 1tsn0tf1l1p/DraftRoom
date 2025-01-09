@@ -55,7 +55,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(2*screenWidth / 3, 2*screenHeight / 3);
+        setSize(2*screenWidth / 3 + screenWidth / 6, 2*screenHeight / 3);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("DraftRoom");
